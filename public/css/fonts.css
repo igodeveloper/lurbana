@@ -1,0 +1,49 @@
+/* Tipografias para KML 3 */
+
+/***********************************************************************
+ ***********************************************************************
+ * Se inlcuye el css de la tipografia oficial de Personal
+ * http://www.personal.com.py/
+ ***********************************************************************
+ ***********************************************************************/
+@font-face {
+    font-family: 'PlatformRegular';
+    src: url('../fonts/platform/platform-regular.eot');
+    src: url('../fonts/platform/platform-regular.eot') format('embedded-opentype'),
+         url('../fonts/platform/platform-regular.woff') format('woff'),
+         url('../fonts/platform/platform-regular.ttf') format('truetype'),
+         url('../fonts/platform/platform-regular.svg#PlatformRegular') format('svg');
+}
+
+/***********************************************************************
+ ***********************************************************************
+ * Se inlcuye la tipografia de uso general OpenSans
+ * http://www.fontsquirrel.com/fonts/open-sans
+ ***********************************************************************
+ ***********************************************************************/
+ @font-face {
+    font-family: 'OpenSansRegular';
+    src: url('../fonts/opensans/OpenSans-Regular-webfont.eot');
+    src: url('../fonts/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/opensans/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../fonts/opensans/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/opensans/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'OpenSansLight';
+    src: url('../fonts/opensans/OpenSans-Light-webfont.eot');
+    src: url('../fonts/opensans/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/opensans/OpenSans-Light-webfont.woff') format('woff'),
+         url('../fonts/opensans/OpenSans-Light-webfont.ttf') format('truetype'),
+         url('../fonts/opensans/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+

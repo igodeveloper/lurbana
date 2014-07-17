@@ -1,0 +1,28 @@
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal { 
+        display: block;
+}
+
+.modal-body > .panel-default > .panel-body > .wizard{
+   /*border-color: transparent;*/
+    border-top: none;
+	box-shadow:none;
+	margin-bottom: inherit;
+	padding: inherit;
+
+}
+
+
+/* Custom dialog/modal headers */
+
+.dialog-header-error {color: #a94442; background-color: #ebccd1; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { color: #3c763d; background-color: #dff0d8; }
+.dialog-header-info { background-color: #d9edf7; }
+.dialog-header-warning {color:#8a6d3b; background-color: #F3EDCD; }
+.dialog-header-confirm { background-color: #333333; }
+         
+.dialog-header-wait span, .dialog-header-wait h4,
+.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
