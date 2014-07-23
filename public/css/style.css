@@ -6,7 +6,7 @@
  ***********************************************************************/
 @import url("bootstrap.css");
 @import url("bootstrap.overrides.css");
-@import url("bootstrap-switch.min.css");
+/*@import url("bootstrap-switch.min.css");*/
 @import url("bootstrap-theme.css");
 @import url("bootstrap-theme.min.css");
 
@@ -41,3 +41,4 @@
  ***********************************************************************
  ***********************************************************************/
 @import url("ui.jqgrid.css");
+@import url("jqGrid.overrides.css");
