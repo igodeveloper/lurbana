@@ -1,8 +1,8 @@
 var pathname = window.location.pathname;
 var table = pathname;
 jQuery(document).ready(function(){
-	console.log("cargue");
-	cargarGrillaRegistro();
+    console.log("cargue");
+    cargarGrillaRegistro();
      $("#muestramodal").click(function() {
             $("#modalFormaPago").show();
             console.log("HOLA");
@@ -22,7 +22,7 @@ function setTooltipsOnColumnHeader(grid, iColumn, text){
  * Bloquea la pantalla a trav�s de un contenedor de tal manera que el usuario no pueda realizar ninguna acci�n
  */
 function bloquearPantalla() {
-	$.blockUI({message: "Aguarde un momento por favor"});
+    $.blockUI({message: "Aguarde un momento por favor"});
 }
 /**
  * Desbloquea la pantalla de tal manera que el usuario pueda realizar acci�nes o invocar eventos en la vista
@@ -40,115 +40,119 @@ function widthOfGrid() {
  * Carga la tabla visual con el listado de registros. La estructura de la tabla es especificada.
  */
 function cargarGrillaRegistro() {
-	jQuery("#grillaClientes").jqGrid({
+    jQuery("#grillaClientes").jqGrid({
         
-                url: "/listar" ,
+                url: table+"/buscar" ,
                 datatype: "local",
+                mtype : "POST",
                 autowith: true,
                 rowNum: 10,
                 rowList: [],
                 postData: {
-                   cantidad: function() {
-                       return $scope.solicitudAjustesGrid.getGridParam("rowNum");
-                   },
-                   inicio: function() {
-                       return $scope.solicitudAjustesGrid.getRowsStart();
-                   },
+                   filtros: JSON.stringify({ "CODIGO_CLIENTE":  1}),
                 },
                 colModel:[
                             {
+                            name: '',
+                            index: '',
+                            hidden :false,
+                            width: 50,
+                            align: 'right'
+                            }, {
                             name: 'CODIGO_CLIENTE',
                             index: 'CODIGO_CLIENTE',
-                            label: 'COD CLIENTE',
+                            label: 'COD',
                             hidden :false,
-                            width: 100,
+                            width: 50,
                             align: 'right'
                             },
                             { name: 'CODIGO_PERSONA',
                             index: 'CODIGO_PERSONA',
-                            width: 100,
+                            width: 50,
                             hidden : true
                         },
                             { name: 'DESCRIPCION_PERSONA',
                             index: 'DESCRIPCION_PERSONA',
                             label: 'DESCRIPCION',
-                            width: 300,
+                            width: 180,
                             hidden : false
                         },
                             { name: 'NRO_DOCUMENTO_PERSONA',
                             index: 'NRO_DOCUMENTO_PERSONA',
                             label: 'DOCUMENTO',
-                            width: 140,
+                            width: 100,
+                            hidden : false
+                        },
+                            { name: 'RUC_PERSONA',
+                            index: 'RUC_PERSONA',
+                            label: 'RUC',
+                            width: 80,
                             hidden : false
                         },
                         { 
                             name: 'TELEFONO_PERSONA',
                             index: 'TELEFONO_PERSONA',
                             label: 'TELEFONO',
-                            width: 150,
+                            width: 100,
                             hidden : false
                         }, { 
                             name: 'EMAIL_PERSONA',
                             index: 'EMAIL_PERSONA',
                             label: 'EMAIL',
-                            width: 200,
+                            width: 120,
                             hidden : false
                         }, { 
                             name: 'DIRECCION_PERSONA',
                             index: 'DIRECCION_PERSONA',
                             label: 'DIRECCION',
-                            width: 300,
+                            width: 200,
                             hidden : false
-                        },
-
-
-                            { name: 'fecOrd',
-                            index: 'fecOrd',
-                            hidden: true,
-                            align: 'center',
-                            width: 100,
-                            formatter: function(cellValue, options) {
-                                    if (cellValue) {
-                                        return $filter('date')(new Date(cellValue), 'dd/MM/yyyy');
-                                    } else {
-                                        return '';
-                                    }
-                                 } }
-                            
+                        }, { 
+                            name: 'CODIGO_CIUDAD',
+                            index: 'CODIGO_CIUDAD',
+                            label: 'CIUDAD',
+                            width: 50,
+                            hidden : false
+                        }, { 
+                            name: 'CODIGO_BARRIO',
+                            index: 'CODIGO_BARRIO',
+                            label: 'BARRIO',
+                            width: 60,
+                            hidden : false
+                        }, { 
+                            name: 'ESTADO_CLIENTE',
+                            index: 'ESTADO_CLIENTE',
+                            label: 'ESTADO',
+                            width: 60,
+                            hidden : false
+                        }
+                        
 
                 ],
-                jsonReader:{
-                    repeatitems: false,
-                    id:"Id",
-                    root:"lista",
-                    total:function(data) {
-                        var total = Math.ceil(data.totalDatos /$scope.solicitudAjustesGrid.getGridParam("rowNum"));
-
-                        return total;
-                    },
-                    records: "totalDatos",
-                    id:"secOrd"
-                },
                 emptyrecords: "Sin Datos",
                 shrinkToFit:false,
-                pager:"#paginadorClientes",
+                // pager:"#paginadorClientes",
                 viewrecords: true,
                 gridview: false,
                 hidegrid: false,
                 altRows: true,
                 onSelectRow: function (id, status, e) {
-                    $scope.$apply($scope.secOrdSeleccionado= id);
-                    $scope.buscarDetalleSolicitud();
-                    $scope.buscarFacturaReferenciada();
+                    // $scope.$apply($scope.secOrdSeleccionado= id);
+                    // $scope.buscarDetalleSolicitud();
+                    // $scope.buscarFacturaReferenciada();
                 },
                 loadError: function(xhr, status, error ){
                     if (xhr && xhr.status===404) {
-                        $scope.solicitudAjustesGrid.clearGridData();
+                        // $scope.solicitudAjustesGrid.clearGridData();
                     } else{
-                        $scope.alertErrorService.addSimpleAlert("operationFailure", 0, error.toString());
-                        $scope.$apply();
+                        // $scope.alertErrorService.addSimpleAlert("operationFailure", 0, error.toString());
+                        // $scope.$apply();
                     }
                   }});
-            $("#grillaClientes").setGridWidth(widthOfGrid());	
+    $("#grillaClientes").setGridWidth(widthOfGrid());   
 }
 
+function buscar(){
+    
+    $("#grillaClientes").jqGrid('setGridParam', { datatype: "json"}).trigger("reloadGrid");
+}
