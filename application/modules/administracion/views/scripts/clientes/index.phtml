@@ -1,0 +1,151 @@
+
+<div>
+<div class="panel-default "  align=center>
+            <div class="row well">
+                <h1>CLIENTES</h1> 
+            </div>
+    <!-- <div class="panel-body "> -->
+         <div class="row "> <!-- seteamos los filtros -->
+            <div class="col-lg-11 col-lg-offset-1">
+            
+                <div class="form-group col-lg-3" >
+                    <div class=" input-group">
+                        Nombre del cliente
+                        <input type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                    </div>
+                </div>
+                <!-- Tipo de Solicitud, busqueda remota -->
+                <div class="form-group col-lg-2">
+                    <div class="input-group">
+                        Tipo
+                        <select class="input-sm form-control">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                    </div>
+                
+                </div>
+                <!-- Nro Linea - Carga el usuario -->
+                <div class="form-group col-lg-3">
+                    <div class=" input-group">
+                       Número de teléfono
+                        <input type="text" name="selectInput" class="form-control input-sm" placeholder=" Número de teléfono"
+                               
+                               >
+                    </div>
+                </div>
+
+             </div>
+        </div> <!-- row de filtros end -->
+        <br>
+        <div class="row "> <!-- row de botones buscar, nuevo -->
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-primary btn-sm">
+                    <i class="icon icon-search"></i> Buscar
+                </button>
+                <button type="button" class="btn btn-warning btn-sm " id="muestramodal"> <i
+                    class="icon icon-eraser"></i> Nuevo
+                </button>
+            </div>
+        </div>
+        <br>
+    
+        <div class="row "> <!-- row para la tabla --> 
+            <div class="col-lg-12" id="contenedorGrilla">
+                <div class="table-responsive" >
+                <table id="grillaClientes"></table>
+                <div id="paginadorClientes"></div>
+             </div>
+
+            </div>
+            
+        </div>  <!-- end row tabla -->
+
+
+
+    <!-- </div>    end   panel body -->
+</div> <!-- end panel default -->
+               
+</div>
+
+<div class="modal well" id="modalFormaPago">   
+    <div class="modal-content">
+        <div class="modal-header">   
+            <a class="close" id="close-modal">×</a>      
+            <h1>Clientes</h1>
+        </div>                
+        <div class="modal-body">
+            <div class="container"  >
+                <div class=" col-lg-6">  
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Nombre del cliente
+                            <input id="descripcionpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Documento
+                            <input id="numerodocumentopersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            RUC
+                            <input id="rucpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Teléfono
+                            <input id="telefonopersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Dirección
+                            <input id="direccionpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+               </div>
+                <div class=" col-lg-6">  
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Nombre del cliente
+                            <input id="descripcionpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Documento
+                            <input id="numerodocumentopersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            RUC
+                            <input id="rucpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Teléfono
+                            <input id="telefonopersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class=" input-group">
+                            Dirección
+                            <input id="direccionpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+               </div>
+           </div>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn btn-danger">Close</a>
+            <a href="#" class="btn btn-success">Save</a>
+        </div>
+    </div>
+</div>
+

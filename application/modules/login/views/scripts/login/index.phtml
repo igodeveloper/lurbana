@@ -1,0 +1,46 @@
+
+
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+
+        <div id="tarjeta" class="tarjeta">
+
+            <img class="logo-usuario" src="<?php echo $this->baseUrl(). "/menu/img/lurbana-login.png"?>" alt="">
+            <h3 class="text-center">Lurbana<strong></strong></h3>
+            <br>
+            <div  class="text-right">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon icon-fixed-width icon-user"></i></span> 
+                        <input id="username" name="username" placeholder="admin" type="text" 
+                            class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="icon icon-fixed-width icon-key"></i></span> <input id="password" name="password" placeholder="admin" type="password"
+                            class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button id="signin_submit" class="btn btn-lg btn-primary btn-block">Ingresar</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- //main content -->
+</div><!-- //row -->
+
+<script>
+function centrarLogin(){
+    var margen_top = ($(document).height() - $('#tarjeta').height()-100)/2;
+    if(margen_top<0){
+        mragen_top = 0;
+    }
+    $('#tarjeta').css("margin-top",margen_top);
+}
+</script>
+
+                   

@@ -1,0 +1,132 @@
+ <?php
+    echo $this->headScript()->
+
+            appendFile($this->baseUrl() . "/js/jquery-1.7.1.js")->
+            appendFile($this->baseUrl() . "/js/jquery-ui-1.8.17.custom.min.js")->
+            appendFile($this->baseUrl() . '/js/grid.locale-es.js')->
+            appendFile($this->baseUrl() . '/js/jquery.jqGrid.min.js')->
+            appendFile($this->baseUrl() . "/js/bootstrap.js")->
+            appendFile($this->baseUrl() . "/js/jquery.tablescroll.js")->
+            appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
+            appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
+          appendFile($this->baseUrl() . '/menu/js/main.js')->
+            
+            appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/gridClientes.js")->
+            appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/clientes.js");
+
+    echo $this->headLink()
+            ->setIndent('  ')
+
+            ->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
+            ->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
+            ->prependStylesheet($this->baseUrl() . "/css/style.css")
+    ?>
+
+<!doctype html>
+<html lang="en" class="no-js">
+<style>
+
+    .modal{
+       /* margin-top: 0.5%;*/
+        padding: 8% 10% 10%;
+        background-color: #f7f7f7;
+        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
+    }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Logistic</title>
+</head>
+<body>
+    <header>
+        <a id="cd-logo" href="<?php echo $this->baseUrl(). "/menu/menu"?>"><img src="<?php echo $this->baseUrl(). "/menu/img/lurbana.png"?>" alt="Homepage"></a>
+        <nav id="cd-top-nav">
+            <ul>
+    <!--            <li><a href="#0">Tour</a></li> -->
+                <li><a  href="<?php echo $this->baseUrl(). "/login/login"?>">Login</a></li>
+            </ul>
+        </nav>
+        <a id="cd-menu-trigger" href="#0"><span class="cd-menu-text">Menu</span><span class="cd-menu-icon"></span></a>
+    </header>
+    <main class="cd-main-content">
+
+        <!-- put your content here -->
+        <div class="col-lg-12">
+            <?php
+            echo $this->layout()->content;
+            ?>
+        </div>
+
+    </main> <!-- cd-main-content -->
+
+    <nav id="cd-lateral-nav">
+        <ul class="cd-navigation">
+            <li class="item-has-children">
+                <a href="#0">Logistica</a>
+                <ul class="sub-menu">
+                    <li><a href="#0">Gestores</a></li>
+                    <li><a href="#0">Planes | Contratos</a></li>
+                    <li><a href="#0">Gestiones</a></li>
+                </ul>
+            </li> <!-- item-has-children -->
+
+            <li class="item-has-children">
+                <a href="#0">Administración</a>
+                <ul class="sub-menu">
+                    <li><a  href="<?php echo $this->baseUrl(). "/administracion/clientes"?>">Clientes</a></li>
+                    <li><a  href="<?php echo $this->baseUrl(). "/administracion/gestores"?>">Gestores</a></li>
+                    <li><a  href="<?php echo $this->baseUrl(). "/administracion/usuarios"?>">Usuarios</a></li>
+                </ul>
+            </li> <!-- item-has-children -->
+
+            <li class="item-has-children">
+                <a href="#0">Configuración</a>
+                <ul class="sub-menu">
+                    <li><a href="#0">Departamentos</a></li>
+                    <li><a href="#0">Ciudades</a></li>
+                    <li><a href="#0">Barrios</a></li>
+                    <li><a href="#0"></a></li>
+                </ul>
+            </li> <!-- item-has-children -->
+        </ul> <!-- cd-navigation -->
+<!-- 
+        <ul class="cd-navigation cd-single-item-wrapper">
+            <li><a href="#0">Tour</a></li>
+            <li><a href="#0">Login</a></li>
+            <li><a href="#0">Register</a></li>
+            <li><a href="#0">Pricing</a></li>
+            <li><a href="#0">Support</a></li>
+        </ul> 
+
+        <ul class="cd-navigation cd-single-item-wrapper">
+            <li><a class="current" href="#0">Journal</a></li>
+            <li><a href="#0">FAQ</a></li>
+            <li><a href="#0">Terms &amp; Conditions</a></li>
+            <li><a href="#0">Careers</a></li>
+            <li><a href="#0">Students</a></li>
+        </ul> 
+
+ -->        <div class="cd-navigation socials">
+            <a class="cd-twitter cd-img-replace" href="#0">Twitter</a>
+            <a class="cd-github cd-img-replace" href="#0">Git Hub</a>
+            <a class="cd-facebook cd-img-replace" href="#0">Facebook</a>
+            <a class="cd-google cd-img-replace" href="#0">Google Plus</a>
+        </div> <!-- socials -->
+    </nav>
+            
+    
+<!--    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="js/main.js"></script>  Resource jQuery -->
+</body>
+</html>
+
+
+
+
+
+
