@@ -1,16 +1,8 @@
 var pathname = window.location.pathname;
 var table = pathname;
 jQuery(document).ready(function(){
-    console.log("cargue");
     cargarGrillaRegistro();
-     $("#muestramodal").click(function() {
-            $("#modalFormaPago").show();
-            console.log("HOLA");
-    }); 
-     $("#close-modal").click(function() {
-            $("#modalFormaPago").hide();
-            console.log("HOLA");
-    });
+
    
 });
 
@@ -39,6 +31,7 @@ function widthOfGrid() {
 /**
  * Carga la tabla visual con el listado de registros. La estructura de la tabla es especificada.
  */
+console.log('hola'+ $("#estadopersona-modal").val());
 function cargarGrillaRegistro() {
     jQuery("#grillaClientes").jqGrid({
         
@@ -46,24 +39,16 @@ function cargarGrillaRegistro() {
                 datatype: "local",
                 mtype : "POST",
                 autowith: true,
-                rowNum: 10,
+                rowNum: 8,
                 rowList: [],
-                postData: {
-                   filtros: JSON.stringify({ "CODIGO_CLIENTE":  1}),
-                },
+                
                 colModel:[
-                            {
-                            name: '',
-                            index: '',
-                            hidden :false,
-                            width: 50,
-                            align: 'right'
-                            }, {
+                           {
                             name: 'CODIGO_CLIENTE',
                             index: 'CODIGO_CLIENTE',
-                            label: 'COD',
+                            label: 'CODIGO',
                             hidden :false,
-                            width: 50,
+                            width: 70,
                             align: 'right'
                             },
                             { name: 'CODIGO_PERSONA',
@@ -86,20 +71,20 @@ function cargarGrillaRegistro() {
                             { name: 'RUC_PERSONA',
                             index: 'RUC_PERSONA',
                             label: 'RUC',
-                            width: 80,
+                            width: 90,
                             hidden : false
                         },
                         { 
                             name: 'TELEFONO_PERSONA',
                             index: 'TELEFONO_PERSONA',
                             label: 'TELEFONO',
-                            width: 100,
+                            width: 110,
                             hidden : false
                         }, { 
                             name: 'EMAIL_PERSONA',
                             index: 'EMAIL_PERSONA',
                             label: 'EMAIL',
-                            width: 120,
+                            width: 130,
                             hidden : false
                         }, { 
                             name: 'DIRECCION_PERSONA',
@@ -111,7 +96,7 @@ function cargarGrillaRegistro() {
                             name: 'CODIGO_CIUDAD',
                             index: 'CODIGO_CIUDAD',
                             label: 'CIUDAD',
-                            width: 50,
+                            width: 55,
                             hidden : false
                         }, { 
                             name: 'CODIGO_BARRIO',
@@ -123,7 +108,7 @@ function cargarGrillaRegistro() {
                             name: 'ESTADO_CLIENTE',
                             index: 'ESTADO_CLIENTE',
                             label: 'ESTADO',
-                            width: 60,
+                            width: 65,
                             hidden : false
                         }
                         
@@ -131,11 +116,15 @@ function cargarGrillaRegistro() {
                 ],
                 emptyrecords: "Sin Datos",
                 shrinkToFit:false,
-                // pager:"#paginadorClientes",
+                pager:"#paginadorClientes",
                 viewrecords: true,
                 gridview: false,
                 hidegrid: false,
                 altRows: true,
+                ondblClickRow: function(rowid) {
+                       var rowdata=  jQuery(this).jqGrid('getRowData', rowid);
+                        modalModificar(rowdata);
+                },
                 onSelectRow: function (id, status, e) {
                     // $scope.$apply($scope.secOrdSeleccionado= id);
                     // $scope.buscarDetalleSolicitud();
@@ -154,5 +143,28 @@ function cargarGrillaRegistro() {
 
 function buscar(){
     
-    $("#grillaClientes").jqGrid('setGridParam', { datatype: "json"}).trigger("reloadGrid");
+    $("#grillaClientes").jqGrid('setGridParam', { datatype: "json", postData: {
+                   filtros: JSON.stringify({ "DESCRIPCION_PERSONA": $("#descripcionpersona-filtro").val(), 
+                                             "ESTADO_CLIENTE": $("#estadopersona-filtro").val(),
+                                             "TELEFONO_PERSONA": $("#telefonopersona-filtro").val(),
+                                            "NRO_DOCUMENTO_PERSONA": $("#numerodocumentopersona-filtro").val()}),
+                }}).trigger("reloadGrid");
+}
+
+function modalModificar(rowData){
+
+    $('#codigocliente-modal').attr("value", rowData.CODIGO_CLIENTE);
+    $('#codigopersona-modal').attr("value", rowData.CODIGO_PERSONA);
+    $("#descripcionpersona-modal").attr("value",rowData.DESCRIPCION_PERSONA);
+    $("#numerodocumentopersona-modal").attr("value",rowData.NRO_DOCUMENTO_PERSONA);
+    $("#rucpersona-modal").attr("value",rowData.RUC_PERSONA);
+    $("#direccionpersona-modal").attr("value",rowData.TELEFONO_PERSONA);
+    $("#telefonopersona-modal").attr("value",rowData.EMAIL_PERSONA);
+    $("#emailpersona-modal").attr("value",rowData.DIRECCION_PERSONA);
+    $("#ciudadpersona-modal").attr("value",rowData.CODIGO_CIUDAD);
+    $("#barriopersona-modal").attr("value",rowData.CODIGO_BARRIO);
+    $("#estadocliente-modal").attr("value",rowData.ESTADO_CLIENTE);
+    $("#modalNuevo").show();
+
+
 }

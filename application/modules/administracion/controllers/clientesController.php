@@ -53,12 +53,18 @@ class administracion_clientesController extends Zend_Controller_Action {
                     ->order(array('C.CODIGO_CLIENTE DESC'));
                    
          if ($filtros != null) {
-            // if ($filtros->descripcion != null) {
-            //     $select->where("upper(C.PRODUCTO_DESC) like upper('%".$filtros->descripcion."%')");
-            // }
-            // if ($filtros->descripciontipoproducto != null) {
-            //     $select->where("upper(TP.TIPO_PRODUCTO_DESCRIPCION) like upper('%".$filtros->descripciontipoproducto."%')");
-            // }
+            if ($filtros->DESCRIPCION_PERSONA != null) {
+                $select->where("upper(P.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_PERSONA."%')");
+            }
+            if ($filtros->NRO_DOCUMENTO_PERSONA != null) {
+                $select->where("P.NRO_DOCUMENTO_PERSONA = ?", $filtros->NRO_DOCUMENTO_PERSONA);
+            }
+            if ($filtros->TELEFONO_PERSONA != null) {
+                $select->where("P.TELEFONO_PERSONA = ?", $filtros->TELEFONO_PERSONA);
+            }
+            if ($filtros->ESTADO_CLIENTE != -1) {
+                $select->where("C.ESTADO_CLIENTE = ?", $filtros->ESTADO_CLIENTE);
+            }
             $result = $db->fetchAll($select);
         } else {
             $result = $db->fetchAll($select);
@@ -77,7 +83,7 @@ class administracion_clientesController extends Zend_Controller_Action {
         // $cod_receta = ($item['COD_RECETA'] == null)?0:$item['COD_RECETA'];
         // $cod_receta_desc = ($item['RECETA_DESCRIPCION'] == null)?' - ':$item['RECETA_DESCRIPCION'];
             $arrayDatos ['cell'] = array(
-                null,
+               
                 $item['CODIGO_CLIENTE'],
                 $item['CODIGO_PERSONA'],
                 $item['DESCRIPCION_PERSONA'],
@@ -91,7 +97,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 $item['ESTADO_CLIENTE']
             );
             $arrayDatos ['columns'] = array(
-                "modificar",
+                
                 'CODIGO_CLIENTE',
                 'CODIGO_PERSONA',
                 'DESCRIPCION_PERSONA',
@@ -121,6 +127,89 @@ class administracion_clientesController extends Zend_Controller_Action {
         return $pagina;
     }
     
+    public function guardarAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        try {
+
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $db->beginTransaction();
+            if(!$parametros->CODIGO_PERSONA)
+                $parametros->CODIGO_PERSONA = 0;
+            $data_personas = array(
+                'CODIGO_PERSONA' => ($parametros->CODIGO_PERSONA),
+                'DESCRIPCION_PERSONA' => (trim($parametros->DESCRIPCION_PERSONA)),
+                'NRO_DOCUMENTO_PERSONA' => (trim($parametros->NRO_DOCUMENTO_PERSONA)),
+                'RUC_PERSONA' => (trim($parametros->RUC_PERSONA)),
+                'TELEFONO_PERSONA' => (trim($parametros->TELEFONO_PERSONA)),
+                'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
+                'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
+                'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
+                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
+                
+            );
+            $insert_personas = $db->insert('ADM_PERSONAS', $data_personas);
+            $codigo_persona = $db->lastInsertId();
+
+            if(!$parametros->CODIGO_CLIENTE)
+                $parametros->CODIGO_CLIENTE = 0;
+            $data_clientes = array(
+                'CODIGO_CLIENTE' => ($parametros->CODIGO_CLIENTE),
+                'CODIGO_PERSONA' =>  $codigo_persona,
+                'ESTADO_CLIENTE' => (trim($parametros->ESTADO_CLIENTE))                
+            );
+            $insert_clientes = $db->insert('ADM_CLIENTES', $data_clientes);
+
+            $db->commit();
+           echo json_encode(array("success" => true));
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+            $db->rollBack();
+        }
+    }
+
+        public function  modificarAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        try {
+
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $db->beginTransaction();
+            $data_personas = array(
+                
+                'DESCRIPCION_PERSONA' => (trim($parametros->DESCRIPCION_PERSONA)),
+                'NRO_DOCUMENTO_PERSONA' => (trim($parametros->NRO_DOCUMENTO_PERSONA)),
+                'RUC_PERSONA' => (trim($parametros->RUC_PERSONA)),
+                'TELEFONO_PERSONA' => (trim($parametros->TELEFONO_PERSONA)),
+                'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
+                'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
+                'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
+                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
+                
+            );
+            $where_personas = array(
+                'CODIGO_PERSONA = ?' => $parametros->CODIGO_PERSONA
+            );
+            $update_personas = $db->update('ADM_PERSONAS', $data_personas, $where_personas);
+           
+
+            $data_clientes = array(
+                'ESTADO_CLIENTE' => (trim($parametros->ESTADO_CLIENTE))                
+            );
+             $where_clientes = array(
+                'CODIGO_CLIENTE = ?' => $parametros->CODIGO_CLIENTE
+            );
+            $update_clientes = $db->update('ADM_CLIENTES', $data_clientes, $where_clientes);
+
+            $db->commit();
+           echo json_encode(array("success" => true));
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+            $db->rollBack();
+        }
+    }
 
   
 }
