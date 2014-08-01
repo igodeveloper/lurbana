@@ -1,8 +1,11 @@
 $().ready(function() {
 
-	// programamos los botones
+
+	$("#fechainicio-modal").datepicker();
+    $("#fechainicio-modal").datepicker("option", "dateFormat", "dd-mm-yy");
+    $("#fechainicio-modal").datepicker("setDate", new Date());
+
  	$("#muestramodal").click(function() {
- 		limpiarFormulario()
             $("#modalNuevo").show();
            
     }); 
@@ -46,9 +49,7 @@ function ocultarWarningModal(){
 }
 
 function addrequiredattr(id,focus){
-	// $('#'+id).attr("has-warning", "required");
-	// $('#'+id).addClass( "has-warning" );
-	$('#'+id).parent().addClass('has-warning');
+	$('#'+id).attr("required", "required");
 	if(focus == 1)
 		$('#'+id).focus();
 }

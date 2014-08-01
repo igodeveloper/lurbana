@@ -1,0 +1,186 @@
+
+<div>
+<div class="panel-default "  align=center>
+            <div class="row well">
+                <h1>GESTIONES</h1> 
+            </div>
+    <!-- <div class="panel-body "> -->
+         <div class="row "> <!-- seteamos los filtros -->
+            <div class="col-lg-11 col-lg-offset-1">
+            
+                <div class="form-group col-lg-3" >
+                    <div class=" input-group">
+                        Cliente
+                        <input id="cliente-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                    </div>
+                </div>
+                 <div class="form-group col-lg-3">
+                    <div class=" input-group">
+                       Documento cliente
+                        <input id="documentocliente-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder=" Número de documento"
+                               
+                               >
+                    </div>
+                </div>
+              
+                <div class="form-group col-lg-2">
+                    <div class="input-group">
+                        Estado
+                        <select id="estadogestion-filtro" class="input-sm form-control">
+                            <option value="-1">Seleccionar</option>
+                            <option value="A">Activo</option>
+                            <option value="I">Inactivo</option>
+                            <option value="P">Pendiente</option>
+                        </select>
+                    </div>
+                
+                </div>
+             
+                <div class="form-group col-lg-3">
+                    <div class=" input-group">
+                       Gestor
+                        <input id="gestor-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder=" Gestor"
+                               
+                               >
+                    </div>
+                </div>                
+
+             </div>
+        </div> <!-- row de filtros end -->
+        <br>
+        <div class="row "> <!-- row de botones buscar, nuevo -->
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-primary btn-sm" onclick="buscar()">
+                    <i class="icon icon-search"></i> Buscar
+                </button>
+                <button type="button" class="btn btn-warning btn-sm " id="muestramodal"> <i
+                    class="icon icon-eraser"></i> Nuevo
+                </button>
+            </div>
+        </div>
+        <br>
+    
+        <div class="row "> <!-- row para la tabla --> 
+            <div class="col-lg-12" id="contenedorGrilla">
+                <div class="table-responsive" >
+                <table id="grillaGestiones"></table>
+                <div id="paginadorClientes"></div>
+             </div>
+
+            </div>
+            
+        </div>  <!-- end row tabla -->
+
+
+
+    <!-- </div>    end   panel body -->
+</div> <!-- end panel default -->
+               
+</div>
+
+<div class="modal well" id="modalNuevo">   
+    <div class="modal-content">
+        <div class="modal-header">   
+            <a class="close" id="close-modal">×</a>      
+            <h1>Gestión</h1>
+        </div>               
+        <div class="alert alert-danger" id="warning-modal" style="display: none;">
+                <div id="warning-message-modal"></div>
+        </div>
+        <div class="alert alert-success"  id="success-modal" style="display: none;">
+                <div id="success-message-modal"></div>
+        </div> 
+        <div class="modal-body">
+            <div class="container">
+                <div class="row table">  
+                    <div class="form-group col-lg-2" >
+                        <div class=" input-group">
+                            Código Gestion
+                            <input id="codigogestion-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" " disabled="disabled">
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4" >
+                        <div class=" input-group">
+                            Nombre del cliente
+                            <input id="codigocliente-modal" type="text" name="selectInput" class="form-control input-sm" style="display: none;" >
+                            <input id="nombrecliente-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Documento
+                            <input id="documentocliente-modal" type="text" name="selectInput" class="form-control input-sm" placeholder="Documento" >
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            RUC
+                            <input id="ruccliente-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" RUC" >
+                        </div>
+                    </div>
+                   
+               </div> <!-- end row 1 -->
+                <div class="row table">
+                     <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Gestor
+                            <input id="nombregestor-modal" type="text" name="selectInput" class="form-control input-sm" style="display: none;"> 
+                            <input id="nombregestor-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Gestor" >
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Inicio
+                            <input id="fechainicio-modal"class="form-control input-sm"  >
+                        </div>
+                    </div>  
+                    <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Fin
+                            <input id="fechafin-modal" type="text" name="selectInput" class="form-control input-sm">
+                        </div>
+                    </div>
+                    
+                     <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Estado
+                            <select id="estadocliente-modal" class="input-sm form-control">
+                            <option value="A">Activo</option>
+                            <option value="I">Inactivo</option>
+                            <option value="P">Pendiente</option>
+                        </select>
+                        </div>
+                    </div>
+
+               </div> <!-- end row 2 -->
+               <div class="row table">
+                <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Cantidad
+                            <input id="cantidad-modal" type="text" name="selectInput" class="form-control input-sm"  >
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-3" >
+                        <div class=" input-group">
+                            Cantidad Adicional
+                            <input id="adicional-modal" type="text" name="selectInput" class="form-control input-sm"  >
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6" >
+                        <div class=" input-group">
+                            Observación
+                            <input id="observacion-modal" type="text" name="selectInput" class="form-control input-sm"  >
+                        </div>
+                    </div>
+
+               </div>
+           </div>
+        </div>
+
+        <div class="modal-footer">
+            <a  id="cancelar-modal"class="btn btn-danger">Cancelar</a>
+            <a id="guardar-modal" class="btn btn-success">Guardar</a>
+        </div>
+    </div>
+</div>
+

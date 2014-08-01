@@ -9,16 +9,17 @@
             appendFile($this->baseUrl() . "/js/jquery.tablescroll.js")->
             appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
             appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
-          appendFile($this->baseUrl() . '/menu/js/main.js')->
+            appendFile($this->baseUrl() . '/menu/js/main.js')->
             
-            appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/gridClientes.js")->
-            appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/clientes.js");
+            appendFile($this->baseUrl() . "/js/modulos/logistica/gestiones/gridGestiones.js")->
+            appendFile($this->baseUrl() . "/js/modulos/logistica/gestiones/gestiones.js");
 
     echo $this->headLink()
             ->setIndent('  ')
             ->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
             ->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
             ->prependStylesheet($this->baseUrl() . "/css/style.css")
+            // ->prependStylesheet($this->baseUrl() . "/css/datetimepicker.css")
     ?>
 
 <!doctype html>
@@ -27,7 +28,7 @@
 
     .modal{
        /* margin-top: 0.5%;*/
-        padding: 5% 10% 10%;
+        padding: 5% 5% 5%;
         background-color: #f7f7f7;
         -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
         -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
