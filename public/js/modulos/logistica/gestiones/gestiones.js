@@ -1,12 +1,18 @@
 $().ready(function() {
 
-
-	$("#fechainicio-modal").datepicker();
-    $("#fechainicio-modal").datepicker("option", "dateFormat", "dd-mm-yy");
-    $("#fechainicio-modal").datepicker("setDate", new Date());
-
  	$("#muestramodal").click(function() {
+ 		limpiarFormulario();
+			$("#fechagestion-modal").datepicker();
+		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+		    $("#fechagestion-modal").datepicker("setDate", new Date());
+		    $("#iniciogestion-modal").datepicker();
+		    $("#iniciogestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+		    // $("#iniciogestion-modal").datepicker("setDate", null);
+		    $("#fingestion-modal").datepicker();
+		    $("#fingestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+		    // $("#fingestion-modal").datepicker("setDate", null);
             $("#modalNuevo").show();
+            $("#ui-datepicker-div").css('display','none');
            
     }); 
      $("#close-modal").click(function() {
@@ -17,8 +23,6 @@ $().ready(function() {
             $("#modalNuevo").hide();
            
     });
-
-
 	
 	$('#guardar-modal').click(function() {
 		 var data = obtenerJsonModal();
@@ -60,65 +64,61 @@ function obtenerJsonModal() {
 	var mensaje = 'Ingrese los campos: ';
     var focus = 0;
 
-	if($('#descripcionpersona-modal').attr("value") == null || $('#descripcionpersona-modal').attr("value").length == 0){
-        mensaje+= ' | Descripci\u00F3n ';
+	if($('#codigocliente-modal').attr("value") == null || $('#codigocliente-modal').attr("value").length == 0){
+        mensaje+= ' | Cliente ';
     	focus++;
-    	addrequiredattr('descripcionpersona-modal',focus); 
+    	addrequiredattr('codigocliente-modal',focus); 
 	}
-	if($('#numerodocumentopersona-modal').attr("value") == null || $('#numerodocumentopersona-modal').attr("value").length == 0){
-        mensaje+= ' | Documento ';
+	if($('#fechagestion-modal').attr("value") == null || $('#fechagestion-modal').attr("value").length == 0){
+        mensaje+= ' | Fecha ';
     	focus++;
-    	addrequiredattr('numerodocumentopersona-modal',focus); 
+    	addrequiredattr('fechagestion-modal',focus); 
 	}
-	if($('#rucpersona-modal').attr("value") == null || $('#rucpersona-modal').attr("value").length == 0){
-        mensaje+= ' | RUC ';
+	// if($('#iniciogestion-modal').attr("value") == null || $('#iniciogestion-modal').attr("value").length == 0){
+ //        mensaje+= ' | Fecha inicio ';
+ //    	focus++;
+ //    	addrequiredattr('iniciogestion-modal',focus); 
+	// }
+	// if($('#fingestion-modal').attr("value") == null || $('#fingestion-modal').attr("value").length == 0){
+ //        mensaje+= ' | Fecha fin ';
+ //    	focus++;
+ //    	addrequiredattr('fingestion-modal',focus); 
+	// }
+	if($('#tarea-modal').attr("value") == null || $('#tarea-modal').attr("value").length == 0){
+        mensaje+= ' | Tarea ';
     	focus++;
-    	addrequiredattr('rucpersona-modal',focus); 
+    	addrequiredattr('tarea-modal',focus); 
 	}
-	if($('#direccionpersona-modal').attr("value") == null || $('#direccionpersona-modal').attr("value").length == 0){
-        mensaje+= ' | Direcci\u00F3n ';
+	if($('#tiempoestimado-modal').attr("value") == null || $('#tiempoestimado-modal').attr("value").length == 0){
+        mensaje+= ' | Tiempo estimado ';
     	focus++;
-    	addrequiredattr('direccionpersona-modal',focus); 
+    	addrequiredattr('tiempoestimado-modal',focus); 
 	}
-	if($('#telefonopersona-modal').attr("value") == null || $('#telefonopersona-modal').attr("value").length == 0){
-        mensaje+= ' | Telefono ';
+	if($('#cantidadgestion-modal').attr("value") == null || $('#cantidadgestion-modal').attr("value").length == 0){
+        mensaje+= ' | Cantidad gestión ';
     	focus++;
-    	addrequiredattr('telefonopersona-modal',focus); 
+    	addrequiredattr('cantidadgestion-modal',focus); 
 	}
-	if($('#emailpersona-modal').attr("value") == null || $('#emailpersona-modal').attr("value").length == 0){
-        mensaje+= ' | Email ';
+	if($('#estado-modal').attr("value") == -1){
+        mensaje+= ' | Estado ';
     	focus++;
-    	addrequiredattr('emailpersona-modal',focus); 
+    	addrequiredattr('estado-modal',focus); 
 	}
-	
-    if($("#ciudadpersona-modal" ).val() == -1){
-        mensaje+= ' | Ciudad ';
-    	focus++;
-    	addrequiredattr('ciudadpersona-modal',focus);    
-	}
-	    if($("#barriopersona-modal" ).val() == -1){
-        mensaje+= ' | Barrio ';
-    	focus++;
-    	addrequiredattr('barriopersona-modal',focus);    
-	}
-
-
 	if (mensaje != 'Ingrese los campos: '){
 		mensaje+= ' |';
 		mostarVentana("warning-modal", mensaje);
 		return null;
 	}else {
+		jsonObject.NUMERO_GESTION = $('#codigogestion-modal').attr("value");
 		jsonObject.CODIGO_CLIENTE = $('#codigocliente-modal').attr("value");
-		jsonObject.CODIGO_PERSONA = $('#codigopersona-modal').attr("value");
-		jsonObject.DESCRIPCION_PERSONA = $('#descripcionpersona-modal').attr("value");
-		jsonObject.NRO_DOCUMENTO_PERSONA = $('#numerodocumentopersona-modal').attr("value");
-		jsonObject.RUC_PERSONA = $("#rucpersona-modal").val();
-		jsonObject.TELEFONO_PERSONA = $("#telefonopersona-modal").val();
-		jsonObject.EMAIL_PERSONA = $("#emailpersona-modal").val();
-		jsonObject.DIRECCION_PERSONA = $("#direccionpersona-modal").val();
-		jsonObject.CODIGO_CIUDAD = $("#ciudadpersona-modal").val();
-		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
-		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
+		jsonObject.FECHA_GESTION = $('#fechagestion-modal').attr("value");
+		jsonObject.OBSERVACION = $('#tarea-modal').attr("value");
+		jsonObject.FECHA_INICIO = $("#iniciogestion-modal").val();
+		jsonObject.FECHA_FIN = $("#fingestion-modal").val();
+		jsonObject.CANTIDAD_GESTIONES = $("#tiempoestimado-modal").val();
+		jsonObject.CANTIDAD_ADICIONALES = $("#cantidadgestion-modal").val();
+		jsonObject.CODIGO_GESTOR = $("#gestor-modal").val();
+		jsonObject.ESTADO = $("#estado-modal").val();
 		return jsonObject
 	}
 }
@@ -128,7 +128,7 @@ function enviarParametros(data){
     });
 
 	var urlenvio = '';
-	if(data.CODIGO_CLIENTE !== null && data.CODIGO_CLIENTE.length !== 0){
+	if(data.NUMERO_GESTION !== null && data.NUMERO_GESTION.length !== 0){
 		urlenvio = table+'/modificar';
 	}else {
 		urlenvio = table+'/guardar';
@@ -169,17 +169,18 @@ function limpiarFiltos(){
 
 function limpiarFormulario(){
 
-	$("#codigopersona-modal").attr("value",null);
-	$("#codigocliente-modal").attr("value",null);
-	$("#descripcionpersona-modal").attr("value",null);
-	$("#numerodocumentopersona-modal").attr("value",null);
-	$("#rucpersona-modal").attr("value",null);
-	$("#direccionpersona-modal").attr("value",null);
-	$("#telefonopersona-modal").attr("value",null);
-	$("#emailpersona-modal").attr("value",null);
-	$("#ciudadpersona-modal").attr("value",null);
-	$("#barriopersona-modal").attr("value",null);
-	$("#estadocliente-modal").attr("value",null);
+	
+ $('#codigogestion-modal').attr("value",null);
+ $('#codigocliente-modal').attr("value",null);
+ $('#nombrecliente-modal').attr("value",null);
+ $('#fechagestion-modal').attr("value",null);
+ $('#tarea-modal').attr("value",null);
+ $("#iniciogestion-modal").attr("value",null);
+ $("#fingestion-modal").attr("value",null);
+ $("#tiempoestimado-modal").val(null);
+ $("#cantidadgestion-modal").val(null);
+ $("#gestor-modal").val(null);
+ $("#estado-modal").val('A');
 
 }
 

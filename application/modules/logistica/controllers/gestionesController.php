@@ -37,34 +37,36 @@ class logistica_gestionesController extends Zend_Controller_Action {
         }
         $db = Zend_Db_Table::getDefaultAdapter();
        $select = $db->select()
-                ->from(array('C'=>'ADM_CLIENTES'),  array(
-                             'C.CODIGO_CLIENTE',
-                             'C.CODIGO_PERSONA',
+                ->from(array('G'=>'LOG_GESTIONES'),  array(
+                             'G.NUMERO_GESTION',
+                             'G.FECHA_GESTION',
+                             'G.FECHA_INICIO',
+                             'G.FECHA_FIN',
+                             'G.CODIGO_CLIENTE',
                              'P.DESCRIPCION_PERSONA',
-                             'P.NRO_DOCUMENTO_PERSONA',
-                             'P.RUC_PERSONA',
-                             'P.TELEFONO_PERSONA',
-                             'P.EMAIL_PERSONA',
-                             'P.DIRECCION_PERSONA',
-                             'P.CODIGO_CIUDAD',
-                             'P.CODIGO_BARRIO',
-                             'C.ESTADO_CLIENTE'))
+                             'G.CODIGO_GESTOR',
+                             'G.CODIGO_USUARIO',
+                             'G.ESTADO',
+                             'G.CANTIDAD_GESTIONES',
+                             'G.CANTIDAD_ADICIONALES',
+                             'G.OBSERVACION'))
+                   ->join(array('C' => 'ADM_CLIENTES'), 'G.CODIGO_CLIENTE  = C.CODIGO_CLIENTE')
                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
-                    ->order(array('C.CODIGO_CLIENTE DESC'));
+                    ->order(array('G.NUMERO_GESTION DESC'));
                    
          if ($filtros != null) {
-            if ($filtros->DESCRIPCION_PERSONA != null) {
-                $select->where("upper(P.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_PERSONA."%')");
-            }
-            if ($filtros->NRO_DOCUMENTO_PERSONA != null) {
-                $select->where("P.NRO_DOCUMENTO_PERSONA = ?", $filtros->NRO_DOCUMENTO_PERSONA);
-            }
-            if ($filtros->TELEFONO_PERSONA != null) {
-                $select->where("P.TELEFONO_PERSONA = ?", $filtros->TELEFONO_PERSONA);
-            }
-            if ($filtros->ESTADO_CLIENTE != -1) {
-                $select->where("C.ESTADO_CLIENTE = ?", $filtros->ESTADO_CLIENTE);
-            }
+            // if ($filtros->DESCRIPCION_PERSONA != null) {
+            //     $select->where("upper(P.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_PERSONA."%')");
+            // }
+            // if ($filtros->NRO_DOCUMENTO_PERSONA != null) {
+            //     $select->where("P.NRO_DOCUMENTO_PERSONA = ?", $filtros->NRO_DOCUMENTO_PERSONA);
+            // }
+            // if ($filtros->TELEFONO_PERSONA != null) {
+            //     $select->where("P.TELEFONO_PERSONA = ?", $filtros->TELEFONO_PERSONA);
+            // }
+            // if ($filtros->ESTADO_CLIENTE != -1) {
+            //     $select->where("C.ESTADO_CLIENTE = ?", $filtros->ESTADO_CLIENTE);
+            // }
             $result = $db->fetchAll($select);
         } else {
             $result = $db->fetchAll($select);
@@ -83,32 +85,32 @@ class logistica_gestionesController extends Zend_Controller_Action {
         // $cod_receta = ($item['COD_RECETA'] == null)?0:$item['COD_RECETA'];
         // $cod_receta_desc = ($item['RECETA_DESCRIPCION'] == null)?' - ':$item['RECETA_DESCRIPCION'];
             $arrayDatos ['cell'] = array(
-               
+                $item['NUMERO_GESTION'],
+                $item['FECHA_GESTION'],
+                $item['FECHA_INICIO'],
+                $item['FECHA_FIN'],
                 $item['CODIGO_CLIENTE'],
-                $item['CODIGO_PERSONA'],
                 $item['DESCRIPCION_PERSONA'],
-                $item['NRO_DOCUMENTO_PERSONA'],
-                $item['RUC_PERSONA'],
-                $item['TELEFONO_PERSONA'],
-                $item['EMAIL_PERSONA'],
-                $item['DIRECCION_PERSONA'],
-                $item['CODIGO_CIUDAD'],
-                $item['CODIGO_BARRIO'],
-                $item['ESTADO_CLIENTE']
+                $item['CODIGO_GESTOR'],
+                $item['CODIGO_USUARIO'],
+                $item['ESTADO'],
+                $item['CANTIDAD_GESTIONES'],
+                $item['CANTIDAD_ADICIONALES'],
+                $item['OBSERVACION']
             );
             $arrayDatos ['columns'] = array(
-                
-                'CODIGO_CLIENTE',
-                'CODIGO_PERSONA',
-                'DESCRIPCION_PERSONA',
-                'NRO_DOCUMENTO_PERSONA',
-                'RUC_PERSONA',
-                'TELEFONO_PERSONA',
-                'EMAIL_PERSONA',
-                'DIRECCION_PERSONA',
-                'CODIGO_CIUDAD',
-                'CODIGO_BARRIO',
-                'ESTADO_CLIENTE'
+                    'NUMERO_GESTION',
+                    'FECHA_GESTION',
+                    'FECHA_INICIO',
+                    'FECHA_FIN',
+                    'CODIGO_CLIENTE',
+                    'DESCRIPCION_PERSONA',
+                    'CODIGO_GESTOR',
+                    'CODIGO_USUARIO',
+                    'ESTADO',
+                    'CANTIDAD_GESTIONES',
+                    'CANTIDAD_ADICIONALES',
+                    'OBSERVACION'
             );
             array_push($pagina ['rows'], $arrayDatos);
         }
@@ -132,35 +134,42 @@ class logistica_gestionesController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
         try {
+            $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
+            $parametrosLogueo->unlock (); 
 
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
-            if(!$parametros->CODIGO_PERSONA)
-                $parametros->CODIGO_PERSONA = 0;
+            // print_r($parametros);die();
+            if(!$parametros->NUMERO_GESTION)
+                $parametros->NUMERO_GESTION = 0;
+            if(!$parametros->CODIGO_GESTOR)
+                $parametros->CODIGO_GESTOR = 0;
+            if($parametros->FECHA_INICIO == date("Y-m-d")){
+                $parametros->FECHA_INICIO = date("Y-m-d H:i:s");
+            }else{
+                $parametros->FECHA_INICIO = '0000-00-00 00:00:00';
+            }
+            if($parametros->FECHA_FIN == date("Y-m-d")){
+                $parametros->FECHA_FIN = date("Y-m-d H:i:s");
+            }else{
+                $parametros->FECHA_FIN = '0000-00-00 00:00:00';
+            }
+                $parametros->CODIGO_GESTOR = 0;
             $data_personas = array(
-                'CODIGO_PERSONA' => ($parametros->CODIGO_PERSONA),
-                'DESCRIPCION_PERSONA' => (trim($parametros->DESCRIPCION_PERSONA)),
-                'NRO_DOCUMENTO_PERSONA' => (trim($parametros->NRO_DOCUMENTO_PERSONA)),
-                'RUC_PERSONA' => (trim($parametros->RUC_PERSONA)),
-                'TELEFONO_PERSONA' => (trim($parametros->TELEFONO_PERSONA)),
-                'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
-                'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
-                'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
-                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
-                
+                'NUMERO_GESTION' => $parametros->NUMERO_GESTION,
+                'CODIGO_CLIENTE' => $parametros->CODIGO_CLIENTE,
+                'FECHA_GESTION' => $parametros->FECHA_GESTION,
+                'OBSERVACION' => $parametros->OBSERVACION,
+                'FECHA_INICIO' =>$parametros->FECHA_INICIO,
+                'FECHA_FIN' => $parametros->FECHA_FIN,
+                'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
+                'CANTIDAD_ADICIONALES'=> $parametros->CANTIDAD_ADICIONALES,
+                'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
+                'CODIGO_USUARIO'=> $parametrosLogueo->cod_usuario,
+                'ESTADO'=> $parametros->ESTADO     
             );
-            $insert_personas = $db->insert('ADM_PERSONAS', $data_personas);
-            $codigo_persona = $db->lastInsertId();
-
-            if(!$parametros->CODIGO_CLIENTE)
-                $parametros->CODIGO_CLIENTE = 0;
-            $data_clientes = array(
-                'CODIGO_CLIENTE' => ($parametros->CODIGO_CLIENTE),
-                'CODIGO_PERSONA' =>  $codigo_persona,
-                'ESTADO_CLIENTE' => (trim($parametros->ESTADO_CLIENTE))                
-            );
-            $insert_clientes = $db->insert('ADM_CLIENTES', $data_clientes);
-
+            $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
+            $parametrosLogueo->lock(); 
             $db->commit();
            echo json_encode(array("success" => true));
         } catch (Exception $e) {
@@ -177,32 +186,28 @@ class logistica_gestionesController extends Zend_Controller_Action {
 
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
-            $data_personas = array(
-                
-                'DESCRIPCION_PERSONA' => (trim($parametros->DESCRIPCION_PERSONA)),
-                'NRO_DOCUMENTO_PERSONA' => (trim($parametros->NRO_DOCUMENTO_PERSONA)),
-                'RUC_PERSONA' => (trim($parametros->RUC_PERSONA)),
-                'TELEFONO_PERSONA' => (trim($parametros->TELEFONO_PERSONA)),
-                'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
-                'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
-                'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
-                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
-                
+            if($parametros->FECHA_INICIO == date("Y-m-d")){
+                $parametros->FECHA_INICIO = date("Y-m-d H:i:s");
+            }
+            if($parametros->FECHA_FIN == date("Y-m-d")){
+                $parametros->FECHA_FIN = date("Y-m-d H:i:s");
+            }
+             $data_personas = array(
+                'NUMERO_GESTION' => $parametros->NUMERO_GESTION,
+                'CODIGO_CLIENTE' => $parametros->CODIGO_CLIENTE,
+                'FECHA_GESTION' => $parametros->FECHA_GESTION,
+                'OBSERVACION' => $parametros->OBSERVACION,
+                'FECHA_INICIO' => $parametros->FECHA_INICIO,
+                'FECHA_FIN' => $parametros->FECHA_FIN,
+                'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
+                'CANTIDAD_ADICIONALES'=> $parametros->CANTIDAD_ADICIONALES,
+                'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
+                'ESTADO'=> $parametros->ESTADO     
             );
             $where_personas = array(
-                'CODIGO_PERSONA = ?' => $parametros->CODIGO_PERSONA
+                'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
             );
-            $update_personas = $db->update('ADM_PERSONAS', $data_personas, $where_personas);
-           
-
-            $data_clientes = array(
-                'ESTADO_CLIENTE' => (trim($parametros->ESTADO_CLIENTE))                
-            );
-             $where_clientes = array(
-                'CODIGO_CLIENTE = ?' => $parametros->CODIGO_CLIENTE
-            );
-            $update_clientes = $db->update('ADM_CLIENTES', $data_clientes, $where_clientes);
-
+            $update_personas = $db->update('LOG_GESTIONES', $data_personas, $where_personas);
             $db->commit();
            echo json_encode(array("success" => true));
         } catch (Exception $e) {

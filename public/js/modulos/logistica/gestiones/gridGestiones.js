@@ -34,7 +34,7 @@ function widthOfGrid() {
 function cargarGrillaRegistro() {
     jQuery("#grillaGestiones").jqGrid({
         
-                url: table+"/buscar" ,
+                url: table+"/buscar",
                 datatype: "local",
                 mtype : "POST",
                 autowith: true,
@@ -47,81 +47,92 @@ function cargarGrillaRegistro() {
                         index: 'NUMERO_GESTION',
                         label: 'NRO',
                         hidden :false,
-                        width: 70,
+                        width: 50,
                         align: 'right'
-                    },
-                        {name: 'FECHA_INICIO',
+                    },{
+                        name: 'FECHA_GESTION',
+                        index: 'FECHA_GESTION',
+                        label: 'FECHA',
+                        hidden :false,
+                        width: 120,
+                        align: 'right'
+                    },{
+                        name: 'FECHA_INICIO',
                         index: 'FECHA_INICIO',
                         label: 'INICIO',
                         hidden :false,
-                        width: 70,
+                        width: 140,
                         align: 'right'
-                    },
-                        { name: 'FECHA_FIN',
+                    },{ 
+                        name: 'FECHA_FIN',
                         index: 'FECHA_FIN',
                         label: 'FIN',
-                        width: 180,
+                        width: 140,
                         hidden : false
                     },
                         { name: 'CODIGO_CLIENTE',
                         index: 'CODIGO_CLIENTE',
-                        label: '',
                         width: 100,
-                        hidden : false
+                        hidden : true
                     },
                         { name: 'DESCRIPCION_PERSONA_CLIENTE',
                         index: 'DESCRIPCION_PERSONA_CLIENTE',
-                        label: 'CLIENE',
-                        width: 90,
+                        label: 'CLIENTE',
+                        width: 200,
                         hidden : false
                     },
                     { 
                         name: 'CODIGO_GESTOR',
                         index: 'CODIGO_GESTOR',
-                        width: 110,
-                        hidden : false
-                    }, { 
-                        name: 'DESCRIPCION_PERSONA_GESTOR',
-                        index: 'DESCRIPCION_PERSONA_GESTOR',
                         label: 'GESTOR',
-                        width: 130,
-                        hidden : false
-                    }, { 
+                        width: 70,
+                        hidden : true
+                    }, 
+                    // { 
+                    //     name: 'DESCRIPCION_PERSONA_GESTOR',
+                    //     index: 'DESCRIPCION_PERSONA_GESTOR',
+                    //     label: 'GESTOR',
+                    //     width: 100,
+                    //     hidden : false
+                    // }, 
+                    { 
                         name: 'CODIGO_USUARIO',
                         index: 'CODIGO_USUARIO',
-                        label: 'CODIGO_USUARIO',
-                        width: 200,
-                        hidden : false
-                    }, { 
-                        name: 'ID_USUARIO',
-                        index: 'ID_USUARIO',
                         label: 'USUARIO',
-                        width: 55,
+                        width: 100,
                         hidden : false
-                    }, { 
+                    }, 
+                    // { 
+                    //     name: 'ID_USUARIO',
+                    //     index: 'ID_USUARIO',
+                    //     label: 'USUARIO',
+                    //     width: 55,
+                    //     hidden : false
+                    // }, 
+                    { 
                         name: 'ESTADO',
                         index: 'ESTADO',
                         label: 'ESTADO',
-                        width: 60,
+                        width: 80,
                         hidden : false
                     }, { 
                         name: 'CANTIDAD_GESTIONES',
                         index: 'CANTIDAD_GESTIONES',
-                        label: 'CANTIDAD_GESTIONES',
-                        width: 65,
+                        label: 'TIEMPO',
+                        width: 100,
                         hidden : false
                     }, { 
                         name: 'CANTIDAD_ADICIONALES',
                         index: 'CANTIDAD_ADICIONALES',
-                        label: 'CANTIDAD_ADICIONALES',
-                        width: 65,
+                        label: 'GESTION',
+                        width: 100,
                         hidden : false
                     }, { 
                         name: 'OBSERVACION',
                         index: 'OBSERVACION',
                         label: 'OBSERVACION',
                         width: 65,
-                        hidden : false
+                        hidden : true
                     }
                 ],
                 emptyrecords: "Sin Datos",
@@ -148,12 +159,12 @@ function cargarGrillaRegistro() {
                         // $scope.$apply();
                     }
                   }});
-    $("#grillaClientes").setGridWidth(widthOfGrid());   
+    $("#grillaGestiones").setGridWidth(widthOfGrid());   
 }
 
 function buscar(){
     
-    $("#grillaClientes").jqGrid('setGridParam', { datatype: "json", postData: {
+    $("#grillaGestiones").jqGrid('setGridParam', { datatype: "json", postData: {
                    filtros: JSON.stringify({ "DESCRIPCION_PERSONA": $("#descripcionpersona-filtro").val(), 
                                              "ESTADO_CLIENTE": $("#estadopersona-filtro").val(),
                                              "TELEFONO_PERSONA": $("#telefonopersona-filtro").val(),
@@ -163,17 +174,17 @@ function buscar(){
 
 function modalModificar(rowData){
 
-    $('#codigocliente-modal').attr("value", rowData.CODIGO_CLIENTE);
-    $('#codigopersona-modal').attr("value", rowData.CODIGO_PERSONA);
-    $("#descripcionpersona-modal").attr("value",rowData.DESCRIPCION_PERSONA);
-    $("#numerodocumentopersona-modal").attr("value",rowData.NRO_DOCUMENTO_PERSONA);
-    $("#rucpersona-modal").attr("value",rowData.RUC_PERSONA);
-    $("#direccionpersona-modal").attr("value",rowData.TELEFONO_PERSONA);
-    $("#telefonopersona-modal").attr("value",rowData.EMAIL_PERSONA);
-    $("#emailpersona-modal").attr("value",rowData.DIRECCION_PERSONA);
-    $("#ciudadpersona-modal").attr("value",rowData.CODIGO_CIUDAD);
-    $("#barriopersona-modal").attr("value",rowData.CODIGO_BARRIO);
-    $("#estadocliente-modal").attr("value",rowData.ESTADO_CLIENTE);
+ $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
+ $('#codigocliente-modal').attr("value",rowData.CODIGO_CLIENTE);
+ $('#nombrecliente-modal').attr("value",rowData.DESCRIPCION_PERSONA_CLIENTE);
+ $('#fechagestion-modal').attr("value",rowData.FECHA_GESTION);
+ $('#tarea-modal').attr("value",rowData.OBSERVACION);
+ $("#iniciogestion-modal").attr("value",rowData.FECHA_INICIO);
+ $("#fingestion-modal").attr("value",rowData.FECHA_FIN);
+ $("#tiempoestimado-modal").val(rowData.CANTIDAD_GESTIONES);
+ $("#cantidadgestion-modal").val(rowData.CANTIDAD_ADICIONALES);
+ $("#gestor-modal").val(rowData.CODIGO_GESTOR);
+ $("#estado-modal").val(rowData.ESTADO);
     $("#modalNuevo").show();
 
 

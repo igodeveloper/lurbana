@@ -82,22 +82,12 @@ table.quickdate-calendar td:hover {
   text-align: right;
   display: block;
 }
-.quickdate input.ng-invalid {
+/*.quickdate input.ng-invalid {
   border: 1px solid #dd3b30;
 }
 .quickdate input.ng-invalid:focus {
   outline-color: #dd3b30;
-}
-
-
-
-
-
-
-
-
-
-
+}*/
 .quickdate-popup {
   z-index: 10;
   background-color: #fff;
@@ -175,12 +165,12 @@ table.quickdate-calendar td:hover {
   text-align: right;
   display: block;
 }
-.quickdate input.ng-invalid {
+/*.quickdate input.ng-invalid {
   border: 1px solid #dd3b30;
 }
 .quickdate input.ng-invalid:focus {
   outline-color: #dd3b30;
-}
+}*/
 
 .quickdate {
   display: inline-block;
@@ -192,7 +182,7 @@ table.quickdate-calendar td:hover {
 .quickdate select {
   font-size: 13px;
 }
-/*.quickdate-button {
+.quickdate-button {
   background: #ffffff;
   color: #555555;
   border: solid 1px #cccccc;
@@ -201,7 +191,7 @@ table.quickdate-calendar td:hover {
   padding: 3px 5px 5px;
   display: inline;
   text-decoration: none;
-}*/
+}
 
 .quickdate-button:hover i {
   text-decoration: none;
