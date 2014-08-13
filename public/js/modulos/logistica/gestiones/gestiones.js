@@ -2,6 +2,8 @@ $().ready(function() {
 
  	$("#muestramodal").click(function() {
  		limpiarFormulario();
+ 		cargarCliente();
+ 		cargarAsistenteServicios();
 			$("#fechagestion-modal").datepicker();
 		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
 		    $("#fechagestion-modal").datepicker("setDate", new Date());
@@ -31,17 +33,22 @@ $().ready(function() {
 		}
 	 });
 
+	$("#tiempoestimado-modal").blur(function() {
+		var tiempo = $("#tiempoestimado-modal").val();
+		$("#cantidadgestion-modal").attr("value", parseFloat(tiempo/40));
+	});
+
 });
 
 function mostarVentana(box,mensaje){
 	if(box == "warning-modal") {
 		$("#warning-message-modal").text(mensaje);
 		$("#warning-modal").show();
-		setTimeout("ocultarWarningModal()",5000);
+		setTimeout("ocultarWarningModal()",1000);
 	} else if(box == "success-modal") {
 		$("#success-message-modal").text(mensaje);
 		$("#success-modal").show();
-		setTimeout("ocultarSuccessmodal()",5000);
+		setTimeout("ocultarSuccessmodal()",1000);
 	} 
 }
 
@@ -64,7 +71,7 @@ function obtenerJsonModal() {
 	var mensaje = 'Ingrese los campos: ';
     var focus = 0;
 
-	if($('#codigocliente-modal').attr("value") == null || $('#codigocliente-modal').attr("value").length == 0){
+	if($('#cliente-modal').val() == -1){
         mensaje+= ' | Cliente ';
     	focus++;
     	addrequiredattr('codigocliente-modal',focus); 
@@ -110,14 +117,14 @@ function obtenerJsonModal() {
 		return null;
 	}else {
 		jsonObject.NUMERO_GESTION = $('#codigogestion-modal').attr("value");
-		jsonObject.CODIGO_CLIENTE = $('#codigocliente-modal').attr("value");
+		jsonObject.CODIGO_CLIENTE = $('#cliente-modal').val();
 		jsonObject.FECHA_GESTION = $('#fechagestion-modal').attr("value");
 		jsonObject.OBSERVACION = $('#tarea-modal').attr("value");
 		jsonObject.FECHA_INICIO = $("#iniciogestion-modal").val();
 		jsonObject.FECHA_FIN = $("#fingestion-modal").val();
-		jsonObject.CANTIDAD_GESTIONES = $("#tiempoestimado-modal").val();
-		jsonObject.CANTIDAD_ADICIONALES = $("#cantidadgestion-modal").val();
-		jsonObject.CODIGO_GESTOR = $("#gestor-modal").val();
+		jsonObject.CANTIDAD_MINUTOS = $("#tiempoestimado-modal").val();
+		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
+		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
 		jsonObject.ESTADO = $("#estado-modal").val();
 		return jsonObject
 	}
@@ -163,7 +170,7 @@ function limpiarFiltos(){
 
 	$("#descripcionpersona-filtro").attr("value",null);
 	$("#numerodocumentopersona-filtro").attr("value",null);
-	$("#estado-filtro").attr("value",null);
+	$("#estado-filtro").val(null);
 	$("#telefonopersona-filtro").attr("value",null);
 	}
 
@@ -171,16 +178,58 @@ function limpiarFormulario(){
 
 	
  $('#codigogestion-modal').attr("value",null);
- $('#codigocliente-modal').attr("value",null);
- $('#nombrecliente-modal').attr("value",null);
+ // $('#codigocliente-modal').attr("value",null);
+ $('#cliente-modal').val(null);
  $('#fechagestion-modal').attr("value",null);
  $('#tarea-modal').attr("value",null);
  $("#iniciogestion-modal").attr("value",null);
  $("#fingestion-modal").attr("value",null);
  $("#tiempoestimado-modal").val(null);
  $("#cantidadgestion-modal").val(null);
- $("#gestor-modal").val(null);
- $("#estado-modal").val('A');
+ $("#asistenteservicios-modal").val(null);
+ $("#estado-modal").val(null);
 
+}
+function cargarCliente(){
+	
+//	alert('Tipo Producto');
+	$.ajax({
+        url: table+'/getcliente',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+        	if(respuesta== 'error'){
+        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        	}else{
+            	$("#cliente-modal").html(respuesta);       		
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 alert(mostrarError("OcurrioError"));
+        }
+    });	
+}
+function cargarAsistenteServicios(){
+	
+//	alert('Tipo Producto');
+	$.ajax({
+        url: table+'/getasistenteservicios',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+        	if(respuesta== 'error'){
+        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        	}else{
+            	$("#asistenteservicios-modal").html(respuesta);       		
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 alert(mostrarError("OcurrioError"));
+        }
+    });	
 }
 

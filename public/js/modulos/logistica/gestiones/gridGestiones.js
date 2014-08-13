@@ -118,13 +118,13 @@ function cargarGrillaRegistro() {
                     }, { 
                         name: 'CANTIDAD_GESTIONES',
                         index: 'CANTIDAD_GESTIONES',
-                        label: 'TIEMPO',
+                        label: 'GESTION',
                         width: 100,
                         hidden : false
                     }, { 
-                        name: 'CANTIDAD_ADICIONALES',
-                        index: 'CANTIDAD_ADICIONALES',
-                        label: 'GESTION',
+                        name: 'CANTIDAD_MINUTOS',
+                        index: 'CANTIDAD_MINUTOS',
+                        label: 'MINUTOS',
                         width: 100,
                         hidden : false
                     }, { 
@@ -173,17 +173,19 @@ function buscar(){
 }
 
 function modalModificar(rowData){
+    cargarCliente();
+        cargarAsistenteServicios();
 
  $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
- $('#codigocliente-modal').attr("value",rowData.CODIGO_CLIENTE);
- $('#nombrecliente-modal').attr("value",rowData.DESCRIPCION_PERSONA_CLIENTE);
+ $('#cliente-modal').attr("value",rowData.CODIGO_CLIENTE);
+ // $('#nombrecliente-modal').attr("value",rowData.DESCRIPCION_PERSONA_CLIENTE);
  $('#fechagestion-modal').attr("value",rowData.FECHA_GESTION);
  $('#tarea-modal').attr("value",rowData.OBSERVACION);
  $("#iniciogestion-modal").attr("value",rowData.FECHA_INICIO);
  $("#fingestion-modal").attr("value",rowData.FECHA_FIN);
- $("#tiempoestimado-modal").val(rowData.CANTIDAD_GESTIONES);
- $("#cantidadgestion-modal").val(rowData.CANTIDAD_ADICIONALES);
- $("#gestor-modal").val(rowData.CODIGO_GESTOR);
+ $("#tiempoestimado-modal").val(rowData.CANTIDAD_MINUTOS);
+ $("#cantidadgestion-modal").val(rowData.CANTIDAD_GESTIONES);
+ $("#asistenteservicios-modal").val(rowData.CODIGO_GESTOR);
  $("#estado-modal").val(rowData.ESTADO);
     $("#modalNuevo").show();
 

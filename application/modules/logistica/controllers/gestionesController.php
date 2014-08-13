@@ -48,7 +48,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                              'G.CODIGO_USUARIO',
                              'G.ESTADO',
                              'G.CANTIDAD_GESTIONES',
-                             'G.CANTIDAD_ADICIONALES',
+                             'G.CANTIDAD_MINUTOS',
                              'G.OBSERVACION'))
                    ->join(array('C' => 'ADM_CLIENTES'), 'G.CODIGO_CLIENTE  = C.CODIGO_CLIENTE')
                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
@@ -95,7 +95,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 $item['CODIGO_USUARIO'],
                 $item['ESTADO'],
                 $item['CANTIDAD_GESTIONES'],
-                $item['CANTIDAD_ADICIONALES'],
+                $item['CANTIDAD_MINUTOS'],
                 $item['OBSERVACION']
             );
             $arrayDatos ['columns'] = array(
@@ -109,7 +109,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     'CODIGO_USUARIO',
                     'ESTADO',
                     'CANTIDAD_GESTIONES',
-                    'CANTIDAD_ADICIONALES',
+                    'CANTIDAD_MINUTOS',
                     'OBSERVACION'
             );
             array_push($pagina ['rows'], $arrayDatos);
@@ -163,7 +163,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'FECHA_INICIO' =>$parametros->FECHA_INICIO,
                 'FECHA_FIN' => $parametros->FECHA_FIN,
                 'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
-                'CANTIDAD_ADICIONALES'=> $parametros->CANTIDAD_ADICIONALES,
+                'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
                 'CODIGO_USUARIO'=> $parametrosLogueo->cod_usuario,
                 'ESTADO'=> $parametros->ESTADO     
@@ -200,7 +200,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'FECHA_INICIO' => $parametros->FECHA_INICIO,
                 'FECHA_FIN' => $parametros->FECHA_FIN,
                 'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
-                'CANTIDAD_ADICIONALES'=> $parametros->CANTIDAD_ADICIONALES,
+                'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
                 'ESTADO'=> $parametros->ESTADO     
             );
@@ -214,6 +214,64 @@ class logistica_gestionesController extends Zend_Controller_Action {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
             $db->rollBack();
         }
+    }
+
+    //cargamos lista de clientes
+    public function getclienteAction()
+    {
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_CLIENTES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'P.DESCRIPCION_PERSONA'))
+                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                    ->order(array('C.CODIGO_CLIENTE DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1">Seleccione</option>';
+            foreach ($result as $arr) {
+                $htmlResultado .= '<option value="' . $arr["CODIGO_CLIENTE"] . '">' .
+                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
+    }
+
+    //cargamos lista de asistentes de sercixios
+    public function getasistenteserviciosAction()
+    {
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'LOG_GESTORES'),  array(
+                             'C.CODIGO_GESTOR',
+                             'P.DESCRIPCION_PERSONA'))
+                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                    ->order(array('C.CODIGO_GESTOR DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1">Seleccione</option>';
+            foreach ($result as $arr) {
+                $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .
+                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
     }
 
   

@@ -1,3 +1,10 @@
+  <link rel="stylesheet" href="<?php echo $this->baseUrl(). "/selected/docsupport/style.css"?>">
+  <link rel="stylesheet" href="<?php echo $this->baseUrl(). "/selected/docsupport/prism.css"?>">
+  <link rel="stylesheet" href="<?php echo $this->baseUrl(). "/selected/chosen.css"?>">
+  <style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
 
 <div>
 <div class="panel-default "  align=center>
@@ -17,9 +24,8 @@
                  <div class="form-group col-lg-3">
                     <div class=" input-group">
                        Documento cliente
-                        <input id="documentocliente-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder=" Número de documento"
-                               
-                               >
+                        <input id="documentocliente-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder=" Número de documento">
+
                     </div>
                 </div>
               
@@ -27,10 +33,11 @@
                     <div class="input-group">
                         Estado
                         <select id="estadogestion-filtro" class="input-sm form-control">
-                            <option value="-1">Seleccionar</option>
-                            <option value="A">Activo</option>
-                            <option value="I">Inactivo</option>
+                            <option value="-1">Seleccione</option>
                             <option value="P">Pendiente</option>
+                            <option value="E">En Proceso</option>
+                            <option value="F">Finalizado</option>
+                            <option value="A">Anulado</option>
                         </select>
                     </div>
                 
@@ -100,8 +107,11 @@
                             <div class="form-group col-lg-8">
                                 <label class="col-lg-2 control-label">Cliente:</label>
                                 <div class="col-lg-10">
-                                    <input name="codigocliente-modal" id="codigocliente-modal" class="form-control input-sm" style="display:yes"></input>
-                                    <input name="nombrecliente-modal" id="nombrecliente-modal" class="form-control input-sm"></input>
+                                    <select id="cliente-modal"data-placeholder="Choose a Country..." class="chosen-select form-control input-sm " tabindex="2">
+                                     
+                                    </select>
+                                 <!--    <input name="codigocliente-modal" id="codigocliente-modal" class="form-control input-sm" style="display:yes"></input>
+                                    <input name="nombrecliente-modal" id="nombrecliente-modal" class="form-control input-sm"></input> -->
                                 </div>
                             </div>
                         </div>
@@ -141,14 +151,14 @@
                             <div class="form-group col-lg-12">
                                 <label class="col-lg-5 control-label">Tiempo Estimado:</label>
                                 <div class="col-lg-5">
-                                    <input name="tiempoestimado-modal" id="tiempoestimado-modal" class="form-control input-sm"></input>
+                                    <input name="tiempoestimado-modal" type="number" id="tiempoestimado-modal" class="form-control input-sm"></input>
                                 </div>
                                 <div class="col-lg-2"> <span>min</span></div>
                             </div>
                             <div class="form-group col-lg-12">
                                 <label class="col-lg-5 control-label">Cant gestiones:</label>
                                 <div class="col-lg-5">
-                                    <input name="cantidadgestion-modal" id="cantidadgestion-modal" class="form-control input-sm"></input>
+                                    <input name="cantidadgestion-modal" type="number" id="cantidadgestion-modal" class="form-control input-sm"></input>
                                 </div>
                                 <div class="col-lg-2"> <span>uni</span></div>
                             </div>
@@ -160,7 +170,10 @@
                             <div class="form-group col-lg-12">
                                 <label class="col-lg-2 control-label">Asignado a:</label>
                                 <div class="col-lg-10">
-                                    <input name="gestor-modal" id="gestor-modal" class="form-control input-sm"></input>
+                                    <select id="asistenteservicios-modal" data-placeholder="Choose a Country..." class="chosen-select form-control input-sm " tabindex="2">
+                                     
+                                    </select>
+                                    <!-- <input name="gestor-modal" id="gestor-modal" class="form-control input-sm"></input> -->
                                 </div>
                                     
                             </div>
@@ -171,9 +184,11 @@
                                 <div class="col-lg-7">
                                     <!-- <input name="cantidadgestion-modal" id="cantidadgestion-modal" class="form-control input-sm"></input> -->
                                     <select id="estado-modal" class="input-sm form-control">
-                                        <option value="A">Activo</option>
-                                        <option value="I">Inactivo</option>
+                                        <option value="-1">Seleccione</option>
                                         <option value="P">Pendiente</option>
+                                        <option value="E">En Proceso</option>
+                                        <option value="F">Finalizado</option>
+                                        <option value="A">Anulado</option>
                                     </select>
                                 </div>
                             </div>
@@ -212,6 +227,18 @@
                 
     </div>
 </div>
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
 
 
 
