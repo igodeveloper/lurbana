@@ -227,15 +227,16 @@ class logistica_gestionesController extends Zend_Controller_Action {
              $select = $db->select()
                 ->from(array('C'=>'ADM_CLIENTES'),  array(
                              'C.CODIGO_CLIENTE',
-                             'P.DESCRIPCION_PERSONA'))
+                             'P.DESCRIPCION_PERSONA',
+                             'P.NRO_DOCUMENTO_PERSONA'))
                     ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
                     ->order(array('C.CODIGO_CLIENTE DESC'))
                     ->distinct(true);
                 
             $result = $db->fetchAll($select);
-            $htmlResultado = '<option value="-1">Seleccione</option>';
+            $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
-                $htmlResultado .= '<option value="' . $arr["CODIGO_CLIENTE"] . '">' .
+                $htmlResultado .= '<option value="' . $arr["CODIGO_CLIENTE"] . '">' .$arr["NRO_DOCUMENTO_PERSONA"] .' - '.
                 trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
             }
 
@@ -262,9 +263,9 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     ->distinct(true);
                 
             $result = $db->fetchAll($select);
-            $htmlResultado = '<option value="-1">Seleccione</option>';
+            $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
-                $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .
+                $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
                 trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
             }
 

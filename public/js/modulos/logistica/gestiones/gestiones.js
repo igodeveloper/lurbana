@@ -35,11 +35,26 @@ $().ready(function() {
 
 	$("#tiempoestimado-modal").blur(function() {
 		var tiempo = $("#tiempoestimado-modal").val();
-		$("#cantidadgestion-modal").attr("value", parseFloat(tiempo/40));
+		var cantidad_gestion = parseFloat(tiempo/40);
+		cantidad_gestion = roundnumber(cantidad_gestion);
+		$("#cantidadgestion-modal").attr("value", cantidad_gestion);
 	});
 
 });
+function roundnumber(number){
+	var number_int = parseInt(number);
+	var number_float = number-number_int;
+	var number_round = 0;
+	if(number_float>0 && number_float<=0.5){
+		number_round = parseFloat(number_int+0.5);
+	}else if(number_float<1 && number_float>0.5){
+		number_round = parseFloat(number_int+1);
+	} else {
+		number_round = number
+	}
+	return number_round;
 
+}
 function mostarVentana(box,mensaje){
 	if(box == "warning-modal") {
 		$("#warning-message-modal").text(mensaje);

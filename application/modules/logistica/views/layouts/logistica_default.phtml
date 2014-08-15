@@ -12,6 +12,7 @@
             appendFile($this->baseUrl() . '/menu/js/main.js')->
             
             appendFile($this->baseUrl() . "/js/modulos/logistica/gestiones/gridGestiones.js")->
+            appendFile($this->baseUrl() . "/js/select2.js")->
             // appendFile($this->baseUrl() . "/chosen.jquery.js")->
             appendFile($this->baseUrl() . "/js/modulos/logistica/gestiones/gestiones.js");
 
@@ -20,6 +21,7 @@
             ->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
             ->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
             ->prependStylesheet($this->baseUrl() . "/css/style.css")
+            ->prependStylesheet($this->baseUrl() . "/css/select2.css")
             // ->prependStylesheet($this->baseUrl() . "/chosen.css")
             
             // ->prependStylesheet($this->baseUrl() . "/css/datetimepicker.css")
