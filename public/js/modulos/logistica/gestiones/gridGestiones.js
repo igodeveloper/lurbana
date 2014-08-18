@@ -37,8 +37,8 @@ function cargarGrillaRegistro() {
                 url: table+"/buscar",
                 datatype: "local",
                 mtype : "POST",
-                autowith: true,
-                rowNum: 8,
+                autowith: false,
+                rowNum: 10,
                 rowList: [],
                 
                 colModel:[
@@ -54,32 +54,34 @@ function cargarGrillaRegistro() {
                         index: 'FECHA_GESTION',
                         label: 'FECHA',
                         hidden :false,
-                        width: 120,
-                        align: 'right'
+                        width: 100,
+                        align: 'center'
                     },{
                         name: 'FECHA_INICIO',
                         index: 'FECHA_INICIO',
                         label: 'INICIO',
                         hidden :false,
                         width: 140,
-                        align: 'right'
+                        align: 'center'
                     },{ 
                         name: 'FECHA_FIN',
                         index: 'FECHA_FIN',
                         label: 'FIN',
                         width: 140,
-                        hidden : false
+                        hidden : false,
+                        align: 'center'    
                     },
                         { name: 'CODIGO_CLIENTE',
                         index: 'CODIGO_CLIENTE',
                         width: 100,
                         hidden : true
                     },
-                        { name: 'DESCRIPCION_PERSONA_CLIENTE',
-                        index: 'DESCRIPCION_PERSONA_CLIENTE',
+                        { name: 'CLIENTE',
+                        index: 'CLIENTE',
                         label: 'CLIENTE',
-                        width: 200,
-                        hidden : false
+                        width: 170,
+                        hidden : false,
+                        align: 'left'
                     },
                     { 
                         name: 'CODIGO_GESTOR',
@@ -88,19 +90,20 @@ function cargarGrillaRegistro() {
                         width: 70,
                         hidden : true
                     }, 
-                    // { 
-                    //     name: 'DESCRIPCION_PERSONA_GESTOR',
-                    //     index: 'DESCRIPCION_PERSONA_GESTOR',
-                    //     label: 'GESTOR',
-                    //     width: 100,
-                    //     hidden : false
-                    // }, 
+                    { 
+                        name: 'GESTOR',
+                        index: 'GESTOR',
+                        label: 'GESTOR',
+                        width: 140,
+                        hidden : false,
+                        align: 'left'
+                    }, 
                     { 
                         name: 'CODIGO_USUARIO',
                         index: 'CODIGO_USUARIO',
                         label: 'USUARIO',
                         width: 100,
-                        hidden : false
+                        hidden : true
                     }, 
                     // { 
                     //     name: 'ID_USUARIO',
@@ -113,20 +116,23 @@ function cargarGrillaRegistro() {
                         name: 'ESTADO',
                         index: 'ESTADO',
                         label: 'ESTADO',
-                        width: 80,
-                        hidden : false
+                        width: 100,
+                        hidden : false,
+                        align: 'center'
                     }, { 
                         name: 'CANTIDAD_GESTIONES',
                         index: 'CANTIDAD_GESTIONES',
                         label: 'GESTION',
-                        width: 100,
-                        hidden : false
+                        width: 70,
+                        hidden : false,
+                        align: 'right'
                     }, { 
                         name: 'CANTIDAD_MINUTOS',
                         index: 'CANTIDAD_MINUTOS',
                         label: 'MINUTOS',
-                        width: 100,
-                        hidden : false
+                        width: 70,
+                        hidden : false,
+                        align: 'right'
                     }, { 
                         name: 'OBSERVACION',
                         index: 'OBSERVACION',
@@ -134,9 +140,23 @@ function cargarGrillaRegistro() {
                         width: 65,
                         hidden : true
                     }
+                    , { 
+                        name: 'CODIGO_PLAN',
+                        index: 'CODIGO_PLAN',
+                        // label: 'OBSERVACION',
+                        width: 65,
+                        hidden : true
+                    }
+                    , { 
+                        name: 'DESCRIPCION_PLAN',
+                        index: 'DESCRIPCION_PLAN',
+                        label: 'PLAN',
+                        width: 120,
+                        hidden : false
+                    }
                 ],
                 emptyrecords: "Sin Datos",
-                shrinkToFit:false,
+                shrinkToFit:true,
                 pager:"#paginadorClientes",
                 viewrecords: true,
                 gridview: false,
@@ -175,9 +195,12 @@ function buscar(){
 function modalModificar(rowData){
     cargarCliente();
         cargarAsistenteServicios();
-
+        cargarPlanesActivos();
+console.log(rowData);
  $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
- $('#cliente-modal').attr("value",rowData.CODIGO_CLIENTE);
+ // $('#cliente-modal').select2(rowData.CODIGO_CLIENTE);
+ $("#cliente-modal").select2("val", rowData.CODIGO_CLIENTE);
+ // $('#cliente-modal').select2("3");
  // $('#nombrecliente-modal').attr("value",rowData.DESCRIPCION_PERSONA_CLIENTE);
  $('#fechagestion-modal').attr("value",rowData.FECHA_GESTION);
  $('#tarea-modal').attr("value",rowData.OBSERVACION);
@@ -185,9 +208,11 @@ function modalModificar(rowData){
  $("#fingestion-modal").attr("value",rowData.FECHA_FIN);
  $("#tiempoestimado-modal").val(rowData.CANTIDAD_MINUTOS);
  $("#cantidadgestion-modal").val(rowData.CANTIDAD_GESTIONES);
- $("#asistenteservicios-modal").val(rowData.CODIGO_GESTOR);
+ $("#asistenteservicios-modal").select2("val",rowData.CODIGO_GESTOR);
  $("#estado-modal").val(rowData.ESTADO);
-    $("#modalNuevo").show();
+$("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
+
+$("#modalNuevo").show();
 
 
 }

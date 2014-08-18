@@ -3,13 +3,13 @@
 class logistica_gestionesController extends Zend_Controller_Action {
 
      public function init() {
-        // $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
-        // $parametrosLogueo->unlock ();   
-        // if(!$parametrosLogueo->username){
-        //         $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
-        //         $r->gotoUrl('/login/login')->redirectAndExit();
-        //     }
-        // $parametrosLogueo->lock();    
+        $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
+        $parametrosLogueo->unlock ();   
+        if(!$parametrosLogueo->username){
+                $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+                $r->gotoUrl('/login/login')->redirectAndExit();
+            }
+        $parametrosLogueo->lock();    
     }
 
     public function indexAction() {
@@ -43,16 +43,22 @@ class logistica_gestionesController extends Zend_Controller_Action {
                              'G.FECHA_INICIO',
                              'G.FECHA_FIN',
                              'G.CODIGO_CLIENTE',
-                             'P.DESCRIPCION_PERSONA',
+                             'P.DESCRIPCION_PERSONA AS CLIENTE',
                              'G.CODIGO_GESTOR',
+                             'PG.DESCRIPCION_PERSONA AS GESTOR',
                              'G.CODIGO_USUARIO',
                              'G.ESTADO',
                              'G.CANTIDAD_GESTIONES',
                              'G.CANTIDAD_MINUTOS',
-                             'G.OBSERVACION'))
+                             'G.OBSERVACION',
+                             'G.CODIGO_PLAN',
+                             'PL.DESCRIPCION_PLAN'))
                    ->join(array('C' => 'ADM_CLIENTES'), 'G.CODIGO_CLIENTE  = C.CODIGO_CLIENTE')
                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
-                    ->order(array('G.NUMERO_GESTION DESC'));
+                   ->join(array('GP' => 'LOG_GESTORES'), 'G.CODIGO_GESTOR  = GP.CODIGO_GESTOR')
+                   ->join(array('PG' => 'ADM_PERSONAS'), 'PG.CODIGO_PERSONA  = GP.CODIGO_PERSONA')
+                   ->join(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = G.CODIGO_PLAN')
+                   ->order(array('G.NUMERO_GESTION DESC'));
                    
          if ($filtros != null) {
             // if ($filtros->DESCRIPCION_PERSONA != null) {
@@ -90,13 +96,16 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 $item['FECHA_INICIO'],
                 $item['FECHA_FIN'],
                 $item['CODIGO_CLIENTE'],
-                $item['DESCRIPCION_PERSONA'],
+                $item['CLIENTE'],
                 $item['CODIGO_GESTOR'],
+                $item['GESTOR'],
                 $item['CODIGO_USUARIO'],
                 $item['ESTADO'],
                 $item['CANTIDAD_GESTIONES'],
                 $item['CANTIDAD_MINUTOS'],
-                $item['OBSERVACION']
+                $item['OBSERVACION'],
+                $item['CODIGO_PLAN'],
+                $item['DESCRIPCION_PLAN']
             );
             $arrayDatos ['columns'] = array(
                     'NUMERO_GESTION',
@@ -104,13 +113,16 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     'FECHA_INICIO',
                     'FECHA_FIN',
                     'CODIGO_CLIENTE',
-                    'DESCRIPCION_PERSONA',
+                    'CLIENTE',
                     'CODIGO_GESTOR',
+                    'GESTOR',
                     'CODIGO_USUARIO',
                     'ESTADO',
                     'CANTIDAD_GESTIONES',
                     'CANTIDAD_MINUTOS',
-                    'OBSERVACION'
+                    'OBSERVACION',
+                    'CODIGO_PLAN',
+                    'DESCRIPCION_PLAN'
             );
             array_push($pagina ['rows'], $arrayDatos);
         }
@@ -166,7 +178,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
                 'CODIGO_USUARIO'=> $parametrosLogueo->cod_usuario,
-                'ESTADO'=> $parametros->ESTADO     
+                'ESTADO'=> $parametros->ESTADO,
+                'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
             $parametrosLogueo->lock(); 
@@ -202,7 +215,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
                 'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
-                'ESTADO'=> $parametros->ESTADO     
+                'ESTADO'=> $parametros->ESTADO,     
+                'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $where_personas = array(
                 'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
@@ -267,6 +281,34 @@ class logistica_gestionesController extends Zend_Controller_Action {
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
                 trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
+    }
+     //cargamos lista de planes
+    public function getplanesactivosAction()
+    {
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_PLANES'),  array(
+                             'C.CODIGO_PLAN',
+                             'C.DESCRIPCION_PLAN'))
+                     ->where('C.ESTADO_PLAN = ?', 'A')
+                    ->order(array('C.CODIGO_PLAN DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1"></option>';
+            foreach ($result as $arr) {
+                $htmlResultado .= '<option value="' . $arr["CODIGO_PLAN"] . '">' .$arr["CODIGO_PLAN"].' - '.
+                trim(utf8_encode($arr["DESCRIPCION_PLAN"])) . '</option>';
             }
 
         } catch (Exception $e) {

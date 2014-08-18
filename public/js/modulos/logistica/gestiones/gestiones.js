@@ -4,6 +4,7 @@ $().ready(function() {
  		limpiarFormulario();
  		cargarCliente();
  		cargarAsistenteServicios();
+		cargarPlanesActivos();
 			$("#fechagestion-modal").datepicker();
 		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
 		    $("#fechagestion-modal").datepicker("setDate", new Date());
@@ -15,6 +16,8 @@ $().ready(function() {
 		    // $("#fingestion-modal").datepicker("setDate", null);
             $("#modalNuevo").show();
             $("#ui-datepicker-div").css('display','none');
+            $("#asistenteservicios-modal").val(3);
+            console.log($("#asistenteservicios-modal").val());
            
     }); 
      $("#close-modal").click(function() {
@@ -140,6 +143,7 @@ function obtenerJsonModal() {
 		jsonObject.CANTIDAD_MINUTOS = $("#tiempoestimado-modal").val();
 		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
+		if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
 		jsonObject.ESTADO = $("#estado-modal").val();
 		return jsonObject
 	}
@@ -239,6 +243,27 @@ function cargarAsistenteServicios(){
         		// mostarVentana("error-title",mostrarError("OcurrioError"));
         	}else{
             	$("#asistenteservicios-modal").html(respuesta);       		
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 alert(mostrarError("OcurrioError"));
+        }
+    });	
+}
+function cargarPlanesActivos(){
+	
+//	alert('Tipo Producto');
+	$.ajax({
+        url: table+'/getplanesactivos',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+        	if(respuesta== 'error'){
+        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        	}else{
+            	$("#planactivo-modal").html(respuesta);       		
         	}
         },
         error: function(event, request, settings){
