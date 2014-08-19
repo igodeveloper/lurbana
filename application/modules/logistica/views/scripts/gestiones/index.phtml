@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/gestiones.js"?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/gridGestiones.js"?>"></script>
   <style type="text/css" media="all">
     /* fix rtl for demo */
     .chosen-rtl .chosen-drop { left: -9000px; }
@@ -104,7 +106,7 @@
                             <div class="form-group col-lg-8">
                                 <label class="col-lg-2 control-label">Cliente:</label>
                                 <div class="col-lg-10">
-                                    <select id="cliente-modal" class="" style="width: 100%;">
+                                    <select id="cliente-modal" class="" style="width: 100%;" onchange="getClienteSuscripcion()">
                                     </select>
                                  <!--    <input name="codigocliente-modal" id="codigocliente-modal" class="form-control input-sm" style="display:yes"></input>
                                     <input name="nombrecliente-modal" id="nombrecliente-modal" class="form-control input-sm"></input> -->

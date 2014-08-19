@@ -317,5 +317,36 @@ class logistica_gestionesController extends Zend_Controller_Action {
         echo $htmlResultado;
     }
 
+    public function getsuscripcionesAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        // print_r ($parametros);
+        // die();
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_SUSCRIPCIONES'),  array(
+                             'C.CODIGO_SUSCRIPCION',
+                             'C.CODIGO_PLAN',
+                             'C.IMPORTE_GESTION',
+                             'S.CANTIDAD_SALDO'))
+                    ->join(array('S' => 'LOG_SALDO'), 'C.CODIGO_SUSCRIPCION  = S.CODIGO_SUSCRIPCION')
+                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                     ->where('C.ESTADO_SUSCRIPCION = ?', 'A');
+                
+            $result = $db->fetchAll($select);
+            // print_r($result);
+            if($result[0]['CODIGO_SUSCRIPCION'] != null){
+                 echo json_encode(array(
+                    'CODIGO_SUSCRIPCION' => $result[0]['CODIGO_SUSCRIPCION'] ,
+                    'CODIGO_PLAN' => $result[0]['CODIGO_PLAN'] ,
+                    'IMPORTE_GESTION' => $result[0]['IMPORTE_GESTION'],
+                    'CANTIDAD_SALDO' => $result[0]['CANTIDAD_SALDO']
+                 ));    
+            }else{
+                echo json_encode(array('success' => false ));
+            }
+        }
+
   
 }

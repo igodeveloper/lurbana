@@ -10,14 +10,19 @@ $().ready(function() {
 		    $("#fechagestion-modal").datepicker("setDate", new Date());
 		    $("#iniciogestion-modal").datepicker();
 		    $("#iniciogestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    // $("#iniciogestion-modal").datepicker("setDate", null);
+		    $("#iniciogestion-modal").datepicker("setDate", new Date());
 		    $("#fingestion-modal").datepicker();
 		    $("#fingestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    // $("#fingestion-modal").datepicker("setDate", null);
+		    $("#fingestion-modal").datepicker("setDate", new Date());
+		    $("#tiempoestimado-modal").attr("value",40);
+		    $("#cantidadgestion-modal").attr("value",1);
+		    $("#estado-modal").val('P');
+		    
+		    $("#saldogestion-modal").attr("disabled",true);
             $("#modalNuevo").show();
             $("#ui-datepicker-div").css('display','none');
-            $("#asistenteservicios-modal").val(3);
-            console.log($("#asistenteservicios-modal").val());
+            // $("#asistenteservicios-modal").val(3);
+            // console.log($("#asistenteservicios-modal").val());
            
     }); 
      $("#close-modal").click(function() {
@@ -198,14 +203,15 @@ function limpiarFormulario(){
 	
  $('#codigogestion-modal').attr("value",null);
  // $('#codigocliente-modal').attr("value",null);
- $('#cliente-modal').val(null);
+ $('#cliente-modal').select2("val",null);
  $('#fechagestion-modal').attr("value",null);
  $('#tarea-modal').attr("value",null);
  $("#iniciogestion-modal").attr("value",null);
  $("#fingestion-modal").attr("value",null);
  $("#tiempoestimado-modal").val(null);
  $("#cantidadgestion-modal").val(null);
- $("#asistenteservicios-modal").val(null);
+ $("#asistenteservicios-modal").select2("val",null);
+ $("#planactivo-modal").select2("val",null);
  $("#estado-modal").val(null);
 
 }
@@ -269,6 +275,39 @@ function cargarPlanesActivos(){
         error: function(event, request, settings){
          //   $.unblockUI();
         	 alert(mostrarError("OcurrioError"));
+        }
+    });	
+}
+
+function getClienteSuscripcion(){
+	var data = new Object();
+ 	data.CODIGO_CLIENTE = $("#cliente-modal").val();
+
+	var dataString = JSON.stringify(data); 	
+
+	// alert($("#cliente-modal").val());
+	$.ajax({
+        url: table+'/getsuscripciones',
+        type: 'post',
+        data: {"parametros":dataString},
+        dataType: 'json',
+        async : false,
+        success: function(respuesta){
+        	console.log(respuesta);
+        	if(respuesta.success == false){
+        		mostarVentana("warning-modal","No hay suscripciones");  
+        		$("#planactivo-modal").select2("val",null);
+        		$("#saldogestion-modal").attr("value",null);
+        		$("#saldogestion-modal").attr("disabled",false);
+        	}else{		
+        		$("#planactivo-modal").select2("val",respuesta.CODIGO_PLAN);
+        		$("#saldogestion-modal").attr("value",respuesta.CANTIDAD_SALDO);
+        		$("#saldogestion-modal").attr("disabled",true);
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 // alert(mostrarError("OcurrioError"));
         }
     });	
 }
