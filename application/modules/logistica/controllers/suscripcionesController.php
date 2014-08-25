@@ -1,6 +1,6 @@
 <?php
 
-class logistica_gestionesController extends Zend_Controller_Action {
+class logistica_suscripcionesController extends Zend_Controller_Action {
 
      public function init() {
         $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
@@ -37,28 +37,21 @@ class logistica_gestionesController extends Zend_Controller_Action {
         }
         $db = Zend_Db_Table::getDefaultAdapter();
        $select = $db->select()
-                ->from(array('G'=>'LOG_GESTIONES'),  array(
-                             'G.NUMERO_GESTION',
-                             'G.FECHA_GESTION',
-                             'G.FECHA_INICIO',
-                             'G.FECHA_FIN',
+                ->from(array('G'=>'ADM_SUSCRIPCIONES'),  array(
+                             'G.CODIGO_SUSCRIPCION',
                              'G.CODIGO_CLIENTE',
-                             'P.DESCRIPCION_PERSONA AS CLIENTE',
-                             'G.CODIGO_GESTOR',
-                             'PG.DESCRIPCION_PERSONA AS GESTOR',
-                             'G.CODIGO_USUARIO',
-                             'G.ESTADO',
-                             'G.CANTIDAD_GESTIONES',
-                             'G.CANTIDAD_MINUTOS',
-                             'G.OBSERVACION',
+                             'PC.DESCRIPCION_PERSONA AS DESCRIPCION_CLIENTE',
                              'G.CODIGO_PLAN',
-                             'PL.DESCRIPCION_PLAN'))
+                             'PL.DESCRIPCION_PLAN',
+                             'G.FECHA_SUSCRIPCION',
+                             'G.FECHA_VENCIMIENTO',
+                             'G.FECHA_ACREDITACION',
+                             'G.IMPORTE_GESTION',
+                             'G.ESTADO_SUSCRIPCION'))
                    ->join(array('C' => 'ADM_CLIENTES'), 'G.CODIGO_CLIENTE  = C.CODIGO_CLIENTE')
-                   ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
-                   ->joinLeft(array('GP' => 'LOG_GESTORES'), 'G.CODIGO_GESTOR  = GP.CODIGO_GESTOR')
-                   ->joinLeft(array('PG' => 'ADM_PERSONAS'), 'PG.CODIGO_PERSONA  = GP.CODIGO_PERSONA')
-                   ->joinLeft(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = G.CODIGO_PLAN')
-                   ->order(array('G.NUMERO_GESTION DESC'));
+                   ->join(array('PC' => 'ADM_PERSONAS'), 'PC.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                   ->join(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = G.CODIGO_PLAN')
+                   ->order(array('G.CODIGO_SUSCRIPCION DESC'));
                    
          if ($filtros != null) {
             // if ($filtros->DESCRIPCION_PERSONA != null) {
@@ -91,38 +84,28 @@ class logistica_gestionesController extends Zend_Controller_Action {
         // $cod_receta = ($item['COD_RECETA'] == null)?0:$item['COD_RECETA'];
         // $cod_receta_desc = ($item['RECETA_DESCRIPCION'] == null)?' - ':$item['RECETA_DESCRIPCION'];
             $arrayDatos ['cell'] = array(
-                $item['NUMERO_GESTION'],
-                $item['FECHA_GESTION'],
-                $item['FECHA_INICIO'],
-                $item['FECHA_FIN'],
+                $item['CODIGO_SUSCRIPCION'],
                 $item['CODIGO_CLIENTE'],
-                $item['CLIENTE'],
-                $item['CODIGO_GESTOR'],
-                $item['GESTOR'],
-                $item['CODIGO_USUARIO'],
-                $item['ESTADO'],
-                $item['CANTIDAD_GESTIONES'],
-                $item['CANTIDAD_MINUTOS'],
-                $item['OBSERVACION'],
+                $item['DESCRIPCION_CLIENTE'],
                 $item['CODIGO_PLAN'],
-                $item['DESCRIPCION_PLAN']
+                $item['DESCRIPCION_PLAN'],
+                $item['FECHA_SUSCRIPCION'],
+                $item['FECHA_VENCIMIENTO'],
+                $item['FECHA_ACREDITACION'],
+                $item['IMPORTE_GESTION'],
+                $item['ESTADO_SUSCRIPCION']
             );
             $arrayDatos ['columns'] = array(
-                    'NUMERO_GESTION',
-                    'FECHA_GESTION',
-                    'FECHA_INICIO',
-                    'FECHA_FIN',
+                    'CODIGO_SUSCRIPCION',
                     'CODIGO_CLIENTE',
-                    'CLIENTE',
-                    'CODIGO_GESTOR',
-                    'GESTOR',
-                    'CODIGO_USUARIO',
-                    'ESTADO',
-                    'CANTIDAD_GESTIONES',
-                    'CANTIDAD_MINUTOS',
-                    'OBSERVACION',
+                    'DESCRIPCION_CLIENTE',
                     'CODIGO_PLAN',
-                    'DESCRIPCION_PLAN'
+                    'DESCRIPCION_PLAN',
+                    'FECHA_SUSCRIPCION',
+                    'FECHA_VENCIMIENTO',
+                    'FECHA_ACREDITACION',
+                    'IMPORTE_GESTION',
+                    'ESTADO_SUSCRIPCION'
             );
             array_push($pagina ['rows'], $arrayDatos);
         }
@@ -152,36 +135,20 @@ class logistica_gestionesController extends Zend_Controller_Action {
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
             // print_r($parametros);die();
-            if(!$parametros->NUMERO_GESTION)
-                $parametros->NUMERO_GESTION = 0;
-            if(!$parametros->CODIGO_GESTOR)
-                $parametros->CODIGO_GESTOR = 0;
-            if($parametros->FECHA_INICIO == date("Y-m-d")){
-                $parametros->FECHA_INICIO = date("Y-m-d H:i:s");
-            }else{
-                $parametros->FECHA_INICIO = '0000-00-00 00:00:00';
-            }
-            if($parametros->FECHA_FIN == date("Y-m-d")){
-                $parametros->FECHA_FIN = date("Y-m-d H:i:s");
-            }else{
-                $parametros->FECHA_FIN = '0000-00-00 00:00:00';
-            }
-                
+            if(!$parametros->CODIGO_SUSCRIPCION)
+                $parametros->CODIGO_SUSCRIPCION = 0;
+
             $data_personas = array(
-                'NUMERO_GESTION' => $parametros->NUMERO_GESTION,
+                'CODIGO_SUSCRIPCION' => $parametros->CODIGO_SUSCRIPCION,
                 'CODIGO_CLIENTE' => $parametros->CODIGO_CLIENTE,
-                'FECHA_GESTION' => $parametros->FECHA_GESTION,
-                'OBSERVACION' => $parametros->OBSERVACION,
-                'FECHA_INICIO' =>$parametros->FECHA_INICIO,
-                'FECHA_FIN' => $parametros->FECHA_FIN,
-                'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
-                'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
-                'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
-                'CODIGO_USUARIO'=> $parametrosLogueo->cod_usuario,
-                'ESTADO'=> $parametros->ESTADO,
-                'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
+                'CODIGO_PLAN' => $parametros->CODIGO_PLAN,
+                'FECHA_SUSCRIPCION' => $parametros->FECHA_SUSCRIPCION,
+                'FECHA_VENCIMIENTO' =>$parametros->FECHA_VENCIMIENTO,
+                'FECHA_ACREDITACION' => $parametros->FECHA_ACREDITACION,
+                'IMPORTE_GESTION' => $parametros->IMPORTE_GESTION,
+                'ESTADO_SUSCRIPCION'=> $parametros->ESTADO_SUSCRIPCION
             );
-            $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
+            $insert_personas = $db->insert('ADM_SUSCRIPCIONES', $data_personas);
             $parametrosLogueo->lock(); 
             $db->commit();
            echo json_encode(array("success" => true));
@@ -199,29 +166,21 @@ class logistica_gestionesController extends Zend_Controller_Action {
 
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
-            if($parametros->FECHA_INICIO == date("Y-m-d")){
-                $parametros->FECHA_INICIO = date("Y-m-d H:i:s");
-            }
-            if($parametros->FECHA_FIN == date("Y-m-d")){
-                $parametros->FECHA_FIN = date("Y-m-d H:i:s");
-            }
+            
              $data_personas = array(
-                'NUMERO_GESTION' => $parametros->NUMERO_GESTION,
+                'CODIGO_SUSCRIPCION' => $parametros->CODIGO_SUSCRIPCION,
                 'CODIGO_CLIENTE' => $parametros->CODIGO_CLIENTE,
-                'FECHA_GESTION' => $parametros->FECHA_GESTION,
-                'OBSERVACION' => $parametros->OBSERVACION,
-                'FECHA_INICIO' => $parametros->FECHA_INICIO,
-                'FECHA_FIN' => $parametros->FECHA_FIN,
-                'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
-                'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
-                'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
-                'ESTADO'=> $parametros->ESTADO,     
-                'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
+                'CODIGO_PLAN' => $parametros->CODIGO_PLAN,
+                'FECHA_SUSCRIPCION' => $parametros->FECHA_SUSCRIPCION,
+                'FECHA_VENCIMIENTO' =>$parametros->FECHA_VENCIMIENTO,
+                'FECHA_ACREDITACION' => $parametros->FECHA_ACREDITACION,
+                'IMPORTE_GESTION' => $parametros->IMPORTE_GESTION,
+                'ESTADO_SUSCRIPCION'=> $parametros->ESTADO_SUSCRIPCION
             );
             $where_personas = array(
-                'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
+                'CODIGO_SUSCRIPCION = ?' => $parametros->CODIGO_SUSCRIPCION
             );
-            $update_personas = $db->update('LOG_GESTIONES', $data_personas, $where_personas);
+            $update_personas = $db->update('ADM_SUSCRIPCIONES', $data_personas, $where_personas);
             $db->commit();
            echo json_encode(array("success" => true));
         } catch (Exception $e) {
@@ -260,34 +219,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
         echo $htmlResultado;
     }
 
-    //cargamos lista de asistentes de sercixios
-    public function getasistenteserviciosAction()
-    {
-     $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        $result = '';
-        try {
-             $db = Zend_Db_Table::getDefaultAdapter();
-             $select = $db->select()
-                ->from(array('C'=>'LOG_GESTORES'),  array(
-                             'C.CODIGO_GESTOR',
-                             'P.DESCRIPCION_PERSONA'))
-                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
-                    ->order(array('C.CODIGO_GESTOR DESC'))
-                    ->distinct(true);
-                
-            $result = $db->fetchAll($select);
-            $htmlResultado = '<option value="-1"></option>';
-            foreach ($result as $arr) {
-                $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
-            }
-
-        } catch (Exception $e) {
-            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
-        }
-        echo $htmlResultado;
-    }
+  
      //cargamos lista de planes
     public function getplanesactivosAction()
     {
@@ -317,7 +249,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
         echo $htmlResultado;
     }
 
-    public function getsuscripcionesAction(){
+    public function getimportesuscripcionAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
@@ -325,24 +257,20 @@ class logistica_gestionesController extends Zend_Controller_Action {
         // die();
              $db = Zend_Db_Table::getDefaultAdapter();
              $select = $db->select()
-                ->from(array('C'=>'ADM_SUSCRIPCIONES'),  array(
-                             'C.CODIGO_SUSCRIPCION',
-                             'C.CODIGO_PLAN',
-                             'C.IMPORTE_GESTION',
-                             'S.CANTIDAD_SALDO'))
-                    ->join(array('S' => 'LOG_SALDO'), 'C.CODIGO_SUSCRIPCION  = S.CODIGO_SUSCRIPCION')
-                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
-                     ->where('C.ESTADO_SUSCRIPCION = ?', 'A');
+                ->from(array('C'=>'ADM_PLANES'),  array(
+                             'C.COSTO_PLAN',
+                            'C.CANTIDAD_PLAN'
+                             ))
+                    
+                     ->where('C.CODIGO_PLAN = ?', $parametros->CODIGO_PLAN);
                 
             $result = $db->fetchAll($select);
             // print_r($result);
-            if($result[0]['CODIGO_SUSCRIPCION'] != null){
-                 echo json_encode(array(
-                    'CODIGO_SUSCRIPCION' => $result[0]['CODIGO_SUSCRIPCION'] ,
-                    'CODIGO_PLAN' => $result[0]['CODIGO_PLAN'] ,
-                    'IMPORTE_GESTION' => $result[0]['IMPORTE_GESTION'],
-                    'CANTIDAD_SALDO' => $result[0]['CANTIDAD_SALDO']
-                 ));    
+            if($result[0]['COSTO_PLAN'] != null){
+                $costo = $result[0]['COSTO_PLAN'];
+                $cantidad = $result[0]['CANTIDAD_PLAN'];
+                $importe = $costo/$cantidad;
+                 echo json_encode(array('IMPORTE_GESTION' => $importe));    
             }else{
                 echo json_encode(array('success' => false ));
             }

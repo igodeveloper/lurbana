@@ -1,9 +1,9 @@
-<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/clientes/clientes.js"?>"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/clientes/gridClientes.js"?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/asistentes/asistentes.js"?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/asistentes/gridAsistentes.js"?>"></script>
 <div>
 <div class="panel-default "  align=center>
             <div class="row well">
-                <h1>CLIENTES</h1> 
+                <h1>ASISTENTE DE SERVICIOS</h1> 
             </div>
     <!-- <div class="panel-body "> -->
          <div class="row "> <!-- seteamos los filtros -->
@@ -11,7 +11,7 @@
             
                 <div class="form-group col-lg-3" >
                     <div class=" input-group">
-                        Nombre del cliente
+                        Nombre
                         <input id="descripcionpersona-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
                     </div>
                 </div>
@@ -19,7 +19,7 @@
                 <div class="form-group col-lg-2">
                     <div class="input-group">
                         Estado
-                        <select id="estadopersona-filtro" class="input-sm form-control">
+                        <select id="estadoasistente-filtro" class="input-sm form-control">
                             <option value="-1">Seleccionar</option>
                             <option value="A">Activo</option>
                             <option value="I">Inactivo</option>
@@ -64,8 +64,8 @@
         <div class="row "> <!-- row para la tabla --> 
             <div class="col-lg-12" id="contenedorGrilla">
                 <div class="table-responsive" >
-                <table id="grillaClientes"></table>
-                <div id="paginadorClientes"></div>
+                <table id="grillaAsistente"></table>
+                <div id="paginadorAsistente"></div>
              </div>
 
             </div>
@@ -83,7 +83,7 @@
     <div class="modal-content">
         <div class="modal-header">   
             <a class="close" id="close-modal">×</a>      
-            <h1>Clientes</h1>
+            <h1>ASISTENTE DE SERVICIOS</h1>
         </div>               
         <div class="alert alert-danger" id="warning-modal" style="display: none;">
                 <div id="warning-message-modal"></div>
@@ -96,8 +96,8 @@
                 <div class=" col-lg-6">  
                     <div class="form-group " >
                         <div class=" input-group">
-                            Código cliente
-                            <input id="codigocliente-modal" type="text" name="selectInput" class="form-control input-sm " placeholder=" " disabled="disabled" required>
+                            Código Asistente
+                            <input id="codigoasistente-modal" type="text" name="selectInput" class="form-control input-sm " placeholder=" " disabled="disabled" required>
                         </div>
                     </div>
                     <div class="form-group" >
@@ -108,7 +108,7 @@
                     </div>
                     <div class="form-group" >
                         <div class=" input-group">
-                            Nombre del cliente
+                            Nombre
                             <input id="descripcionpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" Nombre del cliente" >
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                      <div class="form-group" >
                         <div class=" input-group">
                             Estado
-                            <select id="estadocliente-modal" class="input-sm form-control">
+                            <select id="estadoasistente-modal" class="input-sm form-control">
                             <option value="A">Activo</option>
                             <option value="I">Inactivo</option>
                         </select>

@@ -3,26 +3,21 @@ $().ready(function() {
  	$("#muestramodal").click(function() {
  		limpiarFormulario();
  		cargarCliente();
- 		cargarAsistenteServicios();
 		cargarPlanesActivos();
-			$("#fechagestion-modal").datepicker();
-		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fechagestion-modal").datepicker("setDate", new Date());
-		    $("#iniciogestion-modal").datepicker();
-		    $("#iniciogestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#iniciogestion-modal").datepicker("setDate", new Date());
-		    $("#fingestion-modal").datepicker();
-		    $("#fingestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fingestion-modal").datepicker("setDate", new Date());
-		    $("#tiempoestimado-modal").attr("value",40);
-		    $("#cantidadgestion-modal").attr("value",1);
-		    $("#estado-modal").val('P');
-		    
-		    $("#saldogestion-modal").attr("disabled",true);
+			$("#fechasuscripcion-modal").datepicker();
+		    $("#fechasuscripcion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+		    $("#fechasuscripcion-modal").datepicker("setDate", new Date());
+		    $("#fechavencimiento-modal").datepicker();
+		    $("#fechavencimiento-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+		    $("#fechavencimiento-modal").datepicker("setDate", new Date());
+		    $("#fechaacreditacion-modal").datepicker();
+		    $("#fechaacreditacion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+		    $("#fechaacreditacion-modal").datepicker("setDate", new Date());
+            $("#codigosuscripcion-modal").attr("disabled",true);
+		    $("#importegestion-modal").attr("disabled",true);
+		    $("#estadosuscripcion-modal").val('A');
             $("#modalNuevo").show();
             $("#ui-datepicker-div").css('display','none');
-            // $("#asistenteservicios-modal").val(3);
-            // console.log($("#asistenteservicios-modal").val());
            
     }); 
      $("#close-modal").click(function() {
@@ -91,71 +86,40 @@ function addrequiredattr(id,focus){
 function obtenerJsonModal() {
 	var jsonObject = new Object();
 
-	var mensaje = 'Atención: ';
+	var mensaje = 'Ingrese los campos: ';
     var focus = 0;
 
-	if($('#cliente-modal').val() == -1){
+	if($('#cliente-modal').attr("value") == -1){
         mensaje+= ' | Cliente ';
-    	focus++;
-    	addrequiredattr('codigocliente-modal',focus); 
-	}
-	if($('#fechagestion-modal').attr("value") == null || $('#fechagestion-modal').attr("value").length == 0){
+        focus++;
+        addrequiredattr('cliente-modal',focus); 
+    }
+	if($('#fechasuscripcion-modal').attr("value") == null || $('#fechasuscripcion-modal').attr("value").length == 0){
         mensaje+= ' | Fecha ';
     	focus++;
-    	addrequiredattr('fechagestion-modal',focus); 
+    	addrequiredattr('fechasuscripcion-modal',focus); 
 	}
-	// if($('#iniciogestion-modal').attr("value") == null || $('#iniciogestion-modal').attr("value").length == 0){
- //        mensaje+= ' | Fecha inicio ';
- //    	focus++;
- //    	addrequiredattr('iniciogestion-modal',focus); 
-	// }
-	// if($('#fingestion-modal').attr("value") == null || $('#fingestion-modal').attr("value").length == 0){
- //        mensaje+= ' | Fecha fin ';
- //    	focus++;
- //    	addrequiredattr('fingestion-modal',focus); 
-	// }
-	if($('#tarea-modal').attr("value") == null || $('#tarea-modal').attr("value").length == 0){
-        mensaje+= ' | Tarea ';
-    	focus++;
-    	addrequiredattr('tarea-modal',focus); 
-	}
-	if($('#tiempoestimado-modal').attr("value") == null || $('#tiempoestimado-modal').attr("value").length == 0){
-        mensaje+= ' | Tiempo estimado ';
-    	focus++;
-    	addrequiredattr('tiempoestimado-modal',focus); 
-	}
-	if($('#cantidadgestion-modal').attr("value") == null || $('#cantidadgestion-modal').attr("value").length == 0){
-        mensaje+= ' | Cantidad gestión ';
-    	focus++;
-    	addrequiredattr('cantidadgestion-modal',focus); 
-	}
-	if($('#estado-modal').attr("value") == -1){
-        mensaje+= ' | Estado ';
+	
+
+	
+	if($('#planactivo-modal').attr("value") == -1){
+        mensaje+= ' | Plan ';
     	focus++;
     	addrequiredattr('estado-modal',focus); 
 	}
-    if(parseFloat($('#saldogestion-modal').attr("value")) == 0){
-        mensaje+= ' | No tiene saldo, para cargar gestión '; 
-    }
-    if(parseFloat($('#saldogestion-modal').attr("value")) < parseFloat($('#cantidadgestion-modal').attr("value"))){
-        mensaje+= ' | La cantidad de gestión supera el saldo disponible'; 
-    }
-	if (mensaje != 'Atención: '){
+	if (mensaje != 'Ingrese los campos: '){
 		mensaje+= ' |';
 		mostarVentana("warning-modal", mensaje);
 		return null;
 	}else {
-		jsonObject.NUMERO_GESTION = $('#codigogestion-modal').attr("value");
+		jsonObject.CODIGO_SUSCRIPCION = $('#codigosuscripcion-modal').attr("value");
 		jsonObject.CODIGO_CLIENTE = $('#cliente-modal').val();
-		jsonObject.FECHA_GESTION = $('#fechagestion-modal').attr("value");
-		jsonObject.OBSERVACION = $('#tarea-modal').attr("value");
-		jsonObject.FECHA_INICIO = $("#iniciogestion-modal").val();
-		jsonObject.FECHA_FIN = $("#fingestion-modal").val();
-		jsonObject.CANTIDAD_MINUTOS = $("#tiempoestimado-modal").val();
-		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
-		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
-		if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
-		jsonObject.ESTADO = $("#estado-modal").val();
+		jsonObject.CODIGO_PLAN = $('#planactivo-modal').attr("value");
+		jsonObject.FECHA_SUSCRIPCION = $('#fechasuscripcion-modal').attr("value");
+		jsonObject.FECHA_VENCIMIENTO = $("#fechavencimiento-modal").val();
+		jsonObject.FECHA_ACREDITACION = $("#fechaacreditacion-modal").val();
+		jsonObject.IMPORTE_GESTION = $("#importegestion-modal").val();
+		jsonObject.ESTADO_SUSCRIPCION = $("#estadosuscripcion-modal").val();
 		return jsonObject
 	}
 }
@@ -165,7 +129,7 @@ function enviarParametros(data){
     });
 
 	var urlenvio = '';
-	if(data.NUMERO_GESTION !== null && data.NUMERO_GESTION.length !== 0){
+	if(data.CODIGO_SUSCRIPCION !== null && data.CODIGO_SUSCRIPCION.length !== 0){
 		urlenvio = table+'/modificar';
 	}else {
 		urlenvio = table+'/guardar';
@@ -207,18 +171,15 @@ function limpiarFiltos(){
 function limpiarFormulario(){
 
 	
- $('#codigogestion-modal').attr("value",null);
- // $('#codigocliente-modal').attr("value",null);
+ $('#codigosuscripcion-modal').attr("value",null);
  $('#cliente-modal').select2("val",null);
- $('#fechagestion-modal').attr("value",null);
- $('#tarea-modal').attr("value",null);
- $("#iniciogestion-modal").attr("value",null);
- $("#fingestion-modal").attr("value",null);
- $("#tiempoestimado-modal").val(null);
- $("#cantidadgestion-modal").val(null);
- $("#asistenteservicios-modal").select2("val",null);
- $("#planactivo-modal").select2("val",null);
- $("#estado-modal").val(null);
+ $('#planactivo-modal').select2("val",null);
+ $('#fechasuscripcion-modal').attr("value",null);
+ $('#fechaacreditacion-modal').attr("value",null);
+ $('#fechavencimiento-modal').attr("value",null);
+ $('#importegestion-modal').attr("value",null);
+ $('#estadosuscripcion-modal').attr("value",null);
+ 
 
 }
 function cargarCliente(){
@@ -285,15 +246,15 @@ function cargarPlanesActivos(){
     });	
 }
 
-function getClienteSuscripcion(){
+function calculaImporte(){
 	var data = new Object();
- 	data.CODIGO_CLIENTE = $("#cliente-modal").val();
+ 	data.CODIGO_PLAN = $("#planactivo-modal").val();
 
 	var dataString = JSON.stringify(data); 	
 
 	// alert($("#cliente-modal").val());
 	$.ajax({
-        url: table+'/getsuscripciones',
+        url: table+'/getimportesuscripcion',
         type: 'post',
         data: {"parametros":dataString},
         dataType: 'json',
@@ -301,14 +262,11 @@ function getClienteSuscripcion(){
         success: function(respuesta){
         	console.log(respuesta);
         	if(respuesta.success == false){
-        		mostarVentana("warning-modal","No hay suscripciones");  
-        		$("#planactivo-modal").select2("val",null);
-        		$("#saldogestion-modal").attr("value",null);
-        		$("#saldogestion-modal").attr("disabled",false);
+        		mostarVentana("warning-modal","No hay plan");  
+
         	}else{		
-        		$("#planactivo-modal").select2("val",respuesta.CODIGO_PLAN);
-        		$("#saldogestion-modal").attr("value",respuesta.CANTIDAD_SALDO);
-        		$("#saldogestion-modal").attr("disabled",true);
+        		$("#importegestion-modal").attr("value",respuesta.IMPORTE_GESTION);
+        		$("#importegestion-modal").attr("disabled",true);
         	}
         },
         error: function(event, request, settings){
