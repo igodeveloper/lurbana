@@ -44,8 +44,10 @@ class administracion_clientesController extends Zend_Controller_Action {
                              'P.NRO_DOCUMENTO_PERSONA',
                              'P.RUC_PERSONA',
                              'P.TELEFONO_PERSONA',
+                             'P.CELULAR_PERSONA',
                              'P.EMAIL_PERSONA',
                              'P.DIRECCION_PERSONA',
+                             'P.REFERENCIA_PERSONA',
                              'P.CODIGO_CIUDAD',
                              'P.CODIGO_BARRIO',
                              'C.ESTADO_CLIENTE'))
@@ -90,8 +92,10 @@ class administracion_clientesController extends Zend_Controller_Action {
                 $item['NRO_DOCUMENTO_PERSONA'],
                 $item['RUC_PERSONA'],
                 $item['TELEFONO_PERSONA'],
+                $item['CELULAR_PERSONA'],
                 $item['EMAIL_PERSONA'],
                 $item['DIRECCION_PERSONA'],
+                $item['REFERENCIA_PERSONA'],
                 $item['CODIGO_CIUDAD'],
                 $item['CODIGO_BARRIO'],
                 $item['ESTADO_CLIENTE']
@@ -104,8 +108,10 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'NRO_DOCUMENTO_PERSONA',
                 'RUC_PERSONA',
                 'TELEFONO_PERSONA',
+                'CELULAR_PERSONA',
                 'EMAIL_PERSONA',
                 'DIRECCION_PERSONA',
+                'REFERENCIA_PERSONA',
                 'CODIGO_CIUDAD',
                 'CODIGO_BARRIO',
                 'ESTADO_CLIENTE'
@@ -143,8 +149,10 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'NRO_DOCUMENTO_PERSONA' => (trim($parametros->NRO_DOCUMENTO_PERSONA)),
                 'RUC_PERSONA' => (trim($parametros->RUC_PERSONA)),
                 'TELEFONO_PERSONA' => (trim($parametros->TELEFONO_PERSONA)),
+                'CELULAR_PERSONA' => (trim($parametros->CELULAR_PERSONA)),
                 'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
                 'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
+                'REFERENCIA_PERSONA' => (trim($parametros->REFERENCIA_PERSONA)),
                 'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
@@ -183,8 +191,10 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'NRO_DOCUMENTO_PERSONA' => (trim($parametros->NRO_DOCUMENTO_PERSONA)),
                 'RUC_PERSONA' => (trim($parametros->RUC_PERSONA)),
                 'TELEFONO_PERSONA' => (trim($parametros->TELEFONO_PERSONA)),
+                'CELULAR_PERSONA' => (trim($parametros->CELULAR_PERSONA)),
                 'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
                 'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
+                'REFERENCIA_PERSONA' => (trim($parametros->REFERENCIA_PERSONA)),
                 'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 

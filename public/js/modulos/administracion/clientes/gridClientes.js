@@ -65,7 +65,7 @@ function cargarGrillaRegistro() {
                             { name: 'NRO_DOCUMENTO_PERSONA',
                             index: 'NRO_DOCUMENTO_PERSONA',
                             label: 'DOCUMENTO',
-                            width: 100,
+                            width: 80,
                             hidden : false
                         },
                             { name: 'RUC_PERSONA',
@@ -78,20 +78,33 @@ function cargarGrillaRegistro() {
                             name: 'TELEFONO_PERSONA',
                             index: 'TELEFONO_PERSONA',
                             label: 'TELEFONO',
-                            width: 110,
+                            width: 90,
+                            hidden : false
+                        },
+                        { 
+                            name: 'CELULAR_PERSONA',
+                            index: 'CELULAR_PERSONA',
+                            label: 'CELULAR',
+                            width: 90,
                             hidden : false
                         }, { 
                             name: 'EMAIL_PERSONA',
                             index: 'EMAIL_PERSONA',
                             label: 'EMAIL',
-                            width: 130,
+                            width: 120,
                             hidden : false
                         }, { 
                             name: 'DIRECCION_PERSONA',
                             index: 'DIRECCION_PERSONA',
                             label: 'DIRECCION',
-                            width: 200,
+                            width: 170,
                             hidden : false
+                        }, { 
+                            name: 'REFERENCIA_PERSONA',
+                            index: 'REFERENCIA_PERSONA',
+                            label: 'REFERENCIA',
+                            width: 170,
+                            hidden : true
                         }, { 
                             name: 'CODIGO_CIUDAD',
                             index: 'CODIGO_CIUDAD',
@@ -158,9 +171,11 @@ function modalModificar(rowData){
     $("#descripcionpersona-modal").attr("value",rowData.DESCRIPCION_PERSONA);
     $("#numerodocumentopersona-modal").attr("value",rowData.NRO_DOCUMENTO_PERSONA);
     $("#rucpersona-modal").attr("value",rowData.RUC_PERSONA);
-    $("#direccionpersona-modal").attr("value",rowData.TELEFONO_PERSONA);
-    $("#telefonopersona-modal").attr("value",rowData.EMAIL_PERSONA);
-    $("#emailpersona-modal").attr("value",rowData.DIRECCION_PERSONA);
+    $("#direccionpersona-modal").attr("value",rowData.DIRECCION_PERSONA);
+    $("#referenciapersona-modal").attr("value",rowData.REFERENCIA_PERSONA);
+    $("#telefonopersona-modal").attr("value",rowData.TELEFONO_PERSONA);
+    $("#celularpersona-modal").attr("value",rowData.CELULAR_PERSONA);
+    $("#emailpersona-modal").attr("value",rowData.EMAIL_PERSONA);
     $("#ciudadpersona-modal").attr("value",rowData.CODIGO_CIUDAD);
     $("#barriopersona-modal").attr("value",rowData.CODIGO_BARRIO);
     $("#estadocliente-modal").attr("value",rowData.ESTADO_CLIENTE);

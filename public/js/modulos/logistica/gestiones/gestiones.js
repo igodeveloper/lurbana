@@ -43,12 +43,34 @@ $().ready(function() {
 
 	$("#tiempoestimado-modal").blur(function() {
 		var tiempo = $("#tiempoestimado-modal").val();
-		var cantidad_gestion = parseFloat(tiempo/40);
-		cantidad_gestion = roundnumber(cantidad_gestion);
+        var cantidad_gestion = parseFloat(tiempo/40);
+        if(tiempo > 41){
+        cantidad_gestion = roundnumber(cantidad_gestion);
+        }else{
+            cantidad_gestion = 1;
+        }
+		
 		$("#cantidadgestion-modal").attr("value", cantidad_gestion);
 	});
 
+    // $('#cantidadgestion-modal').live('keyup', function(){
+    //     $(this).val(format.call($(this).val().split(' ').join(''),' ','.'));
+    // });
+
 });
+function format(comma, period) {
+  comma = comma || ',';
+  period = period || '.';
+  var split = this.toString().split('.');
+  var numeric = split[0];
+  var decimal = split.length > 1 ? period + split[1] : '';
+  var reg = /(\d+)(\d{3})/;
+  while (reg.test(numeric)) {
+    numeric = numeric.replace(reg, '$1' + comma + '$2');
+  }
+  return numeric + decimal;
+}
+
 function roundnumber(number){
 	var number_int = parseInt(number);
 	var number_float = number-number_int;

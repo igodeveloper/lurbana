@@ -84,8 +84,9 @@ function obtenerJsonModal() {
     	focus++;
     	addrequiredattr('telefonopersona-modal',focus); 
 	}
-	if($('#emailpersona-modal').attr("value") == null || $('#emailpersona-modal').attr("value").length == 0){
-        mensaje+= ' | Email ';
+	// if($('#emailpersona-modal').attr("value") == null || $('#emailpersona-modal').attr("value").length == 0){
+	if($("#emailpersona-modal").val().indexOf('@', 0) == -1 || $("#emailpersona-modal").val().indexOf('.', 0) == -1){
+        mensaje+= ' | Email incorrecto';
     	focus++;
     	addrequiredattr('emailpersona-modal',focus); 
 	}
@@ -113,6 +114,7 @@ function obtenerJsonModal() {
 		jsonObject.NRO_DOCUMENTO_PERSONA = $('#numerodocumentopersona-modal').attr("value");
 		jsonObject.RUC_PERSONA = $("#rucpersona-modal").val();
 		jsonObject.TELEFONO_PERSONA = $("#telefonopersona-modal").val();
+		jsonObject.CELULAR_PERSONA = $("#celularpersona-modal").val();
 		jsonObject.EMAIL_PERSONA = $("#emailpersona-modal").val();
 		jsonObject.DIRECCION_PERSONA = $("#direccionpersona-modal").val();
 		jsonObject.CODIGO_CIUDAD = $("#ciudadpersona-modal").val();

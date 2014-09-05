@@ -157,9 +157,9 @@ function modalModificar(rowData){
     $("#descripcionpersona-modal").attr("value",rowData.DESCRIPCION_PERSONA);
     $("#numerodocumentopersona-modal").attr("value",rowData.NRO_DOCUMENTO_PERSONA);
     $("#rucpersona-modal").attr("value",rowData.RUC_PERSONA);
-    $("#direccionpersona-modal").attr("value",rowData.TELEFONO_PERSONA);
-    $("#telefonopersona-modal").attr("value",rowData.EMAIL_PERSONA);
-    $("#emailpersona-modal").attr("value",rowData.DIRECCION_PERSONA);
+    $("#direccionpersona-modal").attr("value",rowData.DIRECCION_PERSONA);
+    $("#telefonopersona-modal").attr("value",rowData.TELEFONO_PERSONA);
+    $("#emailpersona-modal").attr("value",rowData.EMAIL_PERSONA);
     $("#ciudadpersona-modal").attr("value",rowData.CODIGO_CIUDAD);
     $("#barriopersona-modal").attr("value",rowData.CODIGO_BARRIO);
     $("#estadoasistente-modal").attr("value",rowData.ESTADO_GESTOR);

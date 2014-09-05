@@ -10,6 +10,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 $r->gotoUrl('/login/login')->redirectAndExit();
             }
         $parametrosLogueo->lock();    
+       
+      
     }
 
     public function indexAction() {
@@ -182,9 +184,49 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
-            $parametrosLogueo->lock(); 
+            $comotermina = true;
+            $estados = "";
+            if ($parametros->ESTADO == 'E' && $parametros->CODIGO_GESTOR != 0) {
+                $estados .= "Entrro a enviar email";
+                $asistentes =  json_decode(self::obtenerasistente($parametros->CODIGO_GESTOR));
+                $clientes =  json_decode(self::obtenercliente($parametros->CODIGO_CLIENTE));
+
+                if($asistentes){
+                    $estados .= "- Recupero asistente";
+                  $nombre_gestor= $asistentes->DESCRIPCION_PERSONA;
+                  $emailDestino= $asistentes->EMAIL_PERSONA;
+                  $asunto = "Nueva Tarea";
+                  $bodyTexto = "Cliente: ".$clientes->DESCRIPCION_PERSONA."\n\nTarea: ".$parametros->OBSERVACION."\n \n Tiempo estimado: ".$parametros->CANTIDAD_MINUTOS." mins. \n\nGestiones estimadas:".$parametros->CANTIDAD_GESTIONES;
+                  $email = self::enviaremail($emailDestino,$nombre_gestor,$bodyTexto,$asunto);
+                  $estados .= "- resultado de email".$email;
+                    if(!$email){
+                        $comotermina = false;
+                        // echo json_encode(array("success" => false,"email" => $email));
+                    }
+                } else {
+                    // echo json_encode(array("success" => false,"mensaje" => $asistentes));
+                    $comotermina = false;
+                }
+                if($clientes){
+                    $estados .= "- Recupero cliente";
+                  $nombre_cliente= $clientes->DESCRIPCION_PERSONA;
+                  $emailDestino= $clientes->EMAIL_PERSONA;
+                  $asunto = "Su gestión se encuentra en proceso.";
+                  $bodyTexto = "Su asistente de servicios es: ".$asistentes->DESCRIPCION_PERSONA."\n\nTarea: ".$parametros->OBSERVACION."\n\nTiempo estimado: ".$parametros->CANTIDAD_MINUTOS." mins.\n\nGestiones estimadas:".$parametros->CANTIDAD_GESTIONES."\n\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
+                  $email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);
+                     $estados .= "- resultado de email".$email;
+                    if(!$email){
+                        $comotermina = false;
+                        // echo json_encode(array("success" => false,"email" => $email));
+                    }
+                } else {
+                    $comotermina = false;
+                    // echo json_encode(array("success" => false,"mensaje" => $asistentes));
+                }           
+            }
+
             $db->commit();
-           echo json_encode(array("success" => true));
+           echo json_encode(array("success" => $comotermina, "estado" => $estados));
         } catch (Exception $e) {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
             $db->rollBack();
@@ -222,8 +264,49 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
             );
             $update_personas = $db->update('LOG_GESTIONES', $data_personas, $where_personas);
+            $comotermina = true;
+            $estados = "";
+            if ($parametros->ESTADO == 'E' && $parametros->CODIGO_GESTOR != 0) {
+                $estados .= "Entrro a enviar email";
+                $asistentes =  json_decode(self::obtenerasistente($parametros->CODIGO_GESTOR));
+                $clientes =  json_decode(self::obtenercliente($parametros->CODIGO_CLIENTE));
+
+                if($asistentes){
+                    $estados .= "- Recupero asistente";
+                  $nombre_gestor= $asistentes->DESCRIPCION_PERSONA;
+                  $emailDestino= $asistentes->EMAIL_PERSONA;
+                  $asunto = "Nueva Tarea";
+                  $bodyTexto = "Cliente: ".$clientes->DESCRIPCION_PERSONA."\n\nTarea: ".$parametros->OBSERVACION."\n \n Tiempo estimado: ".$parametros->CANTIDAD_MINUTOS." mins. \n\nGestiones estimadas:".$parametros->CANTIDAD_GESTIONES;
+                  $email = self::enviaremail($emailDestino,$nombre_gestor,$bodyTexto,$asunto);
+                  $estados .= "- resultado de email".$email;
+                    if(!$email){
+                        $comotermina = false;
+                        // echo json_encode(array("success" => false,"email" => $email));
+                    }
+                } else {
+                    // echo json_encode(array("success" => false,"mensaje" => $asistentes));
+                    $comotermina = false;
+                }
+                if($clientes){
+                    $estados .= "- Recupero cliente";
+                  $nombre_cliente= $clientes->DESCRIPCION_PERSONA;
+                  $emailDestino= $clientes->EMAIL_PERSONA;
+                  $asunto = "Su gestin se encuentra en proceso.";
+                  $bodyTexto = "Su asistente de servicios es: ".$asistentes->DESCRIPCION_PERSONA."\n\nTarea: ".$parametros->OBSERVACION."\n\nTiempo estimado: ".$parametros->CANTIDAD_MINUTOS." mins.\n\nGestiones estimadas:".$parametros->CANTIDAD_GESTIONES."\n\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
+                  $email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);
+                     $estados .= "- resultado de email".$email;
+                    if(!$email){
+                        $comotermina = false;
+                        // echo json_encode(array("success" => false,"email" => $email));
+                    }
+                } else {
+                    $comotermina = false;
+                    // echo json_encode(array("success" => false,"mensaje" => $asistentes));
+                }           
+            }
             $db->commit();
-           echo json_encode(array("success" => true));
+           // echo json_encode(array("success" => true));
+            echo json_encode(array("success" => $comotermina, "estado" => $estados));
         } catch (Exception $e) {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
             $db->rollBack();
@@ -347,6 +430,75 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 echo json_encode(array('success' => false ));
             }
         }
+
+    public function enviaremail($emailDestino,$nombre,$bodyTexto,$asunto){
+        try{
+            $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => 'v.ivangomez@gmail.com', 'password' => 'paleolit1c0');
+            $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+
+            $mail = new Zend_Mail('utf-8');
+            $mail->setBodyText($bodyTexto);
+            $mail->setFrom('v.ivangomez@gmail.com', 'Ivan');
+            $mail->addTo($emailDestino, $nombre);
+            $mail->setSubject($asunto);
+            print_r($email);
+            $mail->send($smtpConnection);
+            return true;
+        } catch (Exception $e){
+            return $e->getMessage();
+        }
+    }
+
+    public function obtenerasistente($codigo){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+        ->from(array('C'=>'LOG_GESTORES'),  array(
+                     'C.CODIGO_GESTOR',
+                     'P.DESCRIPCION_PERSONA',
+                     'P.EMAIL_PERSONA'))
+            ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+            ->where("C.CODIGO_GESTOR = ?", $codigo)
+            ->distinct(true);
+        
+        $result = $db->fetchAll($select);
+         if($result[0]['CODIGO_GESTOR'] != null){
+                return json_encode(array(
+                    'CODIGO_GESTOR' => $result[0]['CODIGO_GESTOR'],
+                    'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
+                    'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA']
+                    
+                 ));    
+            }else{
+                return false;
+            }
+
+
+    }
+
+    public function obtenercliente($codigo){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array('C'=>'ADM_CLIENTES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'P.DESCRIPCION_PERSONA',
+                             'P.EMAIL_PERSONA'))
+                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                    ->where("C.CODIGO_CLIENTE = ?", $codigo)
+                    ->distinct(true);
+                
+                $result = $db->fetchAll($select);
+         if($result[0]['CODIGO_CLIENTE'] != null){
+                return json_encode(array(
+                    'CODIGO_CLIENTE' => $result[0]['CODIGO_CLIENTE'],
+                    'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
+                    'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA']
+                    
+                 ));    
+            }else{
+                return false;
+            }
+
+    }
 
   
 }

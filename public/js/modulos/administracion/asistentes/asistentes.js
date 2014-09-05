@@ -84,8 +84,9 @@ function obtenerJsonModal() {
     	focus++;
     	addrequiredattr('telefonopersona-modal',focus); 
 	}
-	if($('#emailpersona-modal').attr("value") == null || $('#emailpersona-modal').attr("value").length == 0){
-        mensaje+= ' | Email ';
+	// if($('#emailpersona-modal').attr("value") == null || $('#emailpersona-modal').attr("value").length == 0){
+	if($("#emailpersona-modal").val().indexOf('@', 0) == -1 || $("#emailpersona-modal").val().indexOf('.', 0) == -1){
+        mensaje+= ' | Email incorrecto';
     	focus++;
     	addrequiredattr('emailpersona-modal',focus); 
 	}
