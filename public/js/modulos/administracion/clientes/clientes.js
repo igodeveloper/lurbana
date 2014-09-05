@@ -120,6 +120,7 @@ function obtenerJsonModal() {
 		jsonObject.CODIGO_CIUDAD = $("#ciudadpersona-modal").val();
 		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
 		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
+		jsonObject.ENVIAR_EMAIL = $("#enviaremail-modal").val();
 		return jsonObject
 	}
 }

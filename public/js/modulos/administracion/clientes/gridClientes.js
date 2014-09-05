@@ -94,6 +94,12 @@ function cargarGrillaRegistro() {
                             width: 120,
                             hidden : false
                         }, { 
+                            name: 'ENVIAR_EMAIL',
+                            index: 'ENVIAR_EMAIL',
+                            label: 'ENVIAR',
+                            width: 120,
+                            hidden : true
+                        }, { 
                             name: 'DIRECCION_PERSONA',
                             index: 'DIRECCION_PERSONA',
                             label: 'DIRECCION',
@@ -179,6 +185,7 @@ function modalModificar(rowData){
     $("#ciudadpersona-modal").attr("value",rowData.CODIGO_CIUDAD);
     $("#barriopersona-modal").attr("value",rowData.CODIGO_BARRIO);
     $("#estadocliente-modal").attr("value",rowData.ESTADO_CLIENTE);
+    $("#enviaremail-modal").attr("value",rowData.ENVIAR_EMAIL);
     $("#modalNuevo").show();
 
 

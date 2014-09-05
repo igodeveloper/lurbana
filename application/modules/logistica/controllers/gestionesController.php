@@ -213,9 +213,9 @@ class logistica_gestionesController extends Zend_Controller_Action {
                   $emailDestino= $clientes->EMAIL_PERSONA;
                   $asunto = "Su gestión se encuentra en proceso.";
                   $bodyTexto = "Su asistente de servicios es: ".$asistentes->DESCRIPCION_PERSONA."\n\nTarea: ".$parametros->OBSERVACION."\n\nTiempo estimado: ".$parametros->CANTIDAD_MINUTOS." mins.\n\nGestiones estimadas:".$parametros->CANTIDAD_GESTIONES."\n\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
-                  $email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);
+                  if($clientes->ENVIAR_EMAIL == "S"){$email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);}
                      $estados .= "- resultado de email".$email;
-                    if(!$email){
+                    if(!$email && $clientes->ENVIAR_EMAIL == "S"){
                         $comotermina = false;
                         // echo json_encode(array("success" => false,"email" => $email));
                     }
@@ -224,6 +224,24 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     // echo json_encode(array("success" => false,"mensaje" => $asistentes));
                 }           
             }
+            if ($parametros->ESTADO == 'F') {
+                $clientes =  json_decode(self::obtenercliente($parametros->CODIGO_CLIENTE));
+                 if($clientes){
+                   
+                  $nombre_cliente= $clientes->DESCRIPCION_PERSONA;
+                  $emailDestino= $clientes->EMAIL_PERSONA;
+                  $asunto = "Notificación de gestión realizada.";
+                  $bodyTexto = "Estimado : ".$clientes->DESCRIPCION_PERSONA."\nHemos culminado la gestión solicitada\n\nTarea: ".$parametros->OBSERVACION."\n\nTiempo empleado: ".$parametros->CANTIDAD_MINUTOS." mins.\n\nGestiones utilizadas:".$parametros->CANTIDAD_GESTIONES."\nGracias por confiar en San Solución\n\nCira Leon\nCoordinadora de Servicios\nSan Solución\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
+                  if($clientes->ENVIAR_EMAIL == "S"){$email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);}
+                    if(!$email && $clientes->ENVIAR_EMAIL == "S"){
+                        $comotermina = false;
+                        // echo json_encode(array("success" => false,"email" => $email));
+                    }
+                } else {
+                    $comotermina = false;
+                    // echo json_encode(array("success" => false,"mensaje" => $asistentes));
+                }           
+             }
 
             $db->commit();
            echo json_encode(array("success" => $comotermina, "estado" => $estados));
@@ -293,17 +311,34 @@ class logistica_gestionesController extends Zend_Controller_Action {
                   $emailDestino= $clientes->EMAIL_PERSONA;
                   $asunto = "Su gestin se encuentra en proceso.";
                   $bodyTexto = "Su asistente de servicios es: ".$asistentes->DESCRIPCION_PERSONA."\n\nTarea: ".$parametros->OBSERVACION."\n\nTiempo estimado: ".$parametros->CANTIDAD_MINUTOS." mins.\n\nGestiones estimadas:".$parametros->CANTIDAD_GESTIONES."\n\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
-                  $email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);
-                     $estados .= "- resultado de email".$email;
-                    if(!$email){
+                  if($clientes->ENVIAR_EMAIL == "S"){$email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);}
+                    
+                    if(!$email && $clientes->ENVIAR_EMAIL == "S"){
                         $comotermina = false;
                         // echo json_encode(array("success" => false,"email" => $email));
                     }
                 } else {
                     $comotermina = false;
                     // echo json_encode(array("success" => false,"mensaje" => $asistentes));
-                }           
+                }
             }
+            if ($parametros->ESTADO == 'F'){
+                $clientes =  json_decode(self::obtenercliente($parametros->CODIGO_CLIENTE));
+                if($clientes){            
+                  $nombre_cliente= $clientes->DESCRIPCION_PERSONA;
+                  $emailDestino= $clientes->EMAIL_PERSONA;
+                  $asunto = "Notificación de gestión realizada.";
+                  $bodyTexto = "Estimado : ".$clientes->DESCRIPCION_PERSONA."\nHemos culminado la gestión solicitada\n\nTarea: ".$parametros->OBSERVACION."\n\nTiempo empleado: ".$parametros->CANTIDAD_MINUTOS." mins.\n\nGestiones utilizadas:".$parametros->CANTIDAD_GESTIONES."\nGracias por confiar en San Solución\n\nCira Leon\nCoordinadora de Servicios\nSan Solución\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
+                 if($clientes->ENVIAR_EMAIL == "S"){$email = self::enviaremail($emailDestino,$nombre_cliente,$bodyTexto,$asunto);}
+                    if(!$email && $clientes->ENVIAR_EMAIL == "S"){
+                        $comotermina = false;
+                    }
+                } else {
+                    $comotermina = false;
+                // echo json_encode(array("success" => false,"mensaje" => $asistentes));
+                }           
+         }
+            
             $db->commit();
            // echo json_encode(array("success" => true));
             echo json_encode(array("success" => $comotermina, "estado" => $estados));
@@ -481,6 +516,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 ->from(array('C'=>'ADM_CLIENTES'),  array(
                              'C.CODIGO_CLIENTE',
                              'P.DESCRIPCION_PERSONA',
+                             'P.ENVIAR_EMAIL',
                              'P.EMAIL_PERSONA'))
                     ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
                     ->where("C.CODIGO_CLIENTE = ?", $codigo)
@@ -491,7 +527,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 return json_encode(array(
                     'CODIGO_CLIENTE' => $result[0]['CODIGO_CLIENTE'],
                     'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
-                    'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA']
+                    'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA'],
+                    'ENVIAR_EMAIL' => $result[0]['ENVIAR_EMAIL'],
                     
                  ));    
             }else{
