@@ -468,12 +468,15 @@ class logistica_gestionesController extends Zend_Controller_Action {
 
     public function enviaremail($emailDestino,$nombre,$bodyTexto,$asunto){
         try{
-            $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => 'v.ivangomez@gmail.com', 'password' => 'paleolit1c0');
-            $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+            // $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => 'v.ivangomez@gmail.com', 'password' => 'paleolit1c0');
+            $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'Pedido123.');
+            // $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+            // $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
+            $smtpConnection = new Zend_Mail_Transport_Smtp('mail.sansolucion.com', $config);
 
             $mail = new Zend_Mail('utf-8');
             $mail->setBodyText($bodyTexto);
-            $mail->setFrom('v.ivangomez@gmail.com', 'Ivan');
+            $mail->setFrom('pedido@sansolucion.com', 'Informe');
             $mail->addTo($emailDestino, $nombre);
             $mail->setSubject($asunto);
             print_r($email);
