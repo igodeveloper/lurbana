@@ -184,8 +184,10 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
-            $comotermina = true;
+              $comotermina = true;
             $estados = "";
+            if($parametros->ENVIAREMAIL == "SI"){
+             
             if ($parametros->ESTADO == 'E' && $parametros->CODIGO_GESTOR != 0) {
                 $estados .= "Entrro a enviar email";
                 $asistentes =  json_decode(self::obtenerasistente($parametros->CODIGO_GESTOR));
@@ -242,6 +244,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     // echo json_encode(array("success" => false,"mensaje" => $asistentes));
                 }           
              }
+            }
+            
 
             $db->commit();
            echo json_encode(array("success" => $comotermina, "estado" => $estados));
@@ -282,8 +286,10 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
             );
             $update_personas = $db->update('LOG_GESTIONES', $data_personas, $where_personas);
+
             $comotermina = true;
             $estados = "";
+            if($parametros->ENVIAREMAIL == "SI"){
             if ($parametros->ESTADO == 'E' && $parametros->CODIGO_GESTOR != 0) {
                 $estados .= "Entrro a enviar email";
                 $asistentes =  json_decode(self::obtenerasistente($parametros->CODIGO_GESTOR));
@@ -337,6 +343,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     $comotermina = false;
                 // echo json_encode(array("success" => false,"mensaje" => $asistentes));
                 }           
+            }
          }
             
             $db->commit();

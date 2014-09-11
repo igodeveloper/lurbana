@@ -5,6 +5,7 @@ $().ready(function() {
  		cargarCliente();
  		cargarAsistenteServicios();
 		cargarPlanesActivos();
+        bloqueardatos(false);
 			$("#fechagestion-modal").datepicker();
 		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
 		    $("#fechagestion-modal").datepicker("setDate", new Date());
@@ -19,6 +20,8 @@ $().ready(function() {
 		    $("#estado-modal").val('P');
 		    
 		    $("#saldogestion-modal").attr("disabled",true);
+            $("#codigogestion-modal").attr("disabled",true);
+            $("#guardar-modal").attr("disabled",false);
             $("#modalNuevo").show();
             $("#ui-datepicker-div").css('display','none');
             // $("#asistenteservicios-modal").val(3);
@@ -58,6 +61,14 @@ $().ready(function() {
     // });
 
 });
+function bloqueardatos(block){
+        $("#codigogestion-modal").attr("disabled",block);
+        $("#saldogestion-modal").attr("disabled",block);
+        $("#planactivo-modal").attr("disabled",block);
+        $("#cliente-modal").attr("disabled",block);
+        $("#fechagestion-modal").attr("disabled",block);
+        $("#enviaremail-modal").prop('checked', !block);
+}
 function format(comma, period) {
   comma = comma || ',';
   period = period || '.';
@@ -177,7 +188,9 @@ function obtenerJsonModal() {
 		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
 		if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
-		jsonObject.ESTADO = $("#estado-modal").val();
+        jsonObject.ESTADO = $("#estado-modal").val();
+		jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
+        console.log(jsonObject);
 		return jsonObject
 	}
 }
@@ -338,5 +351,7 @@ function getClienteSuscripcion(){
         	 // alert(mostrarError("OcurrioError"));
         }
     });	
+
+
 }
 

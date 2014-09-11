@@ -103,7 +103,9 @@ function cargarGrillaRegistro() {
                         label: 'IMPORTE',
                         width: 70,
                         hidden : false,
-                        align: 'right'
+                        align: 'right',
+                        formatter: 'number',
+                formatoptions:{thousandsSeparator: ".", decimalPlaces:0}
                     },{ 
                         name: 'ESTADO_SUSCRIPCION',
                         index: 'ESTADO_SUSCRIPCION',

@@ -125,14 +125,18 @@ function cargarGrillaRegistro() {
                         label: 'GESTION',
                         width: 70,
                         hidden : false,
-                        align: 'right'
+                        align: 'right',
+                        formatter: 'number',
+                formatoptions:{thousandsSeparator: ".", decimalPlaces:2},
                     }, { 
                         name: 'CANTIDAD_MINUTOS',
                         index: 'CANTIDAD_MINUTOS',
                         label: 'MINUTOS',
                         width: 70,
                         hidden : false,
-                        align: 'right'
+                        align: 'right',
+                        formatter: 'number',
+                formatoptions:{thousandsSeparator: ".", decimalPlaces:0},
                     }, { 
                         name: 'OBSERVACION',
                         index: 'OBSERVACION',
@@ -193,10 +197,13 @@ function buscar(){
 }
 
 function modalModificar(rowData){
-    cargarCliente();
-        cargarAsistenteServicios();
-        cargarPlanesActivos();
+    
+
+cargarCliente();
+cargarAsistenteServicios();
+cargarPlanesActivos();
 console.log(rowData);
+  bloqueardatos(true);
  $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
  // $('#cliente-modal').select2(rowData.CODIGO_CLIENTE);
  $("#cliente-modal").select2("val", rowData.CODIGO_CLIENTE);
@@ -211,6 +218,12 @@ console.log(rowData);
  $("#asistenteservicios-modal").select2("val",rowData.CODIGO_GESTOR);
  $("#estado-modal").val(rowData.ESTADO);
 $("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
+if (rowData.ESTADO == 'A') {
+    $("#guardar-modal").attr("disabled",true);
+}else{
+    $("#guardar-modal").attr("disabled",false);
+}
+    
 
 $("#modalNuevo").show();
 

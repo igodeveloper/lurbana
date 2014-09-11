@@ -62,19 +62,25 @@ function cargarGrillaRegistro() {
                             index: 'CANTIDAD_PLAN',
                             label: 'CANTIDAD',
                             width: 150,
-                            hidden : false
+                            hidden : false,
+                        formatter: 'number',
+                formatoptions:{thousandsSeparator: ".", decimalPlaces:0},
+                align: 'right'
+
                         }, { 
                             name: 'COSTO_PLAN',
                             index: 'COSTO_PLAN',
                             label: 'COSTO',
                             width: 150,
-                            hidden : false
+                            hidden : false,
+                        formatter: 'number',
+                formatoptions:{thousandsSeparator: ".", decimalPlaces:0},align: 'right'
                         }, { 
                             name: 'ESTADO_PLAN',
                             index: 'ESTADO_PLAN',
                             label: 'ESTADO',
                             width: 150,
-                            hidden : false
+                            hidden : false,align: 'center'
                         }
                 ],
                 emptyrecords: "Sin Datos",
