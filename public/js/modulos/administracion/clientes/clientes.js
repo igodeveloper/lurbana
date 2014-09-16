@@ -117,6 +117,7 @@ function obtenerJsonModal() {
 		jsonObject.CELULAR_PERSONA = $("#celularpersona-modal").val();
 		jsonObject.EMAIL_PERSONA = $("#emailpersona-modal").val();
 		jsonObject.DIRECCION_PERSONA = $("#direccionpersona-modal").val();
+		jsonObject.REFERENCIA_PERSONA = $("#referenciapersona-modal").val();
 		jsonObject.CODIGO_CIUDAD = $("#ciudadpersona-modal").val();
 		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
 		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
