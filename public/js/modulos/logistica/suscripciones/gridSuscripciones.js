@@ -154,6 +154,7 @@ function buscar(){
 function modalModificar(rowData){
 cargarCliente();
 cargarPlanesActivos();
+bloqueardatos(true);
  $('#codigosuscripcion-modal').attr("value",rowData.CODIGO_SUSCRIPCION);
  $('#codigosuscripcion-modal').attr("disabled",true);
  $("#cliente-modal").select2("val", rowData.CODIGO_CLIENTE);

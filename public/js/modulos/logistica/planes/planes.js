@@ -64,6 +64,11 @@ function obtenerJsonModal() {
     	focus++;
     	addrequiredattr('descripcionplan-modal',focus); 
 	}
+	if($('#tipoplan-modal').attr("value") == -1){
+        mensaje+= ' | Tipo Plan ';
+    	focus++;
+    	addrequiredattr('tipoplan-modal',focus); 
+	}
 	if($('#cantidadplan-modal').attr("value") == null || $('#cantidadplan-modal').attr("value").length == 0){
         mensaje+= ' | Cantidad ';
     	focus++;
@@ -89,6 +94,7 @@ function obtenerJsonModal() {
 		jsonObject.CANTIDAD_PLAN = $('#cantidadplan-modal').attr("value");
 		jsonObject.COSTO_PLAN = $('#costoplan-modal').attr("value");
 		jsonObject.ESTADO_PLAN = $("#estadoplan-modal").val();
+		jsonObject.TIPO_PLAN = $("#tipoplan-modal").val();
 		
 		return jsonObject
 	}

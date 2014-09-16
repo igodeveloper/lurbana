@@ -254,6 +254,7 @@ function limpiarFormulario(){
  $("#asistenteservicios-modal").select2("val",null);
  $("#planactivo-modal").select2("val",null);
  $("#estado-modal").val(null);
+ $("#saldogestion-modal").val(null);
 
 }
 function cargarCliente(){

@@ -4,6 +4,7 @@ $().ready(function() {
  		limpiarFormulario();
  		cargarCliente();
 		cargarPlanesActivos();
+        bloqueardatos(false);
 			$("#fechasuscripcion-modal").datepicker();
 		    $("#fechasuscripcion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
 		    $("#fechasuscripcion-modal").datepicker("setDate", new Date());
@@ -57,6 +58,12 @@ function roundnumber(number){
 	}
 	return number_round;
 
+}
+function bloqueardatos(block){
+        $("#fechasuscripcion-modal").attr("disabled",block);
+        $("#cliente-modal").attr("disabled",block);
+        $("#planactivo-modal").attr("disabled",block);
+        $("#importegestion-modal").attr("disabled",block);
 }
 function mostarVentana(box,mensaje){
 	if(box == "warning-modal") {
@@ -147,6 +154,8 @@ function enviarParametros(data){
                mostarVentana("success-modal","Se ingreso el registro con exito");
                limpiarFormulario();
                 buscar();                               
+            }else if(respuesta.code == 1){
+                mostarVentana("warning-modal",respuesta.mensaje);
             }else{
                 mostarVentana("warning-modal","Verifique sus datos, ocurrio un error");  
             }            

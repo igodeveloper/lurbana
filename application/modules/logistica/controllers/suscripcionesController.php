@@ -130,8 +130,8 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
         try {
             $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
-            $parametrosLogueo->unlock (); 
-
+            $parametrosLogueo->unlock ();
+            $suscripcion = self::verificasuscripcion($parametros->CODIGO_CLIENTE, $parametros->CODIGO_PLAN);
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
             // print_r($parametros);die();
@@ -148,10 +148,16 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 'IMPORTE_GESTION' => $parametros->IMPORTE_GESTION,
                 'ESTADO_SUSCRIPCION'=> $parametros->ESTADO_SUSCRIPCION
             );
-            $insert_personas = $db->insert('ADM_SUSCRIPCIONES', $data_personas);
             $parametrosLogueo->lock(); 
-            $db->commit();
-           echo json_encode(array("success" => true));
+            if($suscripcion){
+                $insert_personas = $db->insert('ADM_SUSCRIPCIONES', $data_personas);
+                $db->commit();
+                echo json_encode(array("success" => true));
+            }else{
+                $db->rollBack();
+                echo json_encode(array("success" => false, "code" => 1, "mensaje" => "No puede suscribirse a mas de un plan mensual"));
+            }
+                       
         } catch (Exception $e) {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
             $db->rollBack();
@@ -275,6 +281,39 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 echo json_encode(array('success' => false ));
             }
         }
+    public function verificasuscripcion($codigo_cliente,$codigo_plan){
 
+             $db = Zend_Db_Table::getDefaultAdapter();
+             
+              $select_plan = $db->select()
+                ->from(array('C'=>'ADM_PLANES'),  array(
+                             'C.TIPO_PLAN'))
+                     ->where('C.ESTADO_PLAN = ?', 'A')
+                     ->where('C.CODIGO_PLAN = ?', $codigo_plan);
+            $result_plan = $db->fetchAll($select_plan);
+
+
+            if($result_plan[0]['TIPO_PLAN'] == 'M'){
+                $select = $db->select()
+                ->from(array('C'=>'ADM_SUSCRIPCIONES'),  array(
+                             'COUNT(*) AS CANTIDAD'
+                             ))
+                ->join(array('LS' => 'LOG_SALDO'), 'LS.CODIGO_SUSCRIPCION  = C.CODIGO_SUSCRIPCION')
+                ->join(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = C.CODIGO_PLAN')                   
+                ->where('C.CODIGO_CLIENTE = ?', $codigo_cliente)
+                ->where('PL.TIPO_PLAN = ?', 'M')
+                ->where('C.ESTADO_SUSCRIPCION = ?', 'A')
+                ->where('LS.CANTIDAD_SALDO > ?', 0);
+                
+                $result = $db->fetchAll($select);   
+            }
+             
+             // print_r($result);
+            if($result[0]['CANTIDAD'] == 0){
+                 return true;    
+            }else{
+                return false;
+            }
+    }
   
 }

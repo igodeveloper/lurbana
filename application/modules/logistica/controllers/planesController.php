@@ -3,13 +3,13 @@
 class logistica_planesController extends Zend_Controller_Action {
 
      public function init() {
-        // $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
-        // $parametrosLogueo->unlock ();   
-        // if(!$parametrosLogueo->username){
-        //         $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
-        //         $r->gotoUrl('/login/login')->redirectAndExit();
-        //     }
-        // $parametrosLogueo->lock();    
+        $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
+        $parametrosLogueo->unlock ();   
+        if(!$parametrosLogueo->username){
+                $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+                $r->gotoUrl('/login/login')->redirectAndExit();
+            }
+        $parametrosLogueo->lock();    
     }
 
     public function indexAction() {
@@ -40,6 +40,7 @@ class logistica_planesController extends Zend_Controller_Action {
                 ->from(array('C'=>'ADM_PLANES'),  array(
                              'C.CODIGO_PLAN',
                              'C.DESCRIPCION_PLAN',
+                             'C.TIPO_PLAN',
                              'C.CANTIDAD_PLAN',
                              'C.COSTO_PLAN',
                              'C.ESTADO_PLAN'))
@@ -72,6 +73,7 @@ class logistica_planesController extends Zend_Controller_Action {
                
                 $item['CODIGO_PLAN'],
                 $item['DESCRIPCION_PLAN'],
+                $item['TIPO_PLAN'],
                 $item['CANTIDAD_PLAN'],
                 $item['COSTO_PLAN'],
                 $item['ESTADO_PLAN']            );
@@ -79,6 +81,7 @@ class logistica_planesController extends Zend_Controller_Action {
                 
                 'CODIGO_PLAN',
                 'DESCRIPCION_PLAN',
+                'TIPO_PLAN',
                 'CANTIDAD_PLAN',
                 'COSTO_PLAN',
                 'ESTADO_PLAN'
@@ -113,6 +116,7 @@ class logistica_planesController extends Zend_Controller_Action {
             $data_personas = array(
                 'CODIGO_PLAN' => ($parametros->CODIGO_PLAN),
                 'DESCRIPCION_PLAN' => (trim($parametros->DESCRIPCION_PLAN)),
+                'TIPO_PLAN' => (trim($parametros->TIPO_PLAN)),
                 'CANTIDAD_PLAN' => (trim($parametros->CANTIDAD_PLAN)),
                 'COSTO_PLAN' => (trim($parametros->COSTO_PLAN)),
                 'ESTADO_PLAN' => (trim($parametros->ESTADO_PLAN))
@@ -139,6 +143,7 @@ class logistica_planesController extends Zend_Controller_Action {
             $data_personas = array(
                 'CODIGO_PLAN' => ($parametros->CODIGO_PLAN),
                 'DESCRIPCION_PLAN' => (trim($parametros->DESCRIPCION_PLAN)),
+                'TIPO_PLAN' => (trim($parametros->TIPO_PLAN)),
                 'CANTIDAD_PLAN' => (trim($parametros->CANTIDAD_PLAN)),
                 'COSTO_PLAN' => (trim($parametros->COSTO_PLAN)),
                 'ESTADO_PLAN' => (trim($parametros->ESTADO_PLAN))

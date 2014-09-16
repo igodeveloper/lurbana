@@ -57,6 +57,13 @@ function cargarGrillaRegistro() {
                             width: 400,
                             hidden : false,
                             align: 'left'
+                        },
+                            { name: 'TIPO_PLAN',
+                            index: 'TIPO_PLAN',
+                            label: 'TIPO',
+                            width: 100,
+                            hidden : false,
+                            align: 'center'
                         }, { 
                             name: 'CANTIDAD_PLAN',
                             index: 'CANTIDAD_PLAN',
@@ -124,6 +131,7 @@ function modalModificar(rowData){
     $("#cantidadplan-modal").attr("value",rowData.CANTIDAD_PLAN);
     $("#costoplan-modal").attr("value",rowData.COSTO_PLAN);
     $("#estadoplan-modal").val(rowData.ESTADO_PLAN);
+    $("#tipoplan-modal").val(rowData.TIPO_PLAN);
     $("#modalNuevo").show();
 
 
