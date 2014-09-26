@@ -1,10 +1,10 @@
 $().ready(function() {
-
+    // alert(table);
  	$("#muestramodal").click(function() {
  		limpiarFormulario();
  		cargarCliente();
  		cargarAsistenteServicios();
-		cargarPlanesActivos();
+		// cargarPlanesActivos();
         bloqueardatos(false);
 			$("#fechagestion-modal").datepicker();
 		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
@@ -299,6 +299,7 @@ function cargarAsistenteServicios(){
         }
     });	
 }
+
 function cargarPlanesActivos(){
 	
 //	alert('Tipo Producto');
@@ -329,22 +330,29 @@ function getClienteSuscripcion(){
 
 	// alert($("#cliente-modal").val());
 	$.ajax({
-        url: table+'/getsuscripciones',
+        url: table+'/getplanescliente',
         type: 'post',
         data: {"parametros":dataString},
         dataType: 'json',
         async : false,
         success: function(respuesta){
-        	console.log(respuesta);
+        	console.log(respuesta[0]);
         	if(respuesta.success == false){
-        		mostarVentana("warning-modal","No hay suscripciones");  
-        		$("#planactivo-modal").select2("val",null);
+        		// $("#planactivo-modal:contains(\".list-group-item\")").remove();
+                $("#planactivo-modal").children("li").remove();
+                mostarVentana("warning-modal","No hay suscripciones");  
+                $( "#planactivo-modal" ).append( "<li class=\"list-group-item\"><a href=\"/logistica/suscripciones\">Realice una suscripcion para el cliente</a></li>" );
+
+        		
         		$("#saldogestion-modal").attr("value",null);
         		$("#saldogestion-modal").attr("disabled",false);
-        	}else{		
-        		$("#planactivo-modal").select2("val",respuesta.CODIGO_PLAN);
-        		$("#saldogestion-modal").attr("value",respuesta.CANTIDAD_SALDO);
-        		$("#saldogestion-modal").attr("disabled",true);
+        	}else{
+                $("#planactivo-modal").children("li").remove();
+                for (var i = 0; i < respuesta.length; i++ ) {
+                      $( "#planactivo-modal" ).append( "<li class=\"list-group-item\">"+respuesta[i]+"</li>" );
+                };
+               
+                
         	}
         },
         error: function(event, request, settings){

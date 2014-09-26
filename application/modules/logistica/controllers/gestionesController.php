@@ -546,6 +546,44 @@ class logistica_gestionesController extends Zend_Controller_Action {
             }
 
     }
+    public function getplanesclienteAction()
+    {
+     $this->_helper->layout->disableLayout();
+        
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        $resultado = array();
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'vlog_saldos_planes'),  array(
+                             'C.codigo_cliente',
+                             'C.codigo_suscripcion',
+                             'C.saldo',
+                             'C.descripcion_plan'))
+                     ->where('C.codigo_cliente = ?', $parametros->CODIGO_CLIENTE)
+                     ->order(array('C.saldo ASC'));
+                
+            $result = $db->fetchAll($select);
+            // $htmlResultado = '<option value="-1"></option>';
+            // print_r($result);
+            foreach ($result as $arr) {
+                $plan = "Plan: ".$arr['descripcion_plan']." - Saldo: ".$arr['saldo'];
+                // $objeto = array('plan' => $plan);
+                array_push($resultado, $plan);
+            }
+            if (count($resultado) == 0) {
+                echo json_encode(array("success" => false, "mensaje" => "No se encontraron datos"));
+                
+            }else{
+                echo json_encode($resultado);
+    
+            }
+            
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+    }
 
   
 }
