@@ -56,6 +56,10 @@ $().ready(function() {
 		$("#cantidadgestion-modal").attr("value", cantidad_gestion);
 	});
 
+    $("#cliente-modal").change(function() {
+        getClienteSuscripcion();
+        getClienteSaldo();
+    });
     // $('#cantidadgestion-modal').live('keyup', function(){
     //     $(this).val(format.call($(this).val().split(' ').join(''),' ','.'));
     // });
@@ -64,7 +68,7 @@ $().ready(function() {
 function bloqueardatos(block){
         $("#codigogestion-modal").attr("disabled",block);
         $("#saldogestion-modal").attr("disabled",block);
-        $("#planactivo-modal").attr("disabled",block);
+        // $("#planactivo-modal").attr("disabled",block);
         $("#cliente-modal").attr("disabled",block);
         $("#fechagestion-modal").attr("disabled",block);
         $("#enviaremail-modal").prop('checked', !block);
@@ -187,7 +191,7 @@ function obtenerJsonModal() {
 		jsonObject.CANTIDAD_MINUTOS = $("#tiempoestimado-modal").val();
 		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
-		if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
+		// if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
         jsonObject.ESTADO = $("#estado-modal").val();
 		jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
         console.log(jsonObject);
@@ -252,7 +256,7 @@ function limpiarFormulario(){
  $("#tiempoestimado-modal").val(null);
  $("#cantidadgestion-modal").val(null);
  $("#asistenteservicios-modal").select2("val",null);
- $("#planactivo-modal").select2("val",null);
+  $("#planactivo-modal").children("li").remove();
  $("#estado-modal").val(null);
  $("#saldogestion-modal").val(null);
 
@@ -360,6 +364,39 @@ function getClienteSuscripcion(){
         	 // alert(mostrarError("OcurrioError"));
         }
     });	
+
+
+}
+
+function getClienteSaldo(){
+    var data = new Object();
+    data.CODIGO_CLIENTE = $("#cliente-modal").val();
+
+    var dataString = JSON.stringify(data);  
+
+    // alert($("#cliente-modal").val());
+    $.ajax({
+        url: table+'/getsaldocliente',
+        type: 'post',
+        data: {"parametros":dataString},
+        dataType: 'json',
+        async : false,
+        success: function(respuesta){
+            console.log(respuesta);
+            $("#saldogestion-modal").attr("disabled",true);
+            if(respuesta.success == false){
+                mostarVentana("mensaje","No se pudo recuperar el saldo, intente de nuevo.")
+            }else{
+                $("#saldogestion-modal").attr("value",respuesta.SALDO);
+               
+                
+            }
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+             // alert(mostrarError("OcurrioError"));
+        }
+    }); 
 
 
 }

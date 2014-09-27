@@ -180,8 +180,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
                 'CODIGO_USUARIO'=> $parametrosLogueo->cod_usuario,
-                'ESTADO'=> $parametros->ESTADO,
-                'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
+                'ESTADO'=> $parametros->ESTADO
+                // 'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
               $comotermina = true;
@@ -279,8 +279,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
                 'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
-                'ESTADO'=> $parametros->ESTADO,     
-                'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
+                'ESTADO'=> $parametros->ESTADO
+                // 'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $where_personas = array(
                 'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
@@ -467,6 +467,29 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     'CODIGO_PLAN' => $result[0]['CODIGO_PLAN'] ,
                     'IMPORTE_GESTION' => $result[0]['IMPORTE_GESTION'],
                     'CANTIDAD_SALDO' => $result[0]['CANTIDAD_SALDO']
+                 ));    
+            }else{
+                echo json_encode(array('success' => false ));
+            }
+        }
+
+        public function getsaldoclienteAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        // print_r ($parametros);
+        // die();
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'VLOG_SALDOS'),  array(
+                             'C.SALDO'))
+                    ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE);
+                
+            $result = $db->fetchAll($select);
+            // print_r($result);
+            if($result[0]['SALDO'] != null){
+                 echo json_encode(array(
+                    'SALDO' => $result[0]['SALDO']
                  ));    
             }else{
                 echo json_encode(array('success' => false ));
