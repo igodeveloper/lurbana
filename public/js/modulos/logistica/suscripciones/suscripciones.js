@@ -5,20 +5,42 @@ $().ready(function() {
  		cargarCliente();
 		cargarPlanesActivos();
         bloqueardatos(false);
-			$("#fechasuscripcion-modal").datepicker();
-		    $("#fechasuscripcion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fechasuscripcion-modal").datepicker("setDate", new Date());
-		    $("#fechavencimiento-modal").datepicker();
-		    $("#fechavencimiento-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fechavencimiento-modal").datepicker("setDate", new Date());
-		    $("#fechaacreditacion-modal").datepicker();
-		    $("#fechaacreditacion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fechaacreditacion-modal").datepicker("setDate", new Date());
+            
+            $("#fechasuscripcion-modal").datepicker({
+                dateFormat: "yy-mm-dd",
+                onSelect: function(dateText, instance) {
+                    date = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
+                     $("#fechaacreditacion-modal").datepicker("setDate", date);
+                    date.setMonth(date.getMonth() + 2);
+                    $("#fechavencimiento-modal").datepicker("setDate", date);
+                   
+                }
+            });
+            $("#fechasuscripcion-modal").datepicker("setDate", new Date());
+            
+            $("#fechavencimiento-modal").datepicker({
+                dateFormat: "yy-mm-dd"
+            }); 
+            $("#fechaacreditacion-modal").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#fechaacreditacion-modal").datepicker("setDate", new Date());
+
+            var date = new Date(), 
+            y = date.getFullYear(), 
+            m = date.getMonth();
+            d = date.getDate(); 
+            var lastDay = new Date(y, m + 2, d);
+            $("#fechavencimiento-modal").attr("disabled", true);
+            $("#fechavencimiento-modal").datepicker("setDate", lastDay);
+
             $("#codigosuscripcion-modal").attr("disabled",true);
 		    $("#importegestion-modal").attr("disabled",true);
 		    $("#estadosuscripcion-modal").val('A');
             $("#modalNuevo").show();
             $("#ui-datepicker-div").css('display','none');
+            
+
            
     }); 
      $("#close-modal").click(function() {
