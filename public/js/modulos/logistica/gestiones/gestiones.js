@@ -1,6 +1,7 @@
 $().ready(function() {
     // alert(table);
  	$("#muestramodal").click(function() {
+        $("#planactivo-modal").children("li").remove();
  		limpiarFormulario();
  		cargarCliente();
  		cargarAsistenteServicios();
@@ -256,9 +257,10 @@ function limpiarFormulario(){
  $("#tiempoestimado-modal").val(null);
  $("#cantidadgestion-modal").val(null);
  $("#asistenteservicios-modal").select2("val",null);
-  $("#planactivo-modal").children("li").remove();
+ $("#planactivo-modal").children("li").remove();
  $("#estado-modal").val(null);
  $("#saldogestion-modal").val(null);
+ $("#planactivo-modal").children("li").remove();
 
 }
 function cargarCliente(){
