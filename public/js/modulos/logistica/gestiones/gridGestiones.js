@@ -201,8 +201,6 @@ function modalModificar(rowData){
 
 cargarCliente();
 cargarAsistenteServicios();
-cargarPlanesActivos();
-console.log(rowData);
   bloqueardatos(true);
  $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
  // $('#cliente-modal').select2(rowData.CODIGO_CLIENTE);
@@ -217,13 +215,13 @@ console.log(rowData);
  $("#cantidadgestion-modal").val(rowData.CANTIDAD_GESTIONES);
  $("#asistenteservicios-modal").select2("val",rowData.CODIGO_GESTOR);
  $("#estado-modal").val(rowData.ESTADO);
-$("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
+// $("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
 if (rowData.ESTADO == 'A') {
     $("#guardar-modal").attr("disabled",true);
 }else{
     $("#guardar-modal").attr("disabled",false);
 }
-    
+getClienteSuscripcion();
 
 $("#modalNuevo").show();
 
