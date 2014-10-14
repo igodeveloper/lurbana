@@ -178,7 +178,9 @@ function limpiarFormulario(){
 	$("#numerodocumentopersona-modal").attr("value",null);
 	$("#rucpersona-modal").attr("value",null);
 	$("#direccionpersona-modal").attr("value",null);
+	$("#referenciapersona-modal").attr("value",null);
 	$("#telefonopersona-modal").attr("value",null);
+	$("#celularpersona-modal").attr("value",null);
 	$("#emailpersona-modal").attr("value",null);
 	$("#ciudadpersona-modal").attr("value",null);
 	$("#barriopersona-modal").attr("value",null);
