@@ -122,14 +122,14 @@ header.is-fixed {
 #cd-logo {
   display: block;
   float: left;
-  margin: 12px 0 0 20px;
+  margin: 3px 0 0 8px;
 }
 #cd-logo img {
   display: block;
 }
 @media only screen and (min-width: 768px) {
   #cd-logo {
-    margin: 22px 0 0 30px;
+    margin: 8px 0 0 12px;
   }
 }
 

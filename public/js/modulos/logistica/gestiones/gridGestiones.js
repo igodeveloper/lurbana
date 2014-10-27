@@ -24,7 +24,7 @@ function desbloquearPantalla() {
 }
 function widthOfGrid() {
     var windowsWidth = $(window).width();
-    var gridWidth = ((90 * 94 * windowsWidth) / (100 * 100));
+    var gridWidth = ((97 * 97 * windowsWidth) / (100 * 100));
     return gridWidth;
 }
 
@@ -37,8 +37,9 @@ function cargarGrillaRegistro() {
                 url: table+"/buscar",
                 datatype: "local",
                 mtype : "POST",
-                autowith: false,
-                rowNum: 8,
+                autowith: true,
+                height: 280,
+                rowNum: 15,
                 rowList: [],
                 
                 colModel:[
@@ -47,27 +48,27 @@ function cargarGrillaRegistro() {
                         index: 'NUMERO_GESTION',
                         label: 'NRO',
                         hidden :false,
-                        width: 50,
+                        width: 40,
                         align: 'right'
                     },{
                         name: 'FECHA_GESTION',
                         index: 'FECHA_GESTION',
                         label: 'FECHA',
                         hidden :false,
-                        width: 100,
+                        width: 80,
                         align: 'center'
                     },{
                         name: 'FECHA_INICIO',
                         index: 'FECHA_INICIO',
                         label: 'INICIO',
                         hidden :false,
-                        width: 140,
+                        width: 110,
                         align: 'center'
                     },{ 
                         name: 'FECHA_FIN',
                         index: 'FECHA_FIN',
                         label: 'FIN',
-                        width: 140,
+                        width: 110,
                         hidden : false,
                         align: 'center'    
                     },
@@ -94,7 +95,7 @@ function cargarGrillaRegistro() {
                         name: 'GESTOR',
                         index: 'GESTOR',
                         label: 'GESTOR',
-                        width: 140,
+                        width: 110,
                         hidden : false,
                         align: 'left'
                     }, 
@@ -116,14 +117,14 @@ function cargarGrillaRegistro() {
                         name: 'ESTADO',
                         index: 'ESTADO',
                         label: 'ESTADO',
-                        width: 100,
+                        width: 70,
                         hidden : false,
                         align: 'center'
                     }, { 
                         name: 'CANTIDAD_GESTIONES',
                         index: 'CANTIDAD_GESTIONES',
                         label: 'GESTION',
-                        width: 70,
+                        width: 50,
                         hidden : false,
                         align: 'right',
                         formatter: 'number',
@@ -132,7 +133,7 @@ function cargarGrillaRegistro() {
                         name: 'CANTIDAD_MINUTOS',
                         index: 'CANTIDAD_MINUTOS',
                         label: 'MINUTOS',
-                        width: 70,
+                        width: 50,
                         hidden : false,
                         align: 'right',
                         formatter: 'number',
@@ -141,8 +142,9 @@ function cargarGrillaRegistro() {
                         name: 'OBSERVACION',
                         index: 'OBSERVACION',
                         label: 'OBSERVACION',
-                        width: 65,
-                        hidden : true
+                        width: 185,
+                        hidden : false,
+                        classes:'wrapColumnText'
                     }
                     , { 
                         name: 'CODIGO_PLAN',
@@ -156,7 +158,7 @@ function cargarGrillaRegistro() {
                         index: 'DESCRIPCION_PLAN',
                         label: 'PLAN',
                         width: 120,
-                        hidden : false
+                        hidden : true
                     }
                 ],
                 emptyrecords: "Sin Datos",
@@ -189,10 +191,10 @@ function cargarGrillaRegistro() {
 function buscar(){
     
     $("#grillaGestiones").jqGrid('setGridParam', { datatype: "json", postData: {
-                   filtros: JSON.stringify({ "DESCRIPCION_PERSONA": $("#descripcionpersona-filtro").val(), 
-                                             "ESTADO_CLIENTE": $("#estadopersona-filtro").val(),
-                                             "TELEFONO_PERSONA": $("#telefonopersona-filtro").val(),
-                                            "NRO_DOCUMENTO_PERSONA": $("#numerodocumentopersona-filtro").val()}),
+                   filtros: JSON.stringify({ "DESCRIPCION_CLIENTE": $("#cliente-filtro").val(), 
+                                             "NRO_DOCUMENTO_PERSONA": $("#documentocliente-filtro").val(),
+                                             "ESTADO_GESTION": $("#estadogestion-filtro").val(),
+                                            "ASISTENTE": $("#gestor-filtro").val()}),
                 }}).trigger("reloadGrid");
 }
 

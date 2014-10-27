@@ -31,15 +31,16 @@ function widthOfGrid() {
 /**
  * Carga la tabla visual con el listado de registros. La estructura de la tabla es especificada.
  */
-console.log('hola'+ $("#estadopersona-modal").val());
+// console.log('hola'+ $("#estadopersona-modal").val());
 function cargarGrillaRegistro() {
     jQuery("#grillaPlanes").jqGrid({
         
                 url: table+"/buscar" ,
                 datatype: "local",
                 mtype : "POST",
+                height: 280,
+                rowNum: 15,
                 autowith: true,
-                rowNum: 8,
                 rowList: [],
                 
                 colModel:[

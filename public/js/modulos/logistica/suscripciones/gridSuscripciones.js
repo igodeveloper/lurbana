@@ -37,8 +37,9 @@ function cargarGrillaRegistro() {
                 url: table+"/buscar",
                 datatype: "local",
                 mtype : "POST",
+                height: 280,
+                rowNum: 15,
                 autowith: false,
-                rowNum: 8,
                 rowList: [],
                 
                 colModel:[

@@ -1,11 +1,13 @@
 $().ready(function() {
+    $("#fechavencimiento-filtro").datepicker();
+    $("#fechavencimiento-filtro").datepicker("option", "dateFormat", "yy-mm-dd");
 
  	$("#muestramodal").click(function() {
  		limpiarFormulario();
  		cargarCliente();
 		cargarPlanesActivos();
         bloqueardatos(false);
-            
+
             $("#fechasuscripcion-modal").datepicker({
                 dateFormat: "yy-mm-dd",
                 onSelect: function(dateText, instance) {

@@ -38,7 +38,8 @@ function cargarGrillaRegistro() {
                 datatype: "local",
                 mtype : "POST",
                 autowith: true,
-                rowNum: 8,
+                height: 280,
+                rowNum: 15,
                 rowList: [],
                 
                 colModel:[

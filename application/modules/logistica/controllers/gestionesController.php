@@ -63,18 +63,18 @@ class logistica_gestionesController extends Zend_Controller_Action {
                    ->order(array('G.NUMERO_GESTION DESC'));
                    
          if ($filtros != null) {
-            // if ($filtros->DESCRIPCION_PERSONA != null) {
-            //     $select->where("upper(P.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_PERSONA."%')");
-            // }
-            // if ($filtros->NRO_DOCUMENTO_PERSONA != null) {
-            //     $select->where("P.NRO_DOCUMENTO_PERSONA = ?", $filtros->NRO_DOCUMENTO_PERSONA);
-            // }
-            // if ($filtros->TELEFONO_PERSONA != null) {
-            //     $select->where("P.TELEFONO_PERSONA = ?", $filtros->TELEFONO_PERSONA);
-            // }
-            // if ($filtros->ESTADO_CLIENTE != -1) {
-            //     $select->where("C.ESTADO_CLIENTE = ?", $filtros->ESTADO_CLIENTE);
-            // }
+            if ($filtros->DESCRIPCION_CLIENTE != null) {
+                $select->where("upper(P.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_CLIENTE."%')");
+            }
+            if ($filtros->NRO_DOCUMENTO_PERSONA != null) {
+                $select->where("P.NRO_DOCUMENTO_PERSONA = ?", $filtros->NRO_DOCUMENTO_PERSONA);
+            }
+            if ($filtros->ASISTENTE != null) {
+                $select->where("upper(PG.DESCRIPCION_PERSONA) like upper('%".$filtros->ASISTENTE."%')");
+            }
+            if ($filtros->ESTADO_GESTION != -1) {
+                $select->where("G.ESTADO = ?", $filtros->ESTADO_GESTION);
+            }
             $result = $db->fetchAll($select);
         } else {
             $result = $db->fetchAll($select);

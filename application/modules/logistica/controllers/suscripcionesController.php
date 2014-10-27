@@ -54,18 +54,18 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                    ->order(array('G.CODIGO_SUSCRIPCION DESC'));
                    
          if ($filtros != null) {
-            // if ($filtros->DESCRIPCION_PERSONA != null) {
-            //     $select->where("upper(P.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_PERSONA."%')");
-            // }
-            // if ($filtros->NRO_DOCUMENTO_PERSONA != null) {
-            //     $select->where("P.NRO_DOCUMENTO_PERSONA = ?", $filtros->NRO_DOCUMENTO_PERSONA);
-            // }
-            // if ($filtros->TELEFONO_PERSONA != null) {
-            //     $select->where("P.TELEFONO_PERSONA = ?", $filtros->TELEFONO_PERSONA);
-            // }
-            // if ($filtros->ESTADO_CLIENTE != -1) {
-            //     $select->where("C.ESTADO_CLIENTE = ?", $filtros->ESTADO_CLIENTE);
-            // }
+            if ($filtros->DESCRIPCION_PERSONA != null) {
+                $select->where("upper(PC.DESCRIPCION_PERSONA) like upper('%".$filtros->DESCRIPCION_PERSONA."%')");
+            }
+            if ($filtros->FECHA_VENCIMIENTO != null) {
+                $select->where("G.FECHA_VENCIMIENTO = ?", $filtros->FECHA_VENCIMIENTO);
+            }
+            if ($filtros->DESCRIPCION_PLAN != null) {
+                $select->where("upper(PL.DESCRIPCION_PLAN) like upper('%".$filtros->DESCRIPCION_PLAN."%')");
+            }
+            if ($filtros->ESTADO_SUSCRIPCION != -1) {
+                $select->where("G.ESTADO_SUSCRIPCION = ?", $filtros->ESTADO_SUSCRIPCION);
+            }
             $result = $db->fetchAll($select);
         } else {
             $result = $db->fetchAll($select);
