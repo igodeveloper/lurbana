@@ -49,6 +49,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                              'P.ENVIAR_EMAIL',
                              'P.DIRECCION_PERSONA',
                              'P.REFERENCIA_PERSONA',
+                             'P.CODIGO_GESTOR_ASIGNADO',
                              'P.CODIGO_CIUDAD',
                              'P.CODIGO_BARRIO',
                              'C.ESTADO_CLIENTE'))
@@ -98,6 +99,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 $item['ENVIAR_EMAIL'],
                 $item['DIRECCION_PERSONA'],
                 $item['REFERENCIA_PERSONA'],
+                $item['CODIGO_GESTOR_ASIGNADO'],
                 $item['CODIGO_CIUDAD'],
                 $item['CODIGO_BARRIO'],
                 $item['ESTADO_CLIENTE']
@@ -115,6 +117,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'ENVIAR_EMAIL',
                 'DIRECCION_PERSONA',
                 'REFERENCIA_PERSONA',
+                'CODIGO_GESTOR_ASIGNADO',
                 'CODIGO_CIUDAD',
                 'CODIGO_BARRIO',
                 'ESTADO_CLIENTE'
@@ -157,6 +160,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'ENVIAR_EMAIL' => (trim($parametros->ENVIAR_EMAIL)),
                 'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
                 'REFERENCIA_PERSONA' => (trim($parametros->REFERENCIA_PERSONA)),
+                'CODIGO_GESTOR_ASIGNADO' => $parametros->CODIGO_GESTOR,
                 'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
@@ -200,6 +204,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'ENVIAR_EMAIL' => (trim($parametros->ENVIAR_EMAIL)),
                 'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
                 'REFERENCIA_PERSONA' => (trim($parametros->REFERENCIA_PERSONA)),
+                'CODIGO_GESTOR_ASIGNADO' => $parametros->CODIGO_GESTOR,
                 'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
@@ -250,6 +255,34 @@ class administracion_clientesController extends Zend_Controller_Action {
             $pdf->close();
             unset($pdf);
             echo json_encode(array("success" => true,"archivo" => $file));                 
+    }
+    //cargamos lista de asistentes de sercixios
+    public function getasistenteserviciosAction()
+    {
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'LOG_GESTORES'),  array(
+                             'C.CODIGO_GESTOR',
+                             'P.DESCRIPCION_PERSONA'))
+                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                    ->order(array('C.CODIGO_GESTOR DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1">Seleccione</option>';
+            foreach ($result as $arr) {
+                $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
+                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
     }
 
   

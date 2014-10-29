@@ -103,10 +103,10 @@
                             <input id="codigocliente-modal" type="text" name="selectInput" class="form-control input-sm " placeholder=" " disabled="disabled" required>
                         </div>
                     </div>
-                    <div class="form-group" >
+                    <div class="form-group" style="display: none">
                         <div class=" input-group">
                             Código persona
-                            <input id="codigopersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" " disabled="disabled">
+                            <input id="codigopersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" " disabled="disabled" >
                         </div>
                     </div>
                     <div class="form-group" >
@@ -138,6 +138,13 @@
                             Teléfono - Celular
                             <input id="celularpersona-modal" type="text" name="selectInput" class="form-control input-sm" placeholder=" celular" >
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group"style="width:100%;">
+                            Asistente de servicio
+                            <select id="asistenteservicios-modal"  style="width:100%;">
+                            </select>
+                        </div>          
                     </div>  
                    
                </div>
@@ -240,3 +247,9 @@
     </div>
 </div>
 
+  <script type="text/javascript">
+$(document).ready(function() { 
+$("#asistenteservicios-modal").select2();
+});
+
+  </script>

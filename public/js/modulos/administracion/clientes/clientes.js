@@ -4,6 +4,7 @@ $().ready(function() {
  	$("#muestramodal").click(function() {
  		limpiarFormulario()
             $("#modalNuevo").show();
+            cargarAsistenteServicios();
            
     });
     $("#reporte").click(function() {
@@ -139,6 +140,7 @@ function obtenerJsonModal() {
 		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
 		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
 		jsonObject.ENVIAR_EMAIL = $("#enviaremail-modal").val();
+		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
 		return jsonObject;
 	}
 }
@@ -200,6 +202,7 @@ function limpiarFormulario(){
 	$("#ciudadpersona-modal").attr("value",null);
 	$("#barriopersona-modal").attr("value",null);
 	$("#estadocliente-modal").attr("value",null);
+	$("#asistenteservicios-modal").select2("val",null);
 }
 
 function imprimirReporte(){           
@@ -239,4 +242,25 @@ function limpiarReporte(){
 	$("#cliente-reporte").val(null);
 	$("#fechadesde-reporte").val(null);
 	$("#fechahasta-reporte").val(null);
+}
+function cargarAsistenteServicios(){
+	
+//	alert('Tipo Producto');
+	$.ajax({
+        url: table+'/getasistenteservicios',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+        	if(respuesta== 'error'){
+        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        	}else{
+            	$("#asistenteservicios-modal").html(respuesta);       		
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 alert(mostrarError("OcurrioError"));
+        }
+    });	
 }

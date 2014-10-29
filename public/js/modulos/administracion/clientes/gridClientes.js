@@ -113,6 +113,12 @@ function cargarGrillaRegistro() {
                             width: 170,
                             hidden : true
                         }, { 
+                            name: 'CODIGO_GESTOR',
+                            index: 'CODIGO_GESTOR',
+                            label: 'GESTOR',
+                            width: 170,
+                            hidden : true
+                        }, { 
                             name: 'CODIGO_CIUDAD',
                             index: 'CODIGO_CIUDAD',
                             label: 'CIUDAD',
@@ -172,7 +178,7 @@ function buscar(){
 }
 
 function modalModificar(rowData){
-
+    cargarAsistenteServicios();
     $('#codigocliente-modal').attr("value", rowData.CODIGO_CLIENTE);
     $('#codigopersona-modal').attr("value", rowData.CODIGO_PERSONA);
     $("#descripcionpersona-modal").attr("value",rowData.DESCRIPCION_PERSONA);
@@ -187,6 +193,7 @@ function modalModificar(rowData){
     $("#barriopersona-modal").attr("value",rowData.CODIGO_BARRIO);
     $("#estadocliente-modal").attr("value",rowData.ESTADO_CLIENTE);
     $("#enviaremail-modal").attr("value",rowData.ENVIAR_EMAIL);
+    $("#asistenteservicios-modal").select2("val",rowData.CODIGO_GESTOR);
     $("#modalNuevo").show();
 
 

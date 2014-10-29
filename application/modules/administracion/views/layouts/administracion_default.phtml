@@ -9,7 +9,8 @@
             appendFile($this->baseUrl() . "/js/jquery.tablescroll.js")->
             appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
             appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
-          appendFile($this->baseUrl() . '/menu/js/main.js');
+          appendFile($this->baseUrl() . '/menu/js/main.js')->
+          appendFile($this->baseUrl() . "/js/select2.js");
             
             // appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/gridClientes.js")->
             // appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/clientes.js");
@@ -19,6 +20,7 @@
             ->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
             ->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
             ->prependStylesheet($this->baseUrl() . "/css/style.css")
+            ->prependStylesheet($this->baseUrl() . "/css/select2.css")
     ?>
 
 <!doctype html>
