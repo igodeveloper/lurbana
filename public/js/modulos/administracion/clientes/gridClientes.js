@@ -60,19 +60,19 @@ function cargarGrillaRegistro() {
                             { name: 'DESCRIPCION_PERSONA',
                             index: 'DESCRIPCION_PERSONA',
                             label: 'DESCRIPCION',
-                            width: 180,
+                            width: 230,
                             hidden : false
                         },
                             { name: 'NRO_DOCUMENTO_PERSONA',
                             index: 'NRO_DOCUMENTO_PERSONA',
                             label: 'DOCUMENTO',
-                            width: 80,
+                            width: 100,
                             hidden : false
                         },
                             { name: 'RUC_PERSONA',
                             index: 'RUC_PERSONA',
                             label: 'RUC',
-                            width: 90,
+                            width: 100,
                             hidden : false
                         },
                         { 
@@ -92,13 +92,13 @@ function cargarGrillaRegistro() {
                             name: 'EMAIL_PERSONA',
                             index: 'EMAIL_PERSONA',
                             label: 'EMAIL',
-                            width: 120,
+                            width: 150,
                             hidden : false
                         }, { 
                             name: 'ENVIAR_EMAIL',
                             index: 'ENVIAR_EMAIL',
-                            label: 'ENVIAR',
-                            width: 120,
+                            label: 'ENVIAR EMAIL',
+                            width: 70,
                             hidden : true
                         }, { 
                             name: 'DIRECCION_PERSONA',
@@ -117,13 +117,13 @@ function cargarGrillaRegistro() {
                             index: 'CODIGO_CIUDAD',
                             label: 'CIUDAD',
                             width: 55,
-                            hidden : false
+                            hidden : true
                         }, { 
                             name: 'CODIGO_BARRIO',
                             index: 'CODIGO_BARRIO',
                             label: 'BARRIO',
                             width: 60,
-                            hidden : false
+                            hidden : true
                         }, { 
                             name: 'ESTADO_CLIENTE',
                             index: 'ESTADO_CLIENTE',

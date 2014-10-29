@@ -17,6 +17,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
 /** Zend_Application */
 //require_once 'Zend/Application.php';
 require_once '../library/Zend/Application.php';
+require_once '../library/fpdf/fpdf.php';
+require_once '../library/reports/db_operation.php';
+require_once '../library/reports/n2t.class.php';
+require_once '../library/reports/PDFReporteclientes.php';
 
 // Create application, bootstrap, and run
 $application = new Zend_Application(

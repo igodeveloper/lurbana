@@ -5,6 +5,10 @@ $().ready(function() {
  		limpiarFormulario()
             $("#modalNuevo").show();
            
+    });
+    $("#reporte").click(function() {
+            $("#modalReportes").show();
+           
     }); 
      $("#close-modal").click(function() {
             $("#modalNuevo").hide();
@@ -12,6 +16,19 @@ $().ready(function() {
     }); 
      $("#cancelar-modal").click(function() {
             $("#modalNuevo").hide();
+
+           
+    }); 
+     $("#close-reporte").click(function() {
+            $("#modalReportes").hide();
+           limpiarReporte();
+    }); 
+     $("#cancelar-reporte").click(function() {
+            $("#modalReportes").hide();
+           limpiarReporte();
+    }); 
+     $("#imprimir-reporte").click(function() {
+            imprimirReporte();
            
     });
 
@@ -122,7 +139,7 @@ function obtenerJsonModal() {
 		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
 		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
 		jsonObject.ENVIAR_EMAIL = $("#enviaremail-modal").val();
-		return jsonObject
+		return jsonObject;
 	}
 }
 function enviarParametros(data){
@@ -163,15 +180,13 @@ function enviarParametros(data){
 
 
 function limpiarFiltos(){
-
 	$("#descripcionpersona-filtro").attr("value",null);
 	$("#numerodocumentopersona-filtro").attr("value",null);
 	$("#estado-filtro").attr("value",null);
 	$("#telefonopersona-filtro").attr("value",null);
-	}
+}
 
 function limpiarFormulario(){
-
 	$("#codigopersona-modal").attr("value",null);
 	$("#codigocliente-modal").attr("value",null);
 	$("#descripcionpersona-modal").attr("value",null);
@@ -185,6 +200,43 @@ function limpiarFormulario(){
 	$("#ciudadpersona-modal").attr("value",null);
 	$("#barriopersona-modal").attr("value",null);
 	$("#estadocliente-modal").attr("value",null);
-
 }
 
+function imprimirReporte(){           
+	var dataString = JSON.stringify(obtenerJsonReporte());      
+	$.ajax({
+		url: table+'/imprimirreporte',
+		type: 'post',
+		data: {"parametros":dataString},
+		dataType: 'json',
+		async: false,
+		success: function(respuesta) {
+			if (!respuesta.success) {
+            	mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
+			} else if (respuesta.success) {
+                window.open('../'+respuesta.archivo);
+ 				$("#modalReportes").hide();
+                limpiarReporte();
+
+			}                                        
+			$.unblockUI();
+		},
+		error: function(event, request, settings) {
+			$.unblockUI();
+			mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
+		}        
+	});                  	
+}
+function obtenerJsonReporte(){
+	var jsonReporte = new Object();	
+	jsonReporte.CLIENTE = $("#cliente-reporte").val();
+	jsonReporte.FECHA_DESDE = $("#fechadesde-reporte").val();
+	jsonReporte.FECHA_HASTA = $("#fechahasta-reporte").val();	
+	return jsonReporte;
+}	
+
+function limpiarReporte(){
+	$("#cliente-reporte").val(null);
+	$("#fechadesde-reporte").val(null);
+	$("#fechahasta-reporte").val(null);
+}
