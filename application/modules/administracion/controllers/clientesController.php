@@ -273,7 +273,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                     ->distinct(true);
                 
             $result = $db->fetchAll($select);
-            $htmlResultado = '<option value="-1">Seleccione</option>';
+            $htmlResultado = '<option value="0">Seleccione</option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
                 trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
