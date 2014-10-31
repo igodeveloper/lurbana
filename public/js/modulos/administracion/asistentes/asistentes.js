@@ -15,6 +15,22 @@ $().ready(function() {
            
     });
 
+      $("#close-reporte").click(function() {
+            $("#modalReportes").hide();
+           limpiarReporte();
+    }); 
+     $("#cancelar-reporte").click(function() {
+            $("#modalReportes").hide();
+           limpiarReporte();
+    }); 
+     $("#imprimir-reporte").click(function() {
+            imprimirReporte();
+           
+    });
+      $("#reporte").click(function() {
+            $("#modalReportes").show();
+           
+    }); 
 
 	
 	$('#guardar-modal').click(function() {
@@ -184,3 +200,40 @@ function limpiarFormulario(){
 
 }
 
+function imprimirReporte(){           
+	var dataString = JSON.stringify(obtenerJsonReporte());      
+	$.ajax({
+		url: table+'/imprimirreporte',
+		type: 'post',
+		data: {"parametros":dataString},
+		dataType: 'json',
+		async: false,
+		success: function(respuesta) {
+			if (respuesta.success) {
+                window.open('../reportes_pdf/asistentes/'+respuesta.archivo);
+ 				$("#modalReportes").hide();
+                limpiarReporte();
+            }else{
+            	alet("Ocurrio un error en la generacion del reporte");
+			}                        
+			$.unblockUI();
+		},
+		error: function(event, request, settings) {
+			$.unblockUI();
+			mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
+		}        
+	});                  	
+}
+function obtenerJsonReporte(){
+	var jsonReporte = new Object();	
+	jsonReporte.GESTOR = $("#asistente-reporte").val();
+	jsonReporte.FECHA_DESDE = $("#fechadesde-reporte").val();
+	jsonReporte.FECHA_HASTA = $("#fechahasta-reporte").val();	
+	return jsonReporte;
+}	
+
+function limpiarReporte(){
+	$("#asistente-reporte").val(null);
+	$("#fechadesde-reporte").val(null);
+	$("#fechahasta-reporte").val(null);
+}

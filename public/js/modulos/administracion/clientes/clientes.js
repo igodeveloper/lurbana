@@ -214,14 +214,13 @@ function imprimirReporte(){
 		dataType: 'json',
 		async: false,
 		success: function(respuesta) {
-			if (!respuesta.success) {
-            	mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
-			} else if (respuesta.success) {
-                window.open('../'+respuesta.archivo);
+			if (respuesta.success) {
+                window.open('../reportes_pdf/clientes/'+respuesta.archivo);
  				$("#modalReportes").hide();
                 limpiarReporte();
-
-			}                                        
+            }else{
+            	mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
+			}                                            
 			$.unblockUI();
 		},
 		error: function(event, request, settings) {

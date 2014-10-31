@@ -237,7 +237,7 @@ class administracion_clientesController extends Zend_Controller_Action {
 
 
             $var_nombrearchivo = 'clientes';
-            $path_tmp = './';
+            $path_tmp = './reportes_pdf/clientes/';
             $orientation='P';
             $unit='mm';
             $format='A4';
