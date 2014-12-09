@@ -22,12 +22,13 @@ html, body {
 body {
   font-size: 100%;
   font-family: "Titillium Web", sans-serif;
+  /*color: #2E68B2;*/
   color: #4e6361;
-  background-color: #f5f4e9;
+  /*background-color: #f5f4e9;*/
 }
 
 a {
-  color: #6cac70;
+  color: #2E68B2;
   text-decoration: none;
 }
 
@@ -90,7 +91,8 @@ header {
   left: 0;
   height: 50px;
   width: 100%;
-  background: #4e6361;
+  background: #2E68B2;
+  /*background: #4e6361;*/
   z-index: 3;
   /* Force Hardware Acceleration in WebKit */
   -webkit-transform: translateZ(0);
@@ -173,7 +175,8 @@ header.is-fixed {
   top: 0;
   height: 100%;
   width: 50px;
-  background-color: #64807d;
+  /*background-color: #64807d;*/
+  background-color: #2E68B2;
 }
 #cd-menu-trigger .cd-menu-text {
   height: 100%;
@@ -267,7 +270,8 @@ header.is-fixed {
   /* the secondary navigation is covered by the main element */
   z-index: 1;
   width: 260px;
-  background-color: #242e30;
+  /*background-color: #242e30;*/
+  background-color: #2E377C;
   overflow-y: auto;
   /* Force Hardware Acceleration in WebKit */
   -webkit-transform: translateZ(0);
@@ -391,7 +395,8 @@ header.is-fixed {
   background-position: -96px 0;
 }
 .no-touch #cd-lateral-nav .socials a:hover {
-  background-color: #4e6361;
+  background-color: #2E68B2;
+  /*background-color: #4e6361;*/
 }
 .no-touch #cd-lateral-nav .socials a:hover.cd-twitter {
   background-position: 0 -32px;
