@@ -1,19 +1,20 @@
 var pathname = window.location.pathname;
 var table = pathname;
 $().ready(function() {
- 
+ 	limpiarReporte();
+
      $("#imprimir-reporte").click(function() {
             
-            imprimirReportePDF();
-            // imprimirReporteTXT();
+            // imprimirReportePDF();
+            imprimirReporteTXT();
            
     });
-     $("#fechadesde-reporte").datepicker();
-    $("#fechadesde-reporte").datepicker("option", "dateFormat", "yy-mm-dd");
-    $("#fechadesde-reporte").datepicker("setDate", new Date());    
-    $("#fechahasta-reporte").datepicker();
-    $("#fechahasta-reporte").datepicker("option", "dateFormat", "yy-mm-dd");
-    $("#fechahasta-reporte").datepicker("setDate", new Date());
+     $("#mes-reporte").datepicker();
+    $("#mes-reporte").datepicker("option", "dateFormat", "mm");
+    $("#mes-reporte").datepicker("setDate", new Date());    
+    $("#ano-reporte").datepicker();
+    $("#ano-reporte").datepicker("option", "dateFormat", "yy");
+    $("#ano-reporte").datepicker("setDate", new Date());
 
 });
 
@@ -60,41 +61,40 @@ function imprimirReportePDF(){
 		}        
 	});                  	
 }
-// function imprimirReporteTXT(){           
-// 	var dataString = JSON.stringify(obtenerJsonReporte());
-// 	$.ajax({
-// 		url: table+'/imprimirreporte',
-// 		type: 'post',
-// 		data: {"parametros":dataString},
-// 		dataType: 'json',
-// 		async: false,
-// 		success: function(respuesta) {
-// 			if (respuesta.success) {
-//                 window.open('../reportes_pdf/clientes/'+respuesta.archivo);
-//  				$("#modalReportes").hide();
-//                 limpiarReporte();
-//             }else{
-//             	mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
-// 			}                                            
-// 			$.unblockUI();
-// 		},
-// 		error: function(event, request, settings) {
-// 			$.unblockUI();
-// 			mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
-// 		}        
-// 	});                  	
-// }
+function imprimirReporteTXT(){           
+	var dataString = JSON.stringify(obtenerJsonReporte());
+	$.ajax({
+		url: table+'/imprimirreporte',
+		type: 'post',
+		data: {"parametros":dataString},
+		dataType: 'json',
+		async: false,
+		success: function(respuesta) {
+			$("#reporte-txt").attr("value",null);
+			$("#reporte-txt").attr("value",respuesta.valor);
+		},
+		error: function(event, request, settings) {
+			$.unblockUI();
+			mostarVentana("warning", "Ocurrio un error en la generacion del reporte");
+		}        
+	});
+}                  	
 
 function obtenerJsonReporte(){
 	var jsonReporte = new Object();	
 	jsonReporte.CLIENTE = $("#cliente-reporte").val();
-	jsonReporte.FECHA_DESDE = $("#fechadesde-reporte").val();
-	jsonReporte.FECHA_HASTA = $("#fechahasta-reporte").val();	
+	jsonReporte.MES = $("#mes-reporte").val();
+	jsonReporte.ANO = $("#ano-reporte").val();	
 	return jsonReporte;
 }	
 
 function limpiarReporte(){
 	$("#cliente-reporte").val(null);
-	$("#fechadesde-reporte").val(null);
-	$("#fechahasta-reporte").val(null);
+	// $("#mes-reporte").val(null);
+	// $("#ano-reporte").val(null);
+	$("#reporte-txt").attr("value",null);
+	var anho = (new Date).getFullYear();
+	$("#ano-reporte").append(new Option(anho, anho));
+	$("#ano-reporte").append(new Option(anho-1, anho-1));
+	$("#mes-reporte").val(0);;
 }

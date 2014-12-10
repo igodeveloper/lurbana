@@ -8,6 +8,12 @@ $().ready(function() {
             imprimirReporte();
            
     });
+    $("#fechadesde-reporte").datepicker();
+    $("#fechadesde-reporte").datepicker("option", "dateFormat", "yy-mm-dd");
+    $("#fechadesde-reporte").datepicker("setDate", new Date());    
+    $("#fechahasta-reporte").datepicker();
+    $("#fechahasta-reporte").datepicker("option", "dateFormat", "yy-mm-dd");
+    $("#fechahasta-reporte").datepicker("setDate", new Date());
 
 });
 
