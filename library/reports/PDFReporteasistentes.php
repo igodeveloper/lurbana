@@ -97,16 +97,16 @@
                     from vlog_gestiones_clientes
                     where gestor = '".$GESTOR_DES."'";
                 if($this->parametros->FECHA_DESDE != null){
-                    $sql2.=" and fecha >".$this->parametros->FECHA_DESDE;
+                    $sql2.=" and fecha >= '".$this->parametros->FECHA_DESDE."'";
                 }
                 if($this->parametros->FECHA_HASTA != null){
-                    $sql2.=" and fecha <".$this->parametros->FECHA_HASTA;
+                    $sql2.=" and fecha <= '".$this->parametros->FECHA_HASTA."'";
                 }
 
                 $sql2.=" order by fecha desc";   
 
-                // echo $sql2."<br>"; 
-                // die();                             
+                 // echo $sql2."<br>"; 
+                 // die();                             
                 $dtDatos2 = $this->Conn->query($sql2);
             
                 $count2 = 1;
@@ -127,7 +127,7 @@
                     $this->SetX(30);
                     $this->Cell(30,10,$CANTIDAD_GESTIONES.' Uni',0,0,'L');
                     $this->SetX(60);
-                    $this->Cell(40,10,$CLIENTE,0,0,'L');
+                    $this->Cell(40,10,$CLIENTE,0,1,'L');
                     $this->SetX(100);
                     $this->MultiCell(100,5,$OBSERVACION,0,1);      
                     $this->fila++;
