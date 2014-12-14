@@ -70,8 +70,12 @@ function imprimirReporteTXT(){
 		dataType: 'json',
 		async: false,
 		success: function(respuesta) {
+			console.log(respuesta);
 			$("#reporte-txt").attr("value",null);
 			$("#reporte-txt").attr("value",respuesta.valor);
+    	setFile(respuesta.valor);
+        // window.open('data:text/csv;charset=utf-8,' + escape(respuesta.valor));
+
 		},
 		error: function(event, request, settings) {
 			$.unblockUI();
@@ -97,4 +101,45 @@ function limpiarReporte(){
 	$("#ano-reporte").append(new Option(anho, anho));
 	$("#ano-reporte").append(new Option(anho-1, anho-1));
 	$("#mes-reporte").val(0);;
+}
+function setFile( data, fileName, fileType ) {
+    // Set objects for file generation.
+    var blob, url, a, extension;
+    
+    // Get time stamp for fileName.
+    var stamp = new Date().getTime();
+    
+    // Set MIME type and encoding.
+    fileType = ( fileType || "text/csv;charset=UTF-8" );
+    extension = fileType.split( "/" )[1].split( ";" )[0];
+    // Set file name.
+    fileName = ( fileName || "ResumenConsumo_" + stamp + "." + extension );
+    
+    // Set data on blob.
+    blob = new Blob( [ data ], { type: fileType } );
+    
+    // Set view.
+    if ( blob ) {
+        // Read blob.
+        url = window.URL.createObjectURL( blob );
+    
+        // Create link.
+        a = document.createElement( "a" );
+        // Set link on DOM.
+        document.body.appendChild( a );
+        // Set link's visibility.
+        a.style = "display: none";
+        // Set href on link.
+        a.href = url;
+        // Set file name on link.
+        a.download = fileName;
+    
+        // Trigger click of link.
+        a.click();
+    
+        // Clear.
+        window.URL.revokeObjectURL( url );
+    } else {
+        // Handle error.
+    }
 }

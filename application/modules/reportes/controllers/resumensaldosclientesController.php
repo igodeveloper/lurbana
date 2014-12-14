@@ -57,7 +57,7 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
             // $result = $parametrosReporte->resultado;
             // $parametrosReporte->resultado = null;
             // $parametrosReporte->lock();
-            $output = "";
+            $output = "Cliente;Año;Mes;Consumo\n";
             $total_acumulado = 0;
             foreach ($result as $fila)  {
                 if(strlen($fila["CLIENTE"])!= 100){
@@ -79,15 +79,11 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
                 $total_acumulado = $total_acumulado+$TOTAL;
                 $output.= $CLIENTE.";".$ANO.";".$MES.";".$TOTAL.";\n";
             }
-            $output.= "TOTAL GESTIONES: ".$total_acumulado.";\n";
-        // header('Expires: 0');
-        // header('Cache-control: private');
-        // header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        // header('Content-Description: File Transfer');
-        // header('Content-Type: text/plain');
-        // header("Content-disposition: attachment; filename=$fileName");
-        // echo $output;
+            $output.= "TOTAL GESTIONES: ".";;;".$total_acumulado.";\n";
+
+        
          echo json_encode(array("success" => true, "valor"=> $output));
+         // echo json_encode(array("success" => true));
                             
     }
 
