@@ -73,6 +73,7 @@ function bloqueardatos(block){
         $("#cliente-modal").attr("disabled",block);
         $("#fechagestion-modal").attr("disabled",block);
         $("#enviaremail-modal").prop('checked', !block);
+        $("#gentileza-modal").prop('checked', !block);
 }
 function format(comma, period) {
   comma = comma || ',';
@@ -194,7 +195,8 @@ function obtenerJsonModal() {
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
 		// if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
         jsonObject.ESTADO = $("#estado-modal").val();
-		jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
+        jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
+		jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
         console.log(jsonObject);
 		return jsonObject
 	}

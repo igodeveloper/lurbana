@@ -89,6 +89,7 @@ function obtenerJsonReporte(){
 	jsonReporte.CLIENTE = $("#cliente-reporte").val();
 	jsonReporte.MES = $("#mes-reporte").val();
 	jsonReporte.ANO = $("#ano-reporte").val();	
+	jsonReporte.GENTILEZA = $("#gentileza-reporte").is(':checked') ? "S" : "N";
 	return jsonReporte;
 }	
 
@@ -100,7 +101,7 @@ function limpiarReporte(){
 	var anho = (new Date).getFullYear();
 	$("#ano-reporte").append(new Option(anho, anho));
 	$("#ano-reporte").append(new Option(anho-1, anho-1));
-	$("#mes-reporte").val(0);;
+	$("#mes-reporte").val(0);
 }
 function setFile( data, fileName, fileType ) {
     // Set objects for file generation.
@@ -113,7 +114,8 @@ function setFile( data, fileName, fileType ) {
     fileType = ( fileType || "text/csv;charset=UTF-8" );
     extension = fileType.split( "/" )[1].split( ";" )[0];
     // Set file name.
-    fileName = ( fileName || "ResumenConsumo_" + stamp + "." + extension );
+    var name_reporte = $("#gentileza-reporte").is(':checked') ? "ResumenConsumoGentileza_":"ResumenConsumo_";
+    fileName = ( fileName || name_reporte + stamp + "." + extension );
     
     // Set data on blob.
     blob = new Blob( [ data ], { type: fileType } );

@@ -159,6 +159,12 @@ function cargarGrillaRegistro() {
                         label: 'PLAN',
                         width: 120,
                         hidden : true
+                    }, { 
+                        name: 'GENTILEZA',
+                        index: 'GENTILEZA',
+                        label: 'GENTILEZA',
+                        width: 120,
+                        hidden : true
                     }
                 ],
                 emptyrecords: "Sin Datos",
@@ -217,13 +223,20 @@ cargarAsistenteServicios();
  $("#cantidadgestion-modal").val(rowData.CANTIDAD_GESTIONES);
  $("#asistenteservicios-modal").select2("val",rowData.CODIGO_GESTOR);
  $("#estado-modal").val(rowData.ESTADO);
+ // $("#gentileza-modal").val(rowData.GENTILEZA);
+
 // $("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
 if (rowData.ESTADO == 'A') {
     $("#guardar-modal").attr("disabled",true);
 }else{
     $("#guardar-modal").attr("disabled",false);
 }
-getClienteSuscripcion();
+if (rowData.GENTILEZA == 'S') {
+    $( "#gentileza-modal" ).prop( "checked", true );
+}else{
+    $( "#gentileza-modal" ).prop( "checked", false );
+}
+// getClienteSuscripcion();
 
 $("#modalNuevo").show();
 

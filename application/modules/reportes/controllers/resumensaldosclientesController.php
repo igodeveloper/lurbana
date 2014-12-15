@@ -27,9 +27,14 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
         $filtros = json_decode($this->getRequest ()->getParam ( "parametros" ));
 
         // $parametrosReporte = new Zend_Session_Namespace ( 'reporte' );
+        if($filtros->GENTILEZA == 'S'){
+            $table = 'vlog_gestiones_gentileza_resum';
+        }else{
+             $table = 'vlog_gest_cli_resum';
+        }
             $db = Zend_Db_Table::getDefaultAdapter();
             $select = $db->select()
-                ->from(array('C'=>'vlog_gest_cli_resum'),  array(
+                ->from(array('C'=>$table),  array(
                              'C.CLIENTE',
                              'C.ANHO',
                              'C.MES',
@@ -49,15 +54,8 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
             } else {
                 $result = $db->fetchAll($select);
             }
-            // $parametrosReporte->unlock();
-            // $parametrosReporte->resultado = $result;
-            // $parametrosReporte->lock();
-            $fileName = "resumensaldos.txt";
-
-            // $result = $parametrosReporte->resultado;
-            // $parametrosReporte->resultado = null;
-            // $parametrosReporte->lock();
-            $output = "Cliente;Año;Mes;Consumo\n";
+            
+            $output = "Cliente;Año;Mes;Consumo;\n";
             $total_acumulado = 0;
             foreach ($result as $fila)  {
                 if(strlen($fila["CLIENTE"])!= 100){
@@ -87,48 +85,6 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
                             
     }
 
-     // public function descargarreporteAction() {
-     //    $this->_helper->layout->disableLayout();
-     //    $this->_helper->viewRenderer->setNoRender(true);
-     //    $parametrosReporte->unlock();
-            
-            
 
-     //    $fileName = "resumensaldos.txt";
-
-     //        $result = $parametrosReporte->resultado;
-     //        $parametrosReporte->resultado = null;
-     //        $parametrosReporte->lock();
-     //        $output = "";
-     //        $total_acumulado = 0;
-     //        foreach ($result as $fila)  {
-     //            if(strlen($fila["CLIENTE"])!= 100){
-                    
-     //                $CLIENTE = str_pad($fila["CLIENTE"],2,' ', STR_PAD_RIGHT);
-     //            }else{                  
-     //                $CLIENTE = $fila["CLIENTE"];                    
-     //            }
-
-     //            if(strlen($fila["MES"])!= 2){
-                    
-     //                $MES = str_pad($fila["MES"],2,'0', STR_PAD_LEFT);
-     //            }else{                  
-     //                 $MES = $fila["MES"];
-
-     //            }
-     //            $ANO = $fila["ANHO"];                    
-     //            $TOTAL = $fila["TOTAL"];                    
-     //            $total_acumulado = $total_acumulado+$TOTAL;
-     //            $output.= $CLIENTE.";".$ANO.";".$MES.";".$TOTAL.";\n";
-     //        }
-     //        $output.= "TOTAL GESTIONES: ".$total_acumulado.";\n";
-     //    header('Expires: 0');
-     //    header('Cache-control: private');
-     //    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-     //    header('Content-Description: File Transfer');
-     //    header('Content-Type: text/plain');
-     //    header("Content-disposition: attachment; filename=$fileName");
-     //    echo $output; 
-
-     // }
+     
 }

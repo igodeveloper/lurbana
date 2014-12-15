@@ -54,6 +54,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                              'G.CANTIDAD_MINUTOS',
                              'G.OBSERVACION',
                              'G.CODIGO_PLAN',
+                             'G.GENTILEZA',
                              'PL.DESCRIPCION_PLAN'))
                    ->join(array('C' => 'ADM_CLIENTES'), 'G.CODIGO_CLIENTE  = C.CODIGO_CLIENTE')
                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
@@ -107,7 +108,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 $item['CANTIDAD_MINUTOS'],
                 $item['OBSERVACION'],
                 $item['CODIGO_PLAN'],
-                $item['DESCRIPCION_PLAN']
+                $item['DESCRIPCION_PLAN'],
+                $item['GENTILEZA']
             );
             $arrayDatos ['columns'] = array(
                     'NUMERO_GESTION',
@@ -124,7 +126,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     'CANTIDAD_MINUTOS',
                     'OBSERVACION',
                     'CODIGO_PLAN',
-                    'DESCRIPCION_PLAN'
+                    'DESCRIPCION_PLAN',
+                    'GENTILEZA'
             );
             array_push($pagina ['rows'], $arrayDatos);
         }
@@ -180,7 +183,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
                 'CODIGO_USUARIO'=> $parametrosLogueo->cod_usuario,
-                'ESTADO'=> $parametros->ESTADO
+                'ESTADO'=> $parametros->ESTADO,
+                'GENTILEZA'=> $parametros->GENTILEZA
                 // 'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
             );
             $insert_personas = $db->insert('LOG_GESTIONES', $data_personas);
@@ -279,8 +283,8 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 'CANTIDAD_GESTIONES' => $parametros->CANTIDAD_GESTIONES,
                 'CANTIDAD_MINUTOS'=> $parametros->CANTIDAD_MINUTOS,
                 'CODIGO_GESTOR'=> $parametros->CODIGO_GESTOR,
-                'ESTADO'=> $parametros->ESTADO
-                // 'CODIGO_PLAN'=> $parametros->CODIGO_PLAN
+                'ESTADO'=> $parametros->ESTADO,
+                'GENTILEZA'=> $parametros->GENTILEZA
             );
             $where_personas = array(
                 'NUMERO_GESTION = ?' => $parametros->NUMERO_GESTION
