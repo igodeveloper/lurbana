@@ -135,6 +135,14 @@
                     $this->Ln(5);
                 }
                 $this->Ln(10);
+                if($this->parametros->RESUMEN == "S"){
+                    $this->SetFont('Arial','',12);
+                    $this->SetX(10);
+                    $this->MultiCell(400,5,$this->parametros->RESUMENTXT,0,1);    
+                    $this->Ln(10);
+                }
+
+                  
             }            
         }
         //Pie de p�gina
