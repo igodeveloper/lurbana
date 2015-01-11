@@ -477,7 +477,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
             }
         }
 
-        public function getsaldoclienteAction(){
+      public function getsaldoclienteAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
@@ -611,6 +611,27 @@ class logistica_gestionesController extends Zend_Controller_Action {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
         }
     }
+
+    public function getnotificacionesAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'records'),  array(
+                             'COUNT(*) AS PENDIENTES'))
+                    ->where('C.CHECKED = 0 or C.CHECKED = ""');
+                
+            $result = $db->fetchAll($select);
+            // print_r($result);
+            if($result[0]['PENDIENTES'] != null){
+                 echo json_encode(array(
+                    'PENDIENTES' => $result[0]['PENDIENTES']
+                 ));    
+            }else{
+                echo json_encode(array('success' => false ));
+            }
+        }
+
 
   
 }

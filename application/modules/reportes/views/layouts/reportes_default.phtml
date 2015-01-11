@@ -10,6 +10,7 @@
             appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
             appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
           appendFile($this->baseUrl() . '/menu/js/main.js')->
+          appendFile($this->baseUrl() . '/js/modulos/layout/layout.js')->
           appendFile($this->baseUrl() . "/js/select2.js");
             
             // appendFile($this->baseUrl() . "/js/modulos/administracion/clientes/gridClientes.js")->
@@ -50,6 +51,7 @@
         <nav id="cd-top-nav">
             <ul>
     <!--            <li><a href="#0">Tour</a></li> -->
+<li><a  href="http://190.2.195.121/sansolucion/admin/index.php/maincontroller/records" target="_blank">Pedidos</a><span class="badge progress-bar-danger" id="pedidos"></span></li>
                 <li><a  href="<?php echo $this->baseUrl(). "/login/login"?>">Login</a></li>
             </ul>
         </nav>
