@@ -28,13 +28,13 @@ class reportes_resumenconsumoasistentesController extends Zend_Controller_Action
 
         // $parametrosReporte = new Zend_Session_Namespace ( 'reporte' );
         if($filtros->GENTILEZA == 'S'){
-            $table = 'vlog_gestiones_gentileza_resum';
+            $table = 'VLOG_GESTIONES_GENTILEZA_RESUM';
         }else{
-             $table = 'vlog_gestor_resum';
+             $table = 'VLOG_GESTOR_RESUM';
         }
             $db = Zend_Db_Table::getDefaultAdapter();
             $select = $db->select()
-                ->from(array('C'=>'vlog_gestor_resum'),  array(
+                ->from(array('C'=>'VLOG_GESTOR_RESUM'),  array(
                              'C.GESTOR',
                              'C.ANHO',
                              'C.MES',
@@ -86,5 +86,5 @@ class reportes_resumenconsumoasistentesController extends Zend_Controller_Action
     }
 
 
-     
+//modificado mayuscula     
 }

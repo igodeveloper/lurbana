@@ -241,5 +241,5 @@ class administracion_asistentesController extends Zend_Controller_Action {
    
     
 
-  
+//modificado mayuscula  
 }

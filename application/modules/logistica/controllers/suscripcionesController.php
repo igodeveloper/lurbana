@@ -315,5 +315,5 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 return false;
             }
     }
-  
+  //modificado mayuscula
 }

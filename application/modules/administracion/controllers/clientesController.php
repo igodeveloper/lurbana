@@ -285,5 +285,5 @@ class administracion_clientesController extends Zend_Controller_Action {
         echo $htmlResultado;
     }
 
-  
+//modificado mayuscula  
 }

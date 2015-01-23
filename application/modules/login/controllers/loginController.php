@@ -52,5 +52,5 @@ class Login_loginController extends Zend_Controller_Action {
     }  
     
 
-  
+//modificado mayuscula  
 }

@@ -160,5 +160,5 @@ class logistica_planesController extends Zend_Controller_Action {
         }
     }
 
-  
+//modificado mayuscula  
 }

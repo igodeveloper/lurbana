@@ -28,9 +28,9 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
 
         // $parametrosReporte = new Zend_Session_Namespace ( 'reporte' );
         if($filtros->GENTILEZA == 'S'){
-            $table = 'vlog_gestiones_gentileza_resum';
+            $table = 'VLOG_GESTIONES_GENTILEZA_RESUM';
         }else{
-             $table = 'vlog_gest_cli_resum';
+             $table = 'VLOG_GEST_CLI_RESUM';
         }
             $db = Zend_Db_Table::getDefaultAdapter();
             $select = $db->select()
@@ -86,5 +86,5 @@ class reportes_resumensaldosclientesController extends Zend_Controller_Action {
     }
 
 
-     
+//modificado mayuscula     
 }

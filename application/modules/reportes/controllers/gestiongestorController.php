@@ -241,5 +241,5 @@ class reportes_gestiongestorController extends Zend_Controller_Action {
    
     
 
-  
+//modificado mayuscula  
 }

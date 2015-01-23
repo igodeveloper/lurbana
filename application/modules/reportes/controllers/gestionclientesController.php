@@ -285,5 +285,5 @@ class reportes_gestionclientesController extends Zend_Controller_Action {
         echo $htmlResultado;
     }
 
-  
+//modificado mayuscula  
 }
