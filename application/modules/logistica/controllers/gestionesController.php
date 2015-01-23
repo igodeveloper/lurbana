@@ -583,13 +583,13 @@ class logistica_gestionesController extends Zend_Controller_Action {
         try {
              $db = Zend_Db_Table::getDefaultAdapter();
              $select = $db->select()
-                ->from(array('C'=>'vlog_saldos_planes'),  array(
-                             'C.codigo_cliente',
-                             'C.codigo_suscripcion',
-                             'C.saldo',
-                             'C.descripcion_plan'))
-                     ->where('C.codigo_cliente = ?', $parametros->CODIGO_CLIENTE)
-                     ->order(array('C.saldo ASC'));
+                ->from(array('C'=>'VLOG_SALDOS_PLANES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'C.CODIGO_SUSCRIPCION',
+                             'C.SALDO',
+                             'C.DESCRIPCION_PLAN'))
+                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                     ->order(array('C.SALDO ASC'));
                 
             $result = $db->fetchAll($select);
             // $htmlResultado = '<option value="-1"></option>';

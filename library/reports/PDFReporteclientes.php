@@ -49,13 +49,13 @@
         function Body(){   
         // print_r($this->parametros);
         // die();   
-            $sql="select DISTINCT cliente from vlog_gestiones_clientes";
+            $sql="SELECT DISTINCT CLIENTE FROM VLOG_GESTIONES_CLIENTES";
                  // die($this->parametros->cod_producto_tipo);
             if($this->parametros->CLIENTE != null){
                 $sql.=" where cliente like '%".$this->parametros->CLIENTE."%'";
             }
            
-            $sql.=" order by cliente desc";            
+            $sql.=" ORDER BY CLIENTE DESC";            
             // echo $sql."<br>";                              
             // die();
             $dtDatos = $this->Conn->query($sql);
@@ -89,21 +89,21 @@
                 $this->Cell(19,10,"Obs.",0,0,'L');                        
                 $this->Ln(10); 
 
-                 $sql2="select 
-                            fecha,
-                            observacion,
-                            cantidad_gestiones,
-                            gestor
-                    from vlog_gestiones_clientes
-                    where cliente = '".$CLIENTE_DES."'";
+                 $sql2="SELECT 
+                            FECHA,
+                            OBSERVACION,
+                            CANTIDAD_GESTIONES,
+                            GESTOR
+                    FROM VLOG_GESTIONES_CLIENTES
+                    WHERE CLIENTE = '".$CLIENTE_DES."'";
                 if($this->parametros->FECHA_DESDE != null){
-                    $sql2.=" and fecha >= '".$this->parametros->FECHA_DESDE."'";
+                    $sql2.=" AND FECHA >= '".$this->parametros->FECHA_DESDE."'";
                 }
                 if($this->parametros->FECHA_HASTA != null){
-                    $sql2.=" and fecha <= '".$this->parametros->FECHA_HASTA."'";
+                    $sql2.=" AND FECHA <= '".$this->parametros->FECHA_HASTA."'";
                 }
 
-                $sql2.=" order by fecha desc";   
+                $sql2.=" ORDER BY FECHA DESC";   
 
                 // echo $sql2."<br>"; 
                 // die();                             
@@ -113,9 +113,9 @@
             
                 while($row2 = mysql_fetch_assoc($dtDatos2))
                 {
-                    $FECHA = $row2["fecha"];
-                    $OBSERVACION = $row2["observacion"];
-                    $CANTIDAD_GESTIONES = $row2["cantidad_gestiones"];
+                    $FECHA = $row2["FECHA"];
+                    $OBSERVACION = $row2["OBSERVACION"];
+                    $CANTIDAD_GESTIONES = $row2["CANTIDAD_GESTIONES"];
                     // $COD_UNIDAD_MEDIDA = $row2["COD_UNIDAD_MEDIDA"];
                     $GESTOR = $row2["gestor"];
 
