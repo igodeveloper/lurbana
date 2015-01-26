@@ -246,7 +246,7 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_PLAN"] . '">' .$arr["CODIGO_PLAN"].' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PLAN"])) . '</option>';
+                trim(($arr["DESCRIPCION_PLAN"])) . '</option>';
             }
 
         } catch (Exception $e) {
