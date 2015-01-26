@@ -73,7 +73,7 @@ function bloqueardatos(block){
         $("#cliente-modal").attr("disabled",block);
         $("#fechagestion-modal").attr("disabled",block);
         $("#enviaremail-modal").prop('checked', !block);
-        $("#gentileza-modal").prop('checked', !block);
+        $("#gentileza-modal").prop('checked', block);
 }
 function format(comma, period) {
   comma = comma || ',';
