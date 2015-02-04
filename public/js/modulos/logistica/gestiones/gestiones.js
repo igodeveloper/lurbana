@@ -19,6 +19,7 @@ $().ready(function() {
 		    $("#tiempoestimado-modal").attr("value",40);
 		    $("#cantidadgestion-modal").attr("value",1);
 		    $("#estado-modal").val('P');
+            $("#gentileza-modal").prop('checked', false);
 		    
 		    $("#saldogestion-modal").attr("disabled",true);
             $("#codigogestion-modal").attr("disabled",true);
