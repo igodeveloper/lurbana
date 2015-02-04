@@ -380,7 +380,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_CLIENTE"] . '">' .$arr["NRO_DOCUMENTO_PERSONA"] .' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+                trim($arr["DESCRIPCION_PERSONA"]) . '</option>';
             }
 
         } catch (Exception $e) {
@@ -409,7 +409,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+                trim($arr["DESCRIPCION_PERSONA"]) . '</option>';
             }
 
         } catch (Exception $e) {
@@ -428,7 +428,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
              $select = $db->select()
                 ->from(array('C'=>'ADM_PLANES'),  array(
                              'C.CODIGO_PLAN',
-                             'C.DESCRIPCION_PLAN'))
+                             'C.DESCRIPCION_PLAN', 'C.TIPO_PLAN'))
                      ->where('C.ESTADO_PLAN = ?', 'A')
                     ->order(array('C.CODIGO_PLAN DESC'))
                     ->distinct(true);
@@ -436,8 +436,9 @@ class logistica_gestionesController extends Zend_Controller_Action {
             $result = $db->fetchAll($select);
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
+              $TIPO_PLAN = ($arr["TIPO_PLAN"]=='M')?'Mensual':'Casual';
                 $htmlResultado .= '<option value="' . $arr["CODIGO_PLAN"] . '">' .$arr["CODIGO_PLAN"].' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PLAN"])) . '</option>';
+                trim($arr["DESCRIPCION_PLAN"]).' - '.$TIPO_PLAN. '</option>';
             }
 
         } catch (Exception $e) {
@@ -583,13 +584,13 @@ class logistica_gestionesController extends Zend_Controller_Action {
         try {
              $db = Zend_Db_Table::getDefaultAdapter();
              $select = $db->select()
-                ->from(array('C'=>'VLOG_SALDOS_PLANES'),  array(
-                             'C.CODIGO_CLIENTE',
-                             'C.CODIGO_SUSCRIPCION',
-                             'C.SALDO',
-                             'C.DESCRIPCION_PLAN'))
-                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
-                     ->order(array('C.SALDO ASC'));
+                ->from(array('C'=>'vlog_saldos_planes'),  array(
+                             'C.codigo_cliente',
+                             'C.codigo_suscripcion',
+                             'C.saldo',
+                             'C.descripcion_plan'))
+                     ->where('C.codigo_cliente = ?', $parametros->CODIGO_CLIENTE)
+                     ->order(array('C.saldo ASC'));
                 
             $result = $db->fetchAll($select);
             // $htmlResultado = '<option value="-1"></option>';
@@ -632,6 +633,107 @@ class logistica_gestionesController extends Zend_Controller_Action {
             }
         }
 
+    public function guardarsuscripcionAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        try {
+            $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
+            $parametrosLogueo->unlock ();
+            $suscripcion = self::verificasuscripcion($parametros->CODIGO_CLIENTE, $parametros->CODIGO_PLAN);
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $db->beginTransaction();
+            // print_r($parametros);die();
+            if(!$parametros->CODIGO_SUSCRIPCION)
+                $parametros->CODIGO_SUSCRIPCION = 0;
 
-//modificado mayuscula  
+            $data_personas = array(
+                'CODIGO_SUSCRIPCION' => $parametros->CODIGO_SUSCRIPCION,
+                'CODIGO_CLIENTE' => $parametros->CODIGO_CLIENTE,
+                'CODIGO_PLAN' => $parametros->CODIGO_PLAN,
+                'FECHA_SUSCRIPCION' => $parametros->FECHA_SUSCRIPCION,
+                'FECHA_VENCIMIENTO' =>$parametros->FECHA_VENCIMIENTO,
+                'FECHA_ACREDITACION' => $parametros->FECHA_ACREDITACION,
+                'IMPORTE_GESTION' => $parametros->IMPORTE_GESTION,
+                'ESTADO_SUSCRIPCION'=> $parametros->ESTADO_SUSCRIPCION
+            );
+            $parametrosLogueo->lock(); 
+            if($suscripcion){
+                $insert_personas = $db->insert('ADM_SUSCRIPCIONES', $data_personas);
+                $db->commit();
+                echo json_encode(array("success" => true));
+            }else{
+                $db->rollBack();
+                echo json_encode(array("success" => false, "code" => 1, "mensaje" => "No puede suscribirse a mas de un plan mensual"));
+            }
+                       
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+            $db->rollBack();
+        }
+    }
+    public function verificasuscripcion($codigo_cliente,$codigo_plan){
+
+             $db = Zend_Db_Table::getDefaultAdapter();
+             
+              $select_plan = $db->select()
+                ->from(array('C'=>'ADM_PLANES'),  array(
+                             'C.TIPO_PLAN'))
+                     ->where('C.ESTADO_PLAN = ?', 'A')
+                     ->where('C.CODIGO_PLAN = ?', $codigo_plan);
+            $result_plan = $db->fetchAll($select_plan);
+
+
+            if($result_plan[0]['TIPO_PLAN'] == 'M'){
+                $select = $db->select()
+                ->from(array('C'=>'ADM_SUSCRIPCIONES'),  array(
+                             'COUNT(*) AS CANTIDAD'
+                             ))
+                ->join(array('LS' => 'LOG_SALDO'), 'LS.CODIGO_SUSCRIPCION  = C.CODIGO_SUSCRIPCION')
+                ->join(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = C.CODIGO_PLAN')                   
+                ->where('C.CODIGO_CLIENTE = ?', $codigo_cliente)
+                ->where('PL.TIPO_PLAN = ?', 'M')
+                ->where('C.ESTADO_SUSCRIPCION = ?', 'A')
+                ->where('LS.CANTIDAD_SALDO > ?', 0);
+                
+                $result = $db->fetchAll($select);   
+            }
+             
+             // print_r($result);
+            if($result[0]['CANTIDAD'] == 0){
+                 return true;    
+            }else{
+                return false;
+            }
+    }
+
+    public function getimportesuscripcionAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        // print_r ($parametros);
+        // die();
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_PLANES'),  array(
+                             'C.COSTO_PLAN',
+                            'C.CANTIDAD_PLAN'
+                             ))
+                    
+                     ->where('C.CODIGO_PLAN = ?', $parametros->CODIGO_PLAN);
+                
+            $result = $db->fetchAll($select);
+            // print_r($result);
+            if($result[0]['COSTO_PLAN'] != null){
+                $costo = $result[0]['COSTO_PLAN'];
+                $cantidad = $result[0]['CANTIDAD_PLAN'];
+                $importe = $costo/$cantidad;
+                 echo json_encode(array('IMPORTE_GESTION' => $importe));    
+            }else{
+                echo json_encode(array('success' => false ));
+            }
+        }
+
+
+  
 }

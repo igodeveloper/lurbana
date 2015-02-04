@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/gestiones.js"?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/modalSuscripciones.js"?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/gridGestiones.js"?>"></script>
   <style type="text/css" media="all">
     /* fix rtl for demo */
@@ -246,10 +247,130 @@
 
                 
     </div>
+
+    <div class="modal well" id="modalNuevo-suscripcion">   
+        <div class="modal-content">
+            <div class="modal-header">   
+                <a class="close" id="close-modal-suscripcion">×</a>      
+                <h1>SUSCRIPCION</h1>
+            </div>               
+            <div class="alert alert-danger" id="warning-modal-suscripcion" style="display: none;">
+                    <div id="warning-message-modal-suscripcion"></div>
+            </div>
+            <div class="alert alert-success"  id="success-modal-suscripcion" style="display: none;">
+                    <div id="success-message-modal-suscripcion"></div>
+            </div> 
+            <div class="modal-body">
+                <div class="container"> 
+                   
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-2 control-label">Suscripción:</label>
+                                <div class="col-lg-3">
+                                    <input name="codigosuscripcion-modal-suscripcion" id="codigosuscripcion-modal-suscripcion" class="form-control input-sm"></input>
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <div class="col-lg-4"> 
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-5 control-label">Fecha:</label>
+                                <div class="col-lg-7">
+                                    <input name="fechasuscripcion-modal-suscripcion" id="fechasuscripcion-modal-suscripcion" class="form-control input-sm"></input>
+                                </div>
+                            </div>                           
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-2 control-label">Cliente:</label>
+                                <div class="col-lg-10">
+                                    <select id="cliente-modal-suscripcion" class="" style="width: 100%;" onchange="">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <div class="col-lg-4"> 
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-5 control-label">Vencimiento:</label>
+                                <div class="col-lg-7">
+                                    <input name="fechavencimiento-modal-suscripcion" id="fechavencimiento-modal-suscripcion" class="form-control input-sm"></input>
+                                </div>
+                            </div>                           
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-2 control-label">Plan activo:</label>
+                                <div class="col-lg-10">
+                                    <select id="planactivo-modal-suscripcion" class="" style="width: 100%;"  onchange="calculaImporte()">
+                                    </select>
+                                    <!-- <input name="planactivo-modal" id="planactivo-modal" class="form-control input-sm"></input> -->
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-5 control-label">Acreditación:</label>
+                                <div class="col-lg-7">
+                                    <input name="fechaacreditacion-modal-suscripcion" id="fechaacreditacion-modal-suscripcion" class="form-control input-sm"></input>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-2 control-label">Importe gestión:</label>
+                                <div class="col-lg-5">
+                                    <input name="importegestion-modal-suscripcion" id="importegestion-modal-suscripcion" class="form-control input-sm"></input>
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group col-lg-12">
+                                <label class="col-lg-5 control-label">Estado:</label>
+                                <div class="col-lg-7">
+                                    <!-- <input name="cantidadgestion-modal" id="cantidadgestion-modal" class="form-control input-sm"></input> -->
+                                    <select id="estadosuscripcion-modal-suscripcion" class="input-sm form-control">
+                                        <option value="-1">Seleccione</option>
+                                        <option value="A">Activa</option>
+                                        <option value="N">Anulada</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+
+                </div>
+           </div>
+        <div class="modal-footer">
+            <a  id="cancelar-modal-suscripcion"class="btn btn-danger">Cancelar</a>
+            <a id="guardar-modal-suscripcion" class="btn btn-success">Guardar</a>
+        </div>
+        </div>
+
+                
+    </div>
 </div>
   <script type="text/javascript">
-$(document).ready(function() { $("#cliente-modal").select2();
+$(document).ready(function() { 
+$("#cliente-modal").select2();
 $("#asistenteservicios-modal").select2();
+$("#cliente-modal-suscripcion").select2();
+$("#asistenteservicios-modal-suscripcion").select2();
+$("#planactivo-modal-suscripcion").select2(); 
 });
 
   </script>
