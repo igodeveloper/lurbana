@@ -61,6 +61,33 @@ $().ready(function() {
         getClienteSuscripcion();
         getClienteSaldo();
     });
+
+         $("#close-modal-suscripcion").click(function() {
+            $("#modalNuevo-suscripcion").hide();
+           
+    }); 
+     $("#cancelar-modal-suscripcion").click(function() {
+            $("#modalNuevo-suscripcion").hide();
+           
+    });
+    
+    $('#guardar-modal-suscripcion').click(function() {
+         var data = obtenerJsonModalsuscripcion();
+        if(data != null){
+            enviarParametrossuscripcion(data);
+        }
+     });
+
+    $("#tiempoestimado-modal-suscripcion").blur(function() {
+        var tiempo = $("#tiempoestimado-modal-suscripcion").val();
+        var cantidad_gestion = parseFloat(tiempo/40);
+        cantidad_gestion = roundnumber(cantidad_gestion);
+        $("#cantidadgestion-modal-suscripcion").attr("value", cantidad_gestion);
+    });
+
+
+
+
     // $('#cantidadgestion-modal').live('keyup', function(){
     //     $(this).val(format.call($(this).val().split(' ').join(''),' ','.'));
     // });
@@ -73,7 +100,7 @@ function bloqueardatos(block){
         $("#cliente-modal").attr("disabled",block);
         $("#fechagestion-modal").attr("disabled",block);
         $("#enviaremail-modal").prop('checked', !block);
-        $("#gentileza-modal").prop('checked', block);
+        $("#gentileza-modal").prop('checked', !block);
 }
 function format(comma, period) {
   comma = comma || ',';
@@ -108,17 +135,31 @@ function mostarVentana(box,mensaje){
 		$("#warning-modal").show();
 		setTimeout("ocultarWarningModal()",1000);
 	} else if(box == "success-modal") {
-		$("#success-message-modal").text(mensaje);
-		$("#success-modal").show();
-		setTimeout("ocultarSuccessmodal()",1000);
+        $("#success-message-modal").text(mensaje);
+        $("#success-modal").show();
+        setTimeout("ocultarSuccessmodal()",1000);
+    } else if(box == "success-modal-suscripcion") {
+        $("#success-message-modal-suscripcion").text(mensaje);
+        $("#success-modal-suscripcion").show();
+        setTimeout("ocultarSuccessmodalSuscripcion()",1000);
+    } else if(box == "warning-modal-suscripcion") {
+        $("#warning-message-modal-suscripcion").text(mensaje);
+        $("#warning-modal-suscripcion").show();
+        setTimeout("ocultarWarningModalSuscripcion()",1000);
 	} 
 }
 
 function ocultarWarningModal(){
-	$("#warning-modal").hide(500);
+    $("#warning-modal").hide(500);
 
 }function ocultarSuccessmodal(){
-	$("#success-modal").hide(500);
+    $("#success-modal").hide(500);
+}
+function ocultarWarningModalSuscripcion(){
+	$("#warning-modal-suscripcion").hide(500);
+
+}function ocultarSuccessmodalSuscripcion(){
+	$("#success-modal-suscripcion").hide(500);
 }
 
 function addrequiredattr(id,focus){
@@ -344,12 +385,11 @@ function getClienteSuscripcion(){
         dataType: 'json',
         async : false,
         success: function(respuesta){
-        	console.log(respuesta[0]);
         	if(respuesta.success == false){
         		// $("#planactivo-modal:contains(\".list-group-item\")").remove();
                 $("#planactivo-modal").children("li").remove();
                 mostarVentana("warning-modal","No hay suscripciones");  
-                $( "#planactivo-modal" ).append( "<li class=\"list-group-item\"><a href=\"/logistica/suscripciones\">Realice una suscripcion para el cliente</a></li>" );
+                $( "#planactivo-modal" ).append( "<li class=\"list-group-item\"><button id=\"muestramodalsuscripcion\" onclick=\"mostrarSuscripcion()\">Realice una suscripcion para el cliente</button></li>" );
 
         		
         		$("#saldogestion-modal").attr("value",null);
