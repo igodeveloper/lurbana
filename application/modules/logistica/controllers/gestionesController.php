@@ -584,19 +584,19 @@ class logistica_gestionesController extends Zend_Controller_Action {
         try {
              $db = Zend_Db_Table::getDefaultAdapter();
              $select = $db->select()
-                ->from(array('C'=>'vlog_saldos_planes'),  array(
-                             'C.codigo_cliente',
-                             'C.codigo_suscripcion',
-                             'C.saldo',
-                             'C.descripcion_plan'))
-                     ->where('C.codigo_cliente = ?', $parametros->CODIGO_CLIENTE)
-                     ->order(array('C.saldo ASC'));
+                ->from(array('C'=>'VLOG_SALDOS_PLANES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'C.CODIGO_SUSCRIPCION',
+                             'C.SALDO',
+                             'C.DESCRIPCION_PLAN','C.TIPO_PLAN'))
+                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                     ->order(array('C.SALDO ASC'));
                 
             $result = $db->fetchAll($select);
             // $htmlResultado = '<option value="-1"></option>';
             // print_r($result);
             foreach ($result as $arr) {
-                $plan = "Plan: ".$arr['descripcion_plan']." - Saldo: ".$arr['saldo'];
+                $plan = "Plan: ".$arr['DESCRIPCION_PLAN']." - Tipo: ".$arr['TIPO_PLAN']." - Saldo: ".$arr['SALDO'];
                 // $objeto = array('plan' => $plan);
                 array_push($resultado, $plan);
             }

@@ -13,10 +13,15 @@
             $conection['database']="academico";  
 */           
             
-            $conection['server']="localhost";  
-            $conection['dbuser']="root";       
-            $conection['dbpass']="ivan";	   
-            $conection['database']="lurbana";  
+            $conection['server']="192.185.21.196";  
+            $conection['dbuser']="activa11_sistema";       
+            $conection['dbpass']="sansolucionlurbana11";	   
+            $conection['database']="activa11_sistema_bck";  
+
+            // $conection['server']="localhost";  
+            // $conection['dbuser']="root";       
+            // $conection['dbpass']="ivan";     
+            // $conection['database']="lurbana";
           
 	    // crea la conexion pasandole el servidor , usuario y clave
 	    $conect= mysql_connect($conection['server'],$conection['dbuser'],$conection['dbpass']);
@@ -25,7 +30,7 @@
 		        mysql_select_db($conection['database']);
                 $this->conn=$conect;
             }else{
-                echo "no me conecte";
+                return "nomeconecte";
             }
 	}
 

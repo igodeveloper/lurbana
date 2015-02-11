@@ -235,6 +235,7 @@ class reportes_gestionclientesController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $json_rowData = $this->getRequest ()->getParam ( "parametros" );
 
+            // print_r($json_rowData); die();
 
             $var_nombrearchivo = 'clientes';
             $path_tmp = './reportes_pdf/clientes/';

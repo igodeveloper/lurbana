@@ -1,4 +1,7 @@
 $().ready(function() {
+
+//ocultamos el div de la fecha de acreditacion
+$("#divAcreditacion").hide();
     $("#fechavencimiento-filtro").datepicker();
     $("#fechavencimiento-filtro").datepicker("option", "dateFormat", "yy-mm-dd");
 
@@ -13,8 +16,13 @@ $().ready(function() {
                 onSelect: function(dateText, instance) {
                     date = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
                      $("#fechaacreditacion-modal").datepicker("setDate", date);
-                    date.setMonth(date.getMonth() + 2);
-                    $("#fechavencimiento-modal").datepicker("setDate", date);
+                    // date.setMonth(date.getMonth() + 2);
+                    y = date.getFullYear(), 
+                    m = date.getMonth();
+                    var ultimodia = new Date(y, m + 3, 0);
+                    ulti = ultimodia.getDate();
+                    var lastDay = new Date(y, m + 2, ulti);
+                    $("#fechavencimiento-modal").datepicker("setDate", lastDay);
                    
                 }
             });
@@ -31,8 +39,9 @@ $().ready(function() {
             var date = new Date(), 
             y = date.getFullYear(), 
             m = date.getMonth();
-            d = date.getDate(); 
-            var lastDay = new Date(y, m + 2, d);
+            var ultimodia = new Date(y, m + 3, 0);
+            ulti = ultimodia.getDate();
+            var lastDay = new Date(y, m + 2, ulti);
             $("#fechavencimiento-modal").attr("disabled", true);
             $("#fechavencimiento-modal").datepicker("setDate", lastDay);
 

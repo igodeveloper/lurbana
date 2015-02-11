@@ -216,7 +216,7 @@ class reportes_gestiongestorController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $json_rowData = $this->getRequest ()->getParam ( "parametros" );
 
-
+            
             $var_nombrearchivo = 'asistentes';
             $path_tmp = './reportes_pdf/asistentes/';
             $orientation='P';

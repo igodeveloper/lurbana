@@ -390,8 +390,7 @@ function getClienteSuscripcion(){
         		// $("#planactivo-modal:contains(\".list-group-item\")").remove();
                 $("#planactivo-modal").children("li").remove();
                 mostarVentana("warning-modal","No hay suscripciones");  
-                $( "#planactivo-modal" ).append( "<li class=\"list-group-item\"><button id=\"muestramodalsuscripcion\" onclick=\"mostrarSuscripcion()\">Realice una suscripcion para el cliente</button></li>" );
-
+               $( "#planactivo-modal" ).append( "<li class=\"list-group-item\"><button id=\"muestramodalsuscripcion\" onclick=\"mostrarSuscripcion()\">Realice una suscripcion para el cliente</button></li>" );
         		
         		$("#saldogestion-modal").attr("value",null);
         		$("#saldogestion-modal").attr("disabled",false);
