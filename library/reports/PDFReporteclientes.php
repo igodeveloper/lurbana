@@ -12,7 +12,8 @@
             function PDFReporteclientes($orientation='P',$unit='mm',$format='A4',$parametrosPDF){
                 //Llama al constructor de la clase padre
                 $this->FPDF($orientation,$unit,$format);
-                $this->parametros = json_decode($parametrosPDF);                
+                $this->parametros = json_decode($parametrosPDF);  
+
                 //Iniciaci�n de variables
                 $this->Conn = new Conexion();
 
@@ -52,7 +53,7 @@
             $sql="SELECT DISTINCT CLIENTE FROM VLOG_GESTIONES_CLIENTES";
                  // die($this->parametros->cod_producto_tipo);
             if($this->parametros->CLIENTE != null){
-                $sql.=" where cliente like '%".$this->parametros->CLIENTE."%'";
+                $sql.=" where upper(CLIENTE) like upper('%".$this->parametros->CLIENTE."%')";
             }
            
             $sql.=" ORDER BY CLIENTE DESC";            
@@ -64,7 +65,7 @@
             
             while($row = mysql_fetch_assoc($dtDatos))
             {
-                $CLIENTE_DES     = $row['cliente'];
+                $CLIENTE_DES     = $row['CLIENTE'];
                 $x=-2;
                 $this->SetX(11+$x);
                 $this->SetFont('Arial','B',9);

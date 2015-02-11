@@ -47,12 +47,12 @@
         }
 
         function Body(){   
-        // print_r($this->parametros);
+        // print_r($this->parametros->GESTOR);
         // die();   
             $sql="SELECT DISTINCT GESTOR FROM VLOG_GESTIONES_CLIENTES";
                  // die($this->parametros->cod_producto_tipo);
             if($this->parametros->GESTOR != null){
-                $sql.=" WHERE GESTOR LIKE '%".$this->parametros->GESTOR."%'";
+                $sql.=" WHERE UPPER(GESTOR) LIKE UPPER('%".$this->parametros->GESTOR."%')";
             }
            
             $sql.=" ORDER BY GESTOR DESC";            
