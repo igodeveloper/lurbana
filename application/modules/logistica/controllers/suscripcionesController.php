@@ -216,7 +216,7 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_CLIENTE"] . '">' .$arr["NRO_DOCUMENTO_PERSONA"] .' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+                trim(($arr["DESCRIPCION_PERSONA"])) . '</option>';
             }
 
         } catch (Exception $e) {
@@ -237,7 +237,7 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
              $select = $db->select()
                 ->from(array('C'=>'ADM_PLANES'),  array(
                              'C.CODIGO_PLAN',
-                             'C.DESCRIPCION_PLAN'))
+                             'C.DESCRIPCION_PLAN', 'C.TIPO_PLAN'))
                      ->where('C.ESTADO_PLAN = ?', 'A')
                     ->order(array('C.CODIGO_PLAN DESC'))
                     ->distinct(true);
@@ -245,8 +245,16 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
             $result = $db->fetchAll($select);
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
+                if($arr["TIPO_PLAN"] == 'C'){
+                    $TIPO_PLAN = 'CASUAL';
+                }else if($arr["TIPO_PLAN"] == 'A'){
+                    $TIPO_PLAN = 'ABIERTO';
+                }else{
+                    $TIPO_PLAN = 'MENSUAL';
+                }
+                
                 $htmlResultado .= '<option value="' . $arr["CODIGO_PLAN"] . '">' .$arr["CODIGO_PLAN"].' - '.
-                trim(($arr["DESCRIPCION_PLAN"])) . '</option>';
+                trim(($arr["DESCRIPCION_PLAN"]))." - ".$TIPO_PLAN. '</option>';
             }
 
         } catch (Exception $e) {
@@ -303,7 +311,7 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 ->where('C.CODIGO_CLIENTE = ?', $codigo_cliente)
                 ->where('PL.TIPO_PLAN = ?', 'M')
                 ->where('C.ESTADO_SUSCRIPCION = ?', 'A')
-                ->where('LS.CANTIDAD_SALDO > ?', 0);
+                ->where('LS.CANTIDAD_SALDO > ?', 0); // esta linea comentar para que solo permita cargar un plan mensual
                 
                 $result = $db->fetchAll($select);   
             }
