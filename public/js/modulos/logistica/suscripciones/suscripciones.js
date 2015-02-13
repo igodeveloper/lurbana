@@ -1,7 +1,7 @@
 $().ready(function() {
 
 //ocultamos el div de la fecha de acreditacion
-$("#divAcreditacion").hide();
+ $("#divAcreditacion").hide();
     $("#fechavencimiento-filtro").datepicker();
     $("#fechavencimiento-filtro").datepicker("option", "dateFormat", "yy-mm-dd");
 

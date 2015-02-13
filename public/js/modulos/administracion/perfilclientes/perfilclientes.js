@@ -259,7 +259,7 @@ function cargarAsistenteServicios(){
         },
         error: function(event, request, settings){
          //   $.unblockUI();
-        	 alert(mostrarError("OcurrioError"));
+        	 alert("OcurrioError");
         }
     });	
 }
@@ -288,7 +288,7 @@ function cargarCliente(){
 
 function cargarCliente(){
 	
-	alert('Tipo Producto');
+	// alert('Tipo Producto');
 	$.ajax({
         url: '../logistica/suscripciones/getcliente',
         type: 'post',
@@ -309,11 +309,60 @@ function cargarCliente(){
 }
 
 function buscaDatosCliente() {
-	alert($("#cliente-modal").val());
-	if($("#cliente-modal").val() > 0){
-		$("#collapseDatosPersonales").addClass("in");
-	}else{
+	// alert($("#cliente-modal").val());
+
+	
+ 	var CODIGO_CLIENTE = $("#cliente-modal").val();
+	if(CODIGO_CLIENTE < 0){
 		$("#collapseDatosPersonales").removeClass("in");
+	}else{
+		$("#collapseDatosPersonales").addClass("in");
+		$.ajax({
+	        url: '../../../../../ivan/index.php?type=PERFIL&CLIENTE='+CODIGO_CLIENTE,
+	        type: 'GET',
+	        dataType: 'json',
+	        async : false,
+	        success: function(respuesta){
+	        	
+	        	$("#cliente-info").val(respuesta[0].DESCRIPCION_PERSONA);
+	        	$("#documentocliente-info").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
+	        	$("#telefonocliente-info").val(respuesta[0].TELEFONO);
+	        	$("#direccioncliente-info").val(respuesta[0].DIRECCION_PERSONA);
+	        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE)
+				$("#collapseDatosPersonales").addClass("in");
+				buscaGestionesCleinte();
+		
+	        },
+	        error: function(event, request, settings){
+	         //   $.unblockUI();
+	        	 // alert(mostrarError("OcurrioError"));
+	        }
+    	});	
 	}
+
+function buscaGestionesCleinte(){
+
+	$.ajax({
+	        url: '../../../../../ivan/index.php?type=GESTIONES&CLIENTE='+CODIGO_CLIENTE,
+	        type: 'GET',
+	        dataType: 'json',
+	        async : false,
+	        success: function(respuesta){
+	        	
+	        	$.each(respuesta, function( index, value ) {
+				  // alert( index + ": " + value.FECHA_GESTION );
+				  $('#gestiones > tbody:last').append('<tr><td>'+value.FECHA_GESTION+'</td><td>'+value.FECHA_FIN+'</td><td>'+value.DESCRIPCION_PERSONA+'</td><td>'+value.CANTIDAD_GESTIONES+'</td><td>'+value.OBSERVACION+'</td></tr>');
+				});
+				$("#collapseResumenGestiones").addClass("in");
+		
+	        },
+	        error: function(event, request, settings){
+	         //   $.unblockUI();
+	        	 // alert(mostrarError("OcurrioError"));
+	        }
+    	});	
+
+
+}
 	
 }

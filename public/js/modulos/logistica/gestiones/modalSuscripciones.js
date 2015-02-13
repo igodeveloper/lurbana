@@ -1,20 +1,25 @@
 $().ready(function() {
-
+ 
 });
 
 function mostrarSuscripcion(){
+    $("#divAcreditacion").hide();
  		limpiarFormularioModal();
  		cargarClienteModal();
 		cargarPlanesActivosModal();
         bloqueardatosModal(false);
-        alert(table);
             $("#fechasuscripcion-modal-suscripcion").datepicker({
                 dateFormat: "yy-mm-dd",
                 onSelect: function(dateText, instance) {
                     date = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
                      $("#fechaacreditacion-modal-suscripcion").datepicker("setDate", date);
-                    date.setMonth(date.getMonth() + 2);
-                    $("#fechavencimiento-modal-suscripcion").datepicker("setDate", date);
+                    // date.setMonth(date.getMonth() + 2);
+                     y = date.getFullYear(), 
+                    m = date.getMonth();
+                    var ultimodia = new Date(y, m + 3, 0);
+                    ulti = ultimodia.getDate();
+                    var lastDay = new Date(y, m + 2, ulti);
+                    $("#fechavencimiento-modal-suscripcion").datepicker("setDate", lastDay);
                    
                 }
             });
@@ -31,8 +36,9 @@ function mostrarSuscripcion(){
             var date = new Date(), 
             y = date.getFullYear(), 
             m = date.getMonth();
-            d = date.getDate(); 
-            var lastDay = new Date(y, m + 2, d);
+            var ultimodia = new Date(y, m + 3, 0);
+            ulti = ultimodia.getDate();
+            var lastDay = new Date(y, m + 2, ulti);
             $("#fechavencimiento-modal-suscripcion").attr("disabled", true);
             $("#fechavencimiento-modal-suscripcion").datepicker("setDate", lastDay);
 
@@ -150,7 +156,7 @@ function cargarClienteModal(){
         },
         error: function(event, request, settings){
          //   $.unblockUI();
-        	 alert(mostrarError("OcurrioError"));
+        	 alert("OcurrioError");
         }
     });	
 }
@@ -172,7 +178,7 @@ function cargarPlanesActivosModal(){
         },
         error: function(event, request, settings){
          //   $.unblockUI();
-        	 alert(mostrarError("OcurrioError"));
+        	 alert("OcurrioError");
         }
     });	
 }

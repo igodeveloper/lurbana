@@ -324,7 +324,7 @@ function cargarCliente(){
         },
         error: function(event, request, settings){
          //   $.unblockUI();
-        	 alert(mostrarError("OcurrioError"));
+        	 alert("OcurrioError");
         }
     });	
 }
@@ -367,7 +367,7 @@ function cargarPlanesActivos(){
         },
         error: function(event, request, settings){
          //   $.unblockUI();
-        	 alert(mostrarError("OcurrioError"));
+        	 alert("OcurrioError");
         }
     });	
 }
