@@ -1,5 +1,5 @@
 $().ready(function() {
-
+	cargarCliente();
 	// programamos los botones
  	$("#muestramodal").click(function() {
  		limpiarFormulario()
@@ -28,7 +28,7 @@ $().ready(function() {
             $("#modalReportes").hide();
            limpiarReporte();
     }); 
-     $("#imprimir-reporte").click(function() {
+    $("#imprimir-reporte").click(function() {
             imprimirReporte();
            
     });
@@ -262,4 +262,58 @@ function cargarAsistenteServicios(){
         	 alert(mostrarError("OcurrioError"));
         }
     });	
+}
+
+function cargarCliente(){
+	
+//	alert('Tipo Producto');
+	$.ajax({
+        url: table+'/getcliente',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+        	if(respuesta== 'error'){
+        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        	}else{
+            	$("#cliente-modal").html(respuesta);       		
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 alert("OcurrioError");
+        }
+    });	
+}
+
+function cargarCliente(){
+	
+	alert('Tipo Producto');
+	$.ajax({
+        url: '../logistica/suscripciones/getcliente',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+        	if(respuesta== 'error'){
+        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        	}else{
+            	$("#cliente-modal").html(respuesta);       		
+        	}
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+        	 alert("OcurrioError");
+        }
+    });	
+}
+
+function buscaDatosCliente() {
+	alert($("#cliente-modal").val());
+	if($("#cliente-modal").val() > 0){
+		$("#collapseDatosPersonales").addClass("in");
+	}else{
+		$("#collapseDatosPersonales").removeClass("in");
+	}
+	
 }
