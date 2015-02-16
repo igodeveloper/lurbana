@@ -10,40 +10,7 @@ $().ready(function() {
  		cargarCliente();
 		cargarPlanesActivos();
         bloqueardatos(false);
-
-            $("#fechasuscripcion-modal").datepicker({
-                dateFormat: "yy-mm-dd",
-                onSelect: function(dateText, instance) {
-                    date = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
-                     $("#fechaacreditacion-modal").datepicker("setDate", date);
-                    // date.setMonth(date.getMonth() + 2);
-                    y = date.getFullYear(), 
-                    m = date.getMonth();
-                    var ultimodia = new Date(y, m + 3, 0);
-                    ulti = ultimodia.getDate();
-                    var lastDay = new Date(y, m + 2, ulti);
-                    $("#fechavencimiento-modal").datepicker("setDate", lastDay);
-                   
-                }
-            });
-            $("#fechasuscripcion-modal").datepicker("setDate", new Date());
-            
-            $("#fechavencimiento-modal").datepicker({
-                dateFormat: "yy-mm-dd"
-            }); 
-            $("#fechaacreditacion-modal").datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-            $("#fechaacreditacion-modal").datepicker("setDate", new Date());
-
-            var date = new Date(), 
-            y = date.getFullYear(), 
-            m = date.getMonth();
-            var ultimodia = new Date(y, m + 3, 0);
-            ulti = ultimodia.getDate();
-            var lastDay = new Date(y, m + 2, ulti);
-            $("#fechavencimiento-modal").attr("disabled", true);
-            $("#fechavencimiento-modal").datepicker("setDate", lastDay);
+        seteaFechas();
 
             $("#codigosuscripcion-modal").attr("disabled",true);
 		    $("#importegestion-modal").attr("disabled",true);
@@ -78,6 +45,42 @@ $().ready(function() {
 	});
 
 });
+function seteaFechas(){
+
+            $("#fechasuscripcion-modal").datepicker({
+                dateFormat: "yy-mm-dd",
+                onSelect: function(dateText, instance) {
+                    date = $.datepicker.parseDate(instance.settings.dateFormat, dateText, instance.settings);
+                     $("#fechaacreditacion-modal").datepicker("setDate", date);
+                    // date.setMonth(date.getMonth() + 2);
+                    y = date.getFullYear(), 
+                    m = date.getMonth();
+                    var ultimodia = new Date(y, m + 3, 0);
+                    ulti = ultimodia.getDate();
+                    var lastDay = new Date(y, m + 2, ulti);
+                    $("#fechavencimiento-modal").datepicker("setDate", lastDay);
+                   
+                }
+            });
+            $("#fechasuscripcion-modal").datepicker("setDate", new Date());
+            
+            $("#fechavencimiento-modal").datepicker({
+                dateFormat: "yy-mm-dd"
+            }); 
+            $("#fechaacreditacion-modal").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+            $("#fechaacreditacion-modal").datepicker("setDate", new Date());
+
+            var date = new Date(), 
+            y = date.getFullYear(), 
+            m = date.getMonth();
+            var ultimodia = new Date(y, m + 3, 0);
+            ulti = ultimodia.getDate();
+            var lastDay = new Date(y, m + 2, ulti);
+            $("#fechavencimiento-modal").attr("disabled", true);
+            $("#fechavencimiento-modal").datepicker("setDate", lastDay);
+}
 function roundnumber(number){
 	var number_int = parseInt(number);
 	var number_float = number-number_int;
@@ -266,12 +269,17 @@ function cargarAsistenteServicios(){
         }
     });	
 }
-function cargarPlanesActivos(){
-	
-//	alert('Tipo Producto');
+function cargarPlanesActivos(tipoPlan,cantidadPlan){
+	console.log(tipoPlan,cantidadPlan);
+    var data = new Object();
+    data.TIPO_PLAN = (typeof tipoPlan != 'undefined')?tipoPlan:null;
+    data.CANTIDAD_PLAN = (typeof cantidadPlan != 'undefined')?cantidadPlan:null;
+
+    var dataString = JSON.stringify(data);
 	$.ajax({
         url: table+'/getplanesactivos',
         type: 'post',
+        data: {"parametros":dataString},
         dataType: 'html',
         async : false,
         success: function(respuesta){

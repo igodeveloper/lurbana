@@ -43,6 +43,8 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                              'PC.DESCRIPCION_PERSONA AS DESCRIPCION_CLIENTE',
                              'G.CODIGO_PLAN',
                              'PL.DESCRIPCION_PLAN',
+                             'PL.CANTIDAD_PLAN',
+                             'PL.TIPO_PLAN',
                              'G.FECHA_SUSCRIPCION',
                              'G.FECHA_VENCIMIENTO',
                              'G.FECHA_ACREDITACION',
@@ -89,6 +91,8 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 $item['DESCRIPCION_CLIENTE'],
                 $item['CODIGO_PLAN'],
                 $item['DESCRIPCION_PLAN'],
+                $item['CANTIDAD_PLAN'],
+                $item['TIPO_PLAN'],
                 $item['FECHA_SUSCRIPCION'],
                 $item['FECHA_VENCIMIENTO'],
                 $item['FECHA_ACREDITACION'],
@@ -101,6 +105,8 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                     'DESCRIPCION_CLIENTE',
                     'CODIGO_PLAN',
                     'DESCRIPCION_PLAN',
+                    'CANTIDAD_PLAN',
+                    'TIPO_PLAN',
                     'FECHA_SUSCRIPCION',
                     'FECHA_VENCIMIENTO',
                     'FECHA_ACREDITACION',
@@ -231,6 +237,7 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
     {
      $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
+        $filtros = json_decode($this->getRequest()->getParam("parametros"));
         $result = '';
         try {
              $db = Zend_Db_Table::getDefaultAdapter();
@@ -239,10 +246,22 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                              'C.CODIGO_PLAN',
                              'C.DESCRIPCION_PLAN', 'C.TIPO_PLAN'))
                      ->where('C.ESTADO_PLAN = ?', 'A')
+                     ->where('C.ESTADO_PLAN = ?', 'A')
                     ->order(array('C.CODIGO_PLAN DESC'))
                     ->distinct(true);
-                
+            if(isset($filtros)){
+                if(isset($filtros->TIPO_PLAN) && !is_null($filtros->TIPO_PLAN) ){
+                    $select->where("C.TIPO_PLAN = ?", $filtros->TIPO_PLAN);
+                }
+                if(isset($filtros->CANTIDAD_PLAN) && !is_null($filtros->CANTIDAD_PLAN) ){
+                    $select->where("C.CANTIDAD_PLAN >= ?", $filtros->CANTIDAD_PLAN);
+                }
+            }
+
+
+
             $result = $db->fetchAll($select);
+
             $htmlResultado = '<option value="-1"></option>';
             foreach ($result as $arr) {
                 if($arr["TIPO_PLAN"] == 'C'){
@@ -323,5 +342,40 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 return false;
             }
     }
-  //modificado mayuscula
+  public function getplanesmayoresAction()
+    {
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $filtros = json_decode($this->getRequest()->getParam("parametros"));
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_PLANES'),  array(
+                             'C.CODIGO_PLAN',
+                             'C.DESCRIPCION_PLAN', 'C.TIPO_PLAN'))
+                     ->where('C.ESTADO_PLAN = ?', 'A')
+                     ->where('C.ESTADO_PLAN = ?', 'A')
+                    ->order(array('C.CODIGO_PLAN DESC'))
+                    ->distinct(true);
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1"></option>';
+            foreach ($result as $arr) {
+                if($arr["TIPO_PLAN"] == 'C'){
+                    $TIPO_PLAN = 'CASUAL';
+                }else if($arr["TIPO_PLAN"] == 'A'){
+                    $TIPO_PLAN = 'ABIERTO';
+                }else{
+                    $TIPO_PLAN = 'MENSUAL';
+                }
+                
+                $htmlResultado .= '<option value="' . $arr["CODIGO_PLAN"] . '">' .$arr["CODIGO_PLAN"].' - '.
+                trim(($arr["DESCRIPCION_PLAN"]))." - ".$TIPO_PLAN. '</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
+    }
 }

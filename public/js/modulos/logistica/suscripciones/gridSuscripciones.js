@@ -77,6 +77,22 @@ function cargarGrillaRegistro() {
                         width: 140,
                         hidden : false,
                         align: 'left'
+                    }, 
+                    { 
+                        name: 'CANTIDAD_PLAN',
+                        index: 'CANTIDAD_PLAN',
+                        label: 'PLAN',
+                        width: 140,
+                        hidden : true,
+                        align: 'left'
+                    }, 
+                    { 
+                        name: 'TIPO_PLAN',
+                        index: 'TIPO_PLAN',
+                        label: 'PLAN',
+                        width: 140,
+                        hidden : true,
+                        align: 'left'
                     },{
                         name: 'FECHA_SUSCRIPCION',
                         index: 'FECHA_SUSCRIPCION',
@@ -154,18 +170,24 @@ function buscar(){
 
 function modalModificar(rowData){
 cargarCliente();
-cargarPlanesActivos();
-bloqueardatos(true);
+cargarPlanesActivos(rowData.TIPO_PLAN,rowData.CANTIDAD_PLAN);
+
  $('#codigosuscripcion-modal').attr("value",rowData.CODIGO_SUSCRIPCION);
  $('#codigosuscripcion-modal').attr("disabled",true);
  $("#cliente-modal").select2("val", rowData.CODIGO_CLIENTE);
- $('#fechasuscripcion-modal').attr("value",rowData.FECHA_SUSCRIPCION);
- $('#fechavencimiento-modal').attr("value",rowData.FECHA_VENCIMIENTO);
- $('#fechaacreditacion-modal').attr("value",rowData.FECHA_ACREDITACION);
+ 
  $("#importegestion-modal").val(rowData.IMPORTE_GESTION);
  $("#estadosuscripcion-modal").val(rowData.ESTADO_SUSCRIPCION);
-$("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
-
+ $("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
+    if(rowData.TIPO_PLAN == 'M'){
+        $("#planactivo-modal").attr("disabled",false);
+        seteaFechas();
+    }else{
+        $('#fechasuscripcion-modal').attr("value",rowData.FECHA_SUSCRIPCION);
+        $('#fechavencimiento-modal').attr("value",rowData.FECHA_VENCIMIENTO);
+        $('#fechaacreditacion-modal').attr("value",rowData.FECHA_ACREDITACION);
+        bloqueardatos(true);
+    }
 $("#modalNuevo").show();
 
 
