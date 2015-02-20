@@ -24,28 +24,67 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
-        // die("entre");
-              $select_plan = $db->select()
-                ->from(array('C'=>'ADM_PLANES'),  
-                  array(
-                             'C.TIPO_PLAN'))
-                     ->where('C.ESTADO_PLAN = ?', 'A')
-                     ->where('C.CODIGO_PLAN = ?', '5');
-            $result_plan = $db->fetchAll($select_plan);
-            // print_r($result);
+
+              $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_CLIENTES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'P.DESCRIPCION_PERSONA',
+                             'P.NRO_DOCUMENTO_PERSONA, CONCAT(P.TELEFONO_PERSONA, \' / \', P.CELULAR_PERSONA) AS TELEFONO',
+                             'P.DIRECCION_PERSONA, IF((SELECT COUNT(*) AS PLAN FROM VLOG_SALDOS_PLANES WHERE VLOG_SALDOS_PLANES.CODIGO_CLIENTE= '.$parametros->CODIGO_CLIENTE.' AND VLOG_SALDOS_PLANES.TIPO_PLAN = \'M\' AND VLOG_SALDOS_PLANES.SALDO > 0) > 0, \'Mensual\', \'Casual\') AS TIPO_CLIENTE',
+                             
+                             ))
+                     ->join(array('P' => 'ADM_PERSONAS'), 'C.CODIGO_PERSONA = P.CODIGO_PERSONA')
+                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE);
+                
+            $result = $db->fetchAll($select);
+            // print_r($result);die();
             $arr = array();
-            $row = mysql_result($result_plan, 0, 0);
-            print_r($row); die();
-            while ($row = mysql_result($result, 0, 0)){
-                    
-                   array_push($arr, $row);
+            foreach ($result as $row) {
+              array_push($arr, $row);
             }
-            if($arr){
+            if(count($arr)>0){
                  echo json_encode($arr);    
             }else{
                 echo json_encode(array('success' => false ));
             }
+           
         }
+
+        public function gestionesclienteAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+              $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('LG'=>'LOG_GESTIONES'),  array(
+                             'LG.FECHA_GESTION',
+                             'LG.FECHA_FIN',
+                             'LG.CODIGO_GESTOR',
+                             'P.DESCRIPCION_PERSONA',
+                             'LG.ESTADO',
+                             'LG.CANTIDAD_GESTIONES',
+                             'LG.OBSERVACION'))
+                     ->join(array('G' => 'LOG_GESTORES'), 'LG.CODIGO_GESTOR = G.CODIGO_GESTOR')
+                     ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA= G.CODIGO_PERSONA')
+                     ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                     ->order(array('LG.FECHA_GESTION DESC'))
+                     ->limit(0, 10);
+                
+            $result = $db->fetchAll($select);
+            $arr = array();
+            foreach ($result as $row) {
+              array_push($arr, $row);
+            }
+            if(count($arr)>0){
+                 echo json_encode($arr);    
+            }else{
+                echo json_encode(array('success' => false ));
+            }
+           
+        }
+
+
 
 }
 
