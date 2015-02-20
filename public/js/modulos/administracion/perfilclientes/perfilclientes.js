@@ -310,27 +310,33 @@ function cargarCliente(){
 
 function buscaDatosCliente() {
 	// alert($("#cliente-modal").val());
-
-	
- 	var CODIGO_CLIENTE = $("#cliente-modal").val();
-	if(CODIGO_CLIENTE < 0){
+ 	var jsonReporte = new Object();	
+	jsonReporte.CODIGO_CLIENTE = $("#cliente-modal").val();
+	var dataString = JSON.stringify(jsonReporte); 
+	if(jsonReporte.CODIGO_CLIENTE < 0){
 		$("#collapseDatosPersonales").removeClass("in");
 	}else{
 		$("#collapseDatosPersonales").addClass("in");
 		$.ajax({
-	        url: '../../../../../ivan/index.php?type=PERFIL&CLIENTE='+CODIGO_CLIENTE,
+	        // url: '../../../../../sansolucion/library/externos/index.php?type=PERFIL&CLIENTE='+CODIGO_CLIENTE,
+	        url: table+'/perfilcliente',
 	        type: 'GET',
+	        data: {"parametros":dataString},
 	        dataType: 'json',
 	        async : false,
 	        success: function(respuesta){
+	        	if(typeof respuesta.success == 'undefined' && !respuesta.success){
+	        		$("#cliente-info").val(respuesta[0].DESCRIPCION_PERSONA);
+		        	$("#documentocliente-info").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
+		        	$("#telefonocliente-info").val(respuesta[0].TELEFONO);
+		        	$("#direccioncliente-info").val(respuesta[0].DIRECCION_PERSONA);
+		        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE)
+					$("#collapseDatosPersonales").addClass("in");
+					buscaGestionesCleinte();
+	        	}else{
+	        		alert("No se recuperaron los datos para este cliente.")
+	        	}
 	        	
-	        	$("#cliente-info").val(respuesta[0].DESCRIPCION_PERSONA);
-	        	$("#documentocliente-info").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
-	        	$("#telefonocliente-info").val(respuesta[0].TELEFONO);
-	        	$("#direccioncliente-info").val(respuesta[0].DIRECCION_PERSONA);
-	        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE)
-				$("#collapseDatosPersonales").addClass("in");
-				buscaGestionesCleinte();
 		
 	        },
 	        error: function(event, request, settings){
@@ -341,10 +347,15 @@ function buscaDatosCliente() {
 	}
 
 function buscaGestionesCleinte(){
+	var jsonReporte = new Object();	
+	jsonReporte.CODIGO_CLIENTE = $("#cliente-modal").val();
+	var dataString = JSON.stringify(jsonReporte); 
 
 	$.ajax({
-	        url: '../../../../../ivan/index.php?type=GESTIONES&CLIENTE='+CODIGO_CLIENTE,
+	        // url: '../../../../../ivan/index.php?type=GESTIONES&CLIENTE='+CODIGO_CLIENTE,
+	         url: table+'/gestionescliente',
 	        type: 'GET',
+	        data: {"parametros":dataString},
 	        dataType: 'json',
 	        async : false,
 	        success: function(respuesta){
