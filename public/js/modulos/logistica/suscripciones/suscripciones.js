@@ -6,6 +6,7 @@ $().ready(function() {
     $("#fechavencimiento-filtro").datepicker("option", "dateFormat", "yy-mm-dd");
 
  	$("#muestramodal").click(function() {
+
  		limpiarFormulario();
  		cargarCliente();
 		cargarPlanesActivos();
@@ -105,19 +106,22 @@ function mostarVentana(box,mensaje){
 	if(box == "warning-modal") {
 		$("#warning-message-modal").text(mensaje);
 		$("#warning-modal").show();
-		setTimeout("ocultarWarningModal()",1000);
+		setTimeout("ocultarWarningModal()",700);
 	} else if(box == "success-modal") {
 		$("#success-message-modal").text(mensaje);
 		$("#success-modal").show();
-		setTimeout("ocultarSuccessmodal()",1000);
+		setTimeout("ocultarSuccessmodal()",700);
 	} 
 }
 
 function ocultarWarningModal(){
 	$("#warning-modal").hide(500);
 
-}function ocultarSuccessmodal(){
-	$("#success-modal").hide(500);
+}
+function ocultarSuccessmodal(){
+    // alert("oculto");
+	// $("#success-modal").hide(500);
+    $("#success-modal").hide(400);
 }
 
 function addrequiredattr(id,focus){
@@ -189,6 +193,7 @@ function enviarParametros(data){
         	 if(respuesta.success){
                mostarVentana("success-modal","Se ingreso el registro con exito");
                limpiarFormulario();
+               $("#modalNuevo").hide();
                 buscar();                               
             }else if(respuesta.code == 1){
                 mostarVentana("warning-modal",respuesta.mensaje);
@@ -211,11 +216,11 @@ function limpiarFiltos(){
 	$("#numerodocumentopersona-filtro").attr("value",null);
 	$("#estado-filtro").val(null);
 	$("#telefonopersona-filtro").attr("value",null);
-	}
-
+}
 function limpiarFormulario(){
 
-	
+    ocultarWarningModal();
+    ocultarSuccessmodal();	
  $('#codigosuscripcion-modal').attr("value",null);
  $('#cliente-modal').select2("val",null);
  $('#planactivo-modal').select2("val",null);
