@@ -23,6 +23,7 @@ $().ready(function() {
 		    
 		    $("#saldogestion-modal").attr("disabled",true);
             $("#codigogestion-modal").attr("disabled",true);
+            $("#tipocliente-modal").attr("disabled",true);
             $("#guardar-modal").attr("disabled",false);
             $("#modalNuevo").show();
             $("#ui-datepicker-div").css('display','none');
@@ -215,12 +216,11 @@ function obtenerJsonModal() {
     	focus++;
     	addrequiredattr('estado-modal',focus); 
 	}
-    if(parseFloat($('#saldogestion-modal').attr("value")) == 0){
-        mensaje+= ' | No tiene saldo, para cargar gestión '; 
+    var validacionSalfo = validaSaldo();
+    if(validacionSalfo){
+        mensaje+= ' | '+validacionSalfo+' ';
     }
-    if(parseFloat($('#saldogestion-modal').attr("value")) < parseFloat($('#cantidadgestion-modal').attr("value"))){
-        mensaje+= ' | La cantidad de gestión supera el saldo disponible'; 
-    }
+    
 	if (mensaje != 'Atención: '){
 		mensaje+= ' |';
 		mostarVentana("warning-modal", mensaje);
@@ -242,6 +242,25 @@ function obtenerJsonModal() {
         console.log(jsonObject);
 		return jsonObject
 	}
+}
+
+function validaSaldo(){
+    if($('#tipoclientecodigo-modal').attr("value") === 'C'){
+        if(parseFloat($('#saldogestion-modal').attr("value")) == 0){
+        return ' | No tiene saldo, para cargar gestión '; 
+        }
+        if(parseFloat($('#saldogestion-modal').attr("value")) < parseFloat($('#cantidadgestion-modal').attr("value"))){
+            return ' | La cantidad de gestión supera el saldo disponible'; 
+        }    
+        if(parseFloat($('#saldogestion-modal').attr("value")) < parseFloat($('#cantidadgestion-modal').attr("value"))){
+            return ' | La cantidad de gestión supera el saldo disponible'; 
+        }
+    }else{
+        return false;
+    }
+    
+
+
 }
 function enviarParametros(data){
 	$.blockUI({
@@ -295,6 +314,8 @@ function limpiarFormulario(){
  // $('#codigocliente-modal').attr("value",null);
  $('#cliente-modal').select2("val",null);
  $('#fechagestion-modal').attr("value",null);
+ $('#tipoclientecodigo-modal').attr("value",null);
+ $('#tipocliente-modal').attr("value",null);
  $('#tarea-modal').attr("value",null);
  $("#iniciogestion-modal").attr("value",null);
  $("#fingestion-modal").attr("value",null);
@@ -396,10 +417,15 @@ function getClienteSuscripcion(){
         		$("#saldogestion-modal").attr("disabled",false);
         	}else{
                 $("#planactivo-modal").children("li").remove();
+                $("#tipoplanes-modal").children("input").remove();
                 for (var i = 0; i < respuesta.length; i++ ) {
-                      $( "#planactivo-modal" ).append( "<li class=\"list-group-item\">"+respuesta[i]+"</li>" );
+                      $( "#planactivo-modal" ).append( "<li class=\"list-group-item\">"+respuesta[i].plan+"</li>" );
+                      // $( "#tipoplanes-modal" ).append( "<input id=\"plan-"+i+"\">"+respuesta[i].tipo+"</input>" );
+                      $( "#tipoplanes-modal" ).append( "<input id=\"plan-"+i+"\" class=\"hide\"></input>" );
+                    $("#plan-"+i).attr("value",respuesta[i].tipo);
                 };
-               
+                
+                               
                 
         	}
         },
@@ -432,6 +458,15 @@ function getClienteSaldo(){
                 mostarVentana("mensaje","No se pudo recuperar el saldo, intente de nuevo.")
             }else{
                 $("#saldogestion-modal").attr("value",respuesta.SALDO);
+                $("#tipoclientecodigo-modal").attr("value",respuesta.TIPO_CLIENTE);
+                if(respuesta.TIPO_CLIENTE == 'C'){
+                    $("#tipocliente-modal").attr("value",'Casual');
+                }else if(respuesta.TIPO_CLIENTE == 'M'){
+                    $("#tipocliente-modal").attr("value",'Mensual');
+                }else{
+                    $("#tipocliente-modal").attr("value",'Abierto');
+                }
+                
                
                 
             }
