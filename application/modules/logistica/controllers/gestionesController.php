@@ -487,14 +487,14 @@ class logistica_gestionesController extends Zend_Controller_Action {
              $db = Zend_Db_Table::getDefaultAdapter();
              $select = $db->select()
                 ->from(array('C'=>'VLOG_SALDOS'),  array(
-                             'C.SALDO'))
+                             'C.SALDO','C.TIPO_CLIENTE'))
                     ->where('C.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE);
                 
             $result = $db->fetchAll($select);
             // print_r($result);
             if($result[0]['SALDO'] != null){
                  echo json_encode(array(
-                    'SALDO' => $result[0]['SALDO']
+                    'SALDO' => $result[0]['SALDO'], 'TIPO_CLIENTE' => $result[0]['TIPO_CLIENTE'] 
                  ));    
             }else{
                 echo json_encode(array('success' => false ));
@@ -504,8 +504,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
     public function enviaremail($emailDestino,$nombre,$bodyTexto,$asunto){
         try{
             // $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => '', 'password' => '');
-            // $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'Pedido123.');
-            $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'pedido123.');
+            $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'Pedido123.');
             // $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
             // $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
             $smtpConnection = new Zend_Mail_Transport_Smtp('mail.sansolucion.com', $config);
@@ -596,10 +595,12 @@ class logistica_gestionesController extends Zend_Controller_Action {
             $result = $db->fetchAll($select);
             // $htmlResultado = '<option value="-1"></option>';
             // print_r($result);
+            $resultado = array();
             foreach ($result as $arr) {
                 $plan = "Plan: ".$arr['DESCRIPCION_PLAN']." - Tipo: ".$arr['TIPO_PLAN']." - Saldo: ".$arr['SALDO'];
                 // $objeto = array('plan' => $plan);
-                array_push($resultado, $plan);
+                // array_push($resultado, $plan);
+                array_push($resultado, array("plan" => $plan, "tipo" => $arr['TIPO_PLAN']));
             }
             if (count($resultado) == 0) {
                 echo json_encode(array("success" => false, "mensaje" => "No se encontraron datos"));
