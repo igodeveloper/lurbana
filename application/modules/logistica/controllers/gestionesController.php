@@ -694,9 +694,9 @@ class logistica_gestionesController extends Zend_Controller_Action {
                 ->join(array('LS' => 'LOG_SALDO'), 'LS.CODIGO_SUSCRIPCION  = C.CODIGO_SUSCRIPCION')
                 ->join(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = C.CODIGO_PLAN')                   
                 ->where('C.CODIGO_CLIENTE = ?', $codigo_cliente)
-                ->where('PL.TIPO_PLAN = ?', 'M')
-                ->where('C.ESTADO_SUSCRIPCION = ?', 'A')
-                ->where('LS.CANTIDAD_SALDO > ?', 0);
+                ->where('PL.TIPO_PLAN IN ("M","A")')
+                ->where('C.ESTADO_SUSCRIPCION = ?', 'A');
+                // ->where('LS.CANTIDAD_SALDO > ?', 0);
                 
                 $result = $db->fetchAll($select);   
             }

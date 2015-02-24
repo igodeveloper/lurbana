@@ -320,7 +320,7 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
             $result_plan = $db->fetchAll($select_plan);
 
 
-            if($result_plan[0]['TIPO_PLAN'] == 'M'){
+            if($result_plan[0]['TIPO_PLAN'] == 'M' || $result_plan[0]['TIPO_PLAN'] == 'A'  ){
                 $select = $db->select()
                 ->from(array('C'=>'ADM_SUSCRIPCIONES'),  array(
                              'COUNT(*) AS CANTIDAD'
@@ -328,9 +328,9 @@ class logistica_suscripcionesController extends Zend_Controller_Action {
                 ->join(array('LS' => 'LOG_SALDO'), 'LS.CODIGO_SUSCRIPCION  = C.CODIGO_SUSCRIPCION')
                 ->join(array('PL' => 'ADM_PLANES'), 'PL.CODIGO_PLAN  = C.CODIGO_PLAN')                   
                 ->where('C.CODIGO_CLIENTE = ?', $codigo_cliente)
-                ->where('PL.TIPO_PLAN = ?', 'M')
-                ->where('C.ESTADO_SUSCRIPCION = ?', 'A')
-                ->where('LS.CANTIDAD_SALDO > ?', 0); // esta linea comentar para que solo permita cargar un plan mensual
+                ->where('PL.TIPO_PLAN IN ("M","A")')
+                ->where('C.ESTADO_SUSCRIPCION = ?', 'A');
+                // ->where('LS.CANTIDAD_SALDO > ?', 0); // esta linea comentar para que solo permita cargar un plan mensual
                 
                 $result = $db->fetchAll($select);   
             }
