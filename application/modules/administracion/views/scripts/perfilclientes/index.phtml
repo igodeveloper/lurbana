@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/perfilclientes/perfilclientes.js"?>"></script>
+º<script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/perfilclientes/perfilclientes.js"?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/administracion/perfilclientes/gridPerfilclientes.js"?>"></script>
 <div>
     <br>
@@ -7,7 +7,7 @@
                 <div class="col-lg-6">
                   <label class="col-lg-2 control-label">Cliente:</label>
                   <div class="col-lg-10">
-                      <select id="cliente-modal" class="" style="width: 100%;" onchange="buscaDatosCliente()">
+                      <select id="cliente-modal" class="" style="width: 100%;" onchange="buscarDatos()">
                       </select>
                   </div>
                 </div>                   
@@ -73,25 +73,25 @@
                                 <div class="form-group col-lg-6">
                                   <label class="control-label col-lg-9">Suscripción Mensual Actual: </label>
                                   <div class="col-lg-3">
-                                    <input type="text" class="form-control input-sm" placeholder="">
+                                    <input type="text" class="form-control input-sm" placeholder="" id="mensual-actual">
                                   </div>
                                 </div> 
                                 <div class="form-group col-lg-6">
                                   <label class="control-label col-lg-9">Suscripción Mensual Anterior: </label>
                                   <div class="col-lg-3">
-                                    <input type="text" class="form-control input-sm" placeholder="">
+                                    <input type="text" class="form-control input-sm" placeholder="" id="mensual-ante">
                                   </div>
                                 </div> 
                                 <div class="form-group col-lg-6">
                                   <label class="control-label col-lg-9">Suscripción Casual Actual: </label>
                                   <div class="col-lg-3">
-                                    <input type="text" class="form-control input-sm" placeholder="">
+                                    <input type="text" class="form-control input-sm" placeholder="" id="casual-actual">
                                   </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                   <label class="control-label col-lg-9">Suscripción Casual Anterior: </label>
                                   <div class="col-lg-3">
-                                    <input type="text" class="form-control input-sm" placeholder="">
+                                    <input type="text" class="form-control input-sm" placeholder="" id="casual-ante">
                                   </div>
                                 </div> 
 
