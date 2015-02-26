@@ -52,7 +52,10 @@ function buscaDatosCliente() {
 		        	$("#documentocliente-info").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
 		        	$("#telefonocliente-info").val(respuesta[0].TELEFONO);
 		        	$("#direccioncliente-info").val(respuesta[0].DIRECCION_PERSONA);
-		        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE)
+		        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE);
+		        	$("#fecha-factura").val(new Date());
+					$("#cliente-factura").val(respuesta[0].DESCRIPCION_PERSONA);
+					$("#documentocliente-factura").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
 					$("#collapseDatosPersonales").addClass("in");
 					buscaGestionesCleinte();
 	        	}else{
