@@ -53,7 +53,7 @@ function buscaDatosCliente() {
 		        	$("#telefonocliente-info").val(respuesta[0].TELEFONO);
 		        	$("#direccioncliente-info").val(respuesta[0].DIRECCION_PERSONA);
 		        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE);
-		        	$("#fecha-factura").val(new Date());
+		        	$("#fecha-factura").val(fechaHoy());
 					$("#cliente-factura").val(respuesta[0].DESCRIPCION_PERSONA);
 					$("#documentocliente-factura").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
 					$("#collapseDatosPersonales").addClass("in");
@@ -70,6 +70,18 @@ function buscaDatosCliente() {
 	        }
     	});	
 	}
+}
+
+function fechaHoy(){
+	var d = new Date();
+
+var month = d.getMonth()+1;
+var day = d.getDate();
+
+var output = d.getFullYear() + '/' +
+    ((''+month).length<2 ? '0' : '') + month + '/' +
+    ((''+day).length<2 ? '0' : '') + day;
+    return output;
 }
 
 function buscaGestionesCleinte(){
