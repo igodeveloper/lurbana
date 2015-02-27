@@ -1,11 +1,41 @@
 $().ready(function() {
 	cargarCliente();
+
+	// $("#modalDetalle").hide();
+	$("#muestramodal").click(function() {
+        $("#modalDetalle").show();
+        $("#grillaDetalle").setGridWidth($(".modal-body").width()); 
+
+           
+    });
+   
+     $("#close-modal").click(function() {
+        $("#modalDetalle").hide();
+           
+    }); 
+     $("#cancelar-modal").click(function() {
+        $("#modalDetalle").hide();
+
+           
+    });
+    $("#aceptar-modal").click(function() {
+     	cargaGRillaFacturaDetalle();
+     	$("#modalDetalle").hide();
+       // console.log(jQuery("#grillaDetalle").jqGrid('getGridParam','selarrrow'));
+           
+    });  
+    $("#limpiarDetalle").click(function() {
+    	limpiarDetalle(); 	
+           
+    }); 
 	
 });
 
 function buscarDatos(){
 	buscaDatosCliente();
 	buscarSaldos();
+	cargaDetalleFactura();
+	limpiarDetalle();
 }
 
 function cargarCliente(){
@@ -75,13 +105,13 @@ function buscaDatosCliente() {
 function fechaHoy(){
 	var d = new Date();
 
-var month = d.getMonth()+1;
-var day = d.getDate();
+	var month = d.getMonth()+1;
+	var day = d.getDate();
 
-var output = d.getFullYear() + '/' +
-    ((''+month).length<2 ? '0' : '') + month + '/' +
-    ((''+day).length<2 ? '0' : '') + day;
-    return output;
+	var output = d.getFullYear() + '/' +
+	    ((''+month).length<2 ? '0' : '') + month + '/' +
+	    ((''+day).length<2 ? '0' : '') + day;
+	    return output;
 }
 
 function buscaGestionesCleinte(){
@@ -159,4 +189,55 @@ function buscarSaldos() {
 	        }
     	});	
 	}
+}
+
+function cargaDetalleFactura() {
+	
+ 	var jsonReporte = new Object();	
+	jsonReporte.CODIGO_CLIENTE = $("#cliente-modal").val();
+			
+	var dataString = JSON.stringify(jsonReporte); 
+	$.ajax({
+	    url: table+'/detallefacturar',
+	    type: 'GET',
+	    data: {"parametros":dataString},
+	    dataType: 'json',
+	    async : false,
+	    success: function(respuesta){
+	    	var grid = jQuery("#grillaDetalle");
+	    	grid.jqGrid('clearGridData');
+	    	if(typeof respuesta.success == 'undefined' && !respuesta.success){
+	        	for (i=0;i<respuesta.length;i++) {
+                	grid.jqGrid('addRowData', i+1, respuesta[i]);
+            	}
+			}
+	    	
+
+	    },
+	    error: function(event, request, settings){
+	     //   $.unblockUI();
+	    	 // alert(mostrarError("OcurrioError"));
+	    }
+	});	
+}
+
+function cargaGRillaFacturaDetalle(){
+	limpiarDetalle();
+	var detalle = jQuery("#grillaDetalle").jqGrid('getGridParam','selarrrow');
+	var suma = 0;
+	var iva10 = 0;
+	$.each(detalle, function( index, value ) {
+		var grilla = new Object();
+		grilla = jQuery('#grillaDetalle').jqGrid ('getRowData', value);
+		 $('#detallefactura > tbody:last').append('<tr><td>1</td><td>'+grilla.DESCRIPCION_PLAN+'</td><td>'+grilla.IMPORTE_SALDO+'</td><td>-</td><td>-</td><td>'+grilla.IMPORTE_SALDO+'</td></tr>');
+		suma = parseInt(suma)+parseInt(grilla.IMPORTE_SALDO);
+		iva10 = (parseInt(iva10)+parseFloat(parseInt(grilla.IMPORTE_SALDO)*10/110)).toFixed(0);
+	});
+	$("#total-factura").text(suma);
+	$("#iva-factura").text(iva10);
+	$("#totaliva-factura").text(iva10);
+}
+
+function limpiarDetalle(){
+	$('#table_tbody tr').remove();
 }

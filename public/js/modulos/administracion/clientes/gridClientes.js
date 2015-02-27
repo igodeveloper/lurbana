@@ -31,7 +31,6 @@ function widthOfGrid() {
 /**
  * Carga la tabla visual con el listado de registros. La estructura de la tabla es especificada.
  */
-console.log('hola'+ $("#estadopersona-modal").val());
 function cargarGrillaRegistro() {
     jQuery("#grillaClientes").jqGrid({
         
@@ -42,6 +41,7 @@ function cargarGrillaRegistro() {
                 height: 280,
                 rowNum: 15,
                 rowList: [],
+                
                 
                 colModel:[
                            {
