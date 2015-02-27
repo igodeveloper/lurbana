@@ -116,14 +116,19 @@ function buscarSaldos() {
 	
 
 	var f = new Date();
-	var m = f.getMonth(); 
+	var m = f.getMonth()+1; 
 	var y = f.getFullYear();
-	if(m.length<2){
-		m='0'+m;
-	}
+	// var x = ''
+
  	var jsonReporte = new Object();	
 	jsonReporte.CODIGO_CLIENTE = $("#cliente-modal").val();
-	jsonReporte.FECHA_SALDO = y+'-'+m;
+		alert(m);
+		if(m<10){
+			jsonReporte.FECHA_SALDO = y+'-0'+m;
+		}else{
+			jsonReporte.FECHA_SALDO = y+'-'+m;
+		}
+	
 	var dataString = JSON.stringify(jsonReporte); 
 	if(jsonReporte.CODIGO_CLIENTE < 0){
 		$("#collapseInformacionSaldos").removeClass("in");
