@@ -21,6 +21,7 @@
         </ul>
         <div id="my-tab-content" class="tab-content">
             <div class="tab-pane active" id="red">
+              <br>
               <div class="row" id="informacionCliente">
                 <div class="col-lg-6">
                     <div class="panel panel-primary">
@@ -28,6 +29,7 @@
                         <h3 class="panel-title"><a > Datos Personales</a></h3>
                       </div>
                           <div id="collapseDatosPersonales" class="panel-collapse collapse">
+                            <!-- <br> -->
                               <div class="panel-body">
                                 <div class="form-group col-lg-12">
                                   <label class="control-label col-lg-3"> Cliente</label>
@@ -66,6 +68,7 @@
                           </div>
                     </div>
                 </div>
+                <!-- <br> -->
                 <div class="col-lg-6">
                    <div class="panel panel-primary">
                       <div class="panel-heading" data-toggle="collapse" data-parent="#informacionSaldos" href="#collapseInformacionSaldos">
@@ -74,6 +77,7 @@
                         </h3>
                       </div>
                           <div id="collapseInformacionSaldos" class="panel-collapse collapse">
+                              <!-- <br> -->
                               <div class="panel-body">
                                 <div class="form-group col-lg-12">
                                   <label class="control-label col-lg-3">Saldos: </label>
@@ -137,8 +141,10 @@
             </div>
             </div>
             <div class="tab-pane" id="orange">
+              <br>
               <div class="row" id="ultimasGestiones">
                 <div class="col-lg-12">
+                  <br>
                      <div class="panel panel-primary">
                       <div class="panel-heading" data-toggle="collapse" data-parent="#resumenGestiones" href="#collapseResumenGestiones">
                         <h3 class="panel-title">
@@ -172,45 +178,72 @@
             </div>
             </div>
             <div class="tab-pane" id="blue">
-                <div class="col-lg-8">
+                <br>
+                <div class="col-lg-9">
                     <div class="panel panel-primary">
                       <div class="panel-heading" data-toggle="collapse" data-parent="#datosFactura" href="#collapseDatosFactura">
                         <h3 class="panel-title"><a >Cabecera</a></h3>
                       </div>
                       <div id="collapseDatosFactura" class="panel-collapse collapse in">
                           <div class="panel-body">
-                            <div class="form-group col-lg-7">
-                              <label class="control-label col-lg-3"> Fecha</label>
                               <div class="col-lg-7">
-                                <input type="text" id="fecha-factura" class="form-control input-sm" placeholder="">
-                              </div>
-                            </div>
-                            <div class="form-group col-lg-4">
+                                  <div class="form-group col-lg-12">
+                                    <label class="control-label col-lg-3"> Fecha</label>
+                                    <div class="col-lg-9">
+                                      <input type="text" id="fecha-factura" class="form-control input-sm" placeholder="">
+                                    </div>
+                                  </div>
+                                   
+                                  <div class="form-group col-lg-12">
+                                    <label class="control-label col-lg-3"> Cliente</label>
+                                    <div class="col-lg-9">
+                                      <input type="text" id="cliente-factura" class="form-control input-sm" placeholder="">
+                                    </div>
+                                  </div> 
+                                  <div class="form-group col-lg-12">
+                                    <label class="control-label col-lg-3"> Documento </label>
+                                    <div class="col-lg-9">
+                                      <input type="text" id="documentocliente-factura" class="form-control input-sm" placeholder="">
+                                    </div>
+                                  </div>
+
+                              </div>  
                               <div class="col-lg-5">
-                                <input type="radio" name="opciones" id="contado-factura" value="CO" checked> Contado
-                              </div>
-                              <div class="col-lg-5">
-                                <input type="radio" name="opciones" id="credito-factura" value="CR"> Credito
-                              </div>
-                            </div> 
-                            <div class="form-group col-lg-7">
-                              <label class="control-label col-lg-3"> Cliente</label>
-                              <div class="col-lg-9">
-                                <input type="text" id="cliente-factura" class="form-control input-sm" placeholder="">
-                              </div>
-                            </div> 
-                            <div class="form-group col-lg-5">
-                              <label class="control-label col-lg-3"> Documento </label>
-                              <div class="col-lg-9">
-                                <input type="text" id="documentocliente-factura" class="form-control input-sm" placeholder="">
-                              </div>
-                            </div> 
+                                  <div class="col-lg-12">
+                                    <div class="col-lg-4">
+                                      <input type="radio" name="opciones" id="contado-factura" value="CO" checked> Contado
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <input type="radio" name="opciones" id="credito-factura" value="CR"> Credito
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <br>
+                                  <br>
+                                  <div class="col-lg-12">
+                                    <div class="col-lg-3">
+                                      <input type="text" id="documentocliente-factura" class="form-control input-sm" placeholder="">
+                                    </div>
+                                    <div class="col-lg-3">
+                                      <input type="text" id="documentocliente-factura" class="form-control input-sm" placeholder="">
+                                    </div>
+                                    <div class="col-lg-6">
+                                      <input type="text" id="documentocliente-factura" class="form-control input-sm" placeholder="">
+                                    </div>
+                                  </div>
+
+                              </div>                          
+
+
+
+
+                             
                                                  
                           </div>
                       </div>
                     </div>
                 </div>
-                 <div class="col-lg-4">
+                 <div class="col-lg-3">
                     <div class="panel panel-primary">
                       <div class="panel-heading" data-toggle="collapse" data-parent="#datosFactura" href="#collapseDatosBotones">
                         <h3 class="panel-title"><a >Botones</a></h3>

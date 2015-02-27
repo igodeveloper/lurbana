@@ -99,9 +99,48 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         $result = $db->query("select F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',1) AS MENS_ACT, 
                                      F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',2) AS MENS_ANT, 
                                      F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',3) AS CASUAL_ACT, 
-                                     F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',4) AS CASUAL_ANT")->fetchAll();
+                                     F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',4) AS CASUAL_ANT,
+                                     F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',5) AS MENS_UTI,
+                                     F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',6) AS CASUAL_UTI,
+                                     F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',7) AS DISPONIBLE,
+                                     F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',8) AS TOTAL_ABON"
+                                     )->fetchAll();
         if(count($result)>0){
              echo json_encode($result);    
+        }else{
+            echo json_encode(array('success' => false ));
+        }           
+    }
+
+    public function detallefacturarAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+            ->from(array('LG'=>'VADM_SALDOS_CLIENTE'),  array(
+                         'LG.CODIGO_SALDO',
+                         'LG.CODIGO_SUSCRIPCION',
+                         'LG.CODIGO_CLIENTE',
+                         'LG.NOMBRE',
+                         'LG.DESCRIPCION_PLAN',
+                         'LG.TIPO_PLAN',
+                         'LG.IMPORTE_SALDO',
+                         'LG.FECHA_SALDO'))
+                 // ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                 ->where('LG.CODIGO_CLIENTE = ?', 14)
+                 ->order(array('LG.FECHA_SALDO DESC'));
+                 // ->limit(0, 10);
+            
+        // print_r($select);die();
+        $result = $db->fetchAll($select);
+
+        $arr = array();
+        foreach ($result as $row) {
+          array_push($arr, $row);
+        }
+        if(count($arr)>0){
+             echo json_encode($arr);    
         }else{
             echo json_encode(array('success' => false ));
         }           
