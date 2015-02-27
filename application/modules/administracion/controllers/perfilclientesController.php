@@ -127,8 +127,8 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                          'LG.TIPO_PLAN',
                          'LG.IMPORTE_SALDO',
                          'LG.FECHA_SALDO'))
-                 // ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
-                 ->where('LG.CODIGO_CLIENTE = ?', 14)
+                 ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                 // ->where('LG.CODIGO_CLIENTE = ?', 14)
                  ->order(array('LG.FECHA_SALDO DESC'));
                  // ->limit(0, 10);
             
@@ -144,6 +144,134 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         }else{
             echo json_encode(array('success' => false ));
         }           
+    }
+    public function pdfAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        //Para crear un nuevo documento PDF:
+    $pdf = new Zend_Pdf();
+
+    //Para crear una nueva página:
+    $pdf->pages[] = ($page = $pdf->newPage('A4'));
+    $pdf->pages[] = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
+    $pdf->pages[] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+
+    //Obtener ancho y alto de la página:
+    $ancho = $page->getWidth();
+    $alto = $page->getHeight();
+
+    //Usar estilos:
+    $estilo = new Zend_Pdf_Style();
+    $estilo->setFillColor(new Zend_Pdf_Color_RGB(0, 0, 0));
+    $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+    $estilo->setFont($font, 10);
+    $page->setStyle($estilo);
+
+    //Escribir texto:$pdf->Ln();
+    $page->drawText("ancho".$ancho." alto ".$alto, 585, 832);
+
+    //Insertar imágenes:
+    //$img = Zend_Pdf_ImageFactory::factory('sentidoweb.png');
+    //$page->drawImage($img, $x, $y, $x+&ancho, $y+$alto);
+    //Devolver la salida:
+    echo $pdf->render();
+
+    //Eso sí, antes hay que tener en cuenta que tenemos que devolver al inicio del script el Content-Type:
+
+    header("Content-Type: application/pdf");
+    // Si queremos que se devuelva como un fichero adjunto
+    // header("Content-Disposition: attachment; filename=\"prueba.pdf\"");
+    }
+
+
+       public function printpdfAction() {
+        // $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+    //  // include auto-loader class
+    //     require_once 'Zend/Loader/Autoloader.php';
+    // // register auto-loader
+    //     $loader = Zend_Loader_Autoloader::getInstance();
+
+        try {
+            // create PDF
+            $pdf = new Zend_Pdf();
+            
+            // create A4 page
+            $page = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
+            
+            // define font resource
+            $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+            
+            //prueba ancho y largo
+            $width  = $page->getWidth();
+            $height = $page->getHeight();
+            
+            //Color de la linea
+            $page->setLineColor(new Zend_Pdf_Color_Rgb(0,0,0));
+            //Linea superior Horizontal
+            $page->pathLine($width-10,$height-10);
+            $page->setFont($font, 10);
+            $page->drawText('INFOCOMEDOR', 10,$height-20);
+            //Linea inferior Horizontal
+            // $page->drawLine(38, 38, ($width-38), 38);
+            // //left line vertical
+            // $page->drawLine(38, 38, 38, $height-38);
+            // //right line vertical
+            // $page->drawLine($width-38, $height-38, $width-38, 38);
+            
+            // //Tamanho de letra, color, y titulo
+            // $page->setFont($font, 14)
+            // ->setFillColor(new Zend_Pdf_Color_Rgb(1, 0, 0))
+            // ->drawText('INFOCOMEDOR', 250, $height-75);
+            
+            
+            // Linea bajo el titulo
+            $page->drawLine(50, $height-78, ($width-50), $height-78);
+            
+            // $listado = new Zend_Session_Namespace('listado');
+            // $listado->unlock();
+            $y = 100;
+            $i=0;
+            $codigo_inventario = 10;
+            if( $codigo_inventario > 0){
+                $page->setFont($font, 14)
+                ->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0))
+                ->drawText( $codigo_inventario, 450, $height-75);
+            }
+            if( $codigo_inventario > 0){
+                 $page->setFont($font, 14)
+                    ->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0))
+                    ->drawText( $codigo_inventario, 450, $height-75);
+            }
+
+            // Hacemos la cabecera
+            
+            $page->setFont($font, 14)
+                     ->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0))
+                     ->drawText('Item', 40, $height-$y)
+                     ->drawText('Producto', 90, $height-$y)
+                     ->drawText('Inventario', 400, $height-$y);
+                     $y = $y+20;
+                     
+           
+            // add page to document
+            $pdf->pages[] = $page;
+            $name = 'inventario'. date("Ymd").date("H").date("i").date("s").'.pdf';
+    
+                foreach($pdf->pages As $key => $page){
+                    $page->drawText("Page " . ($key+1) . " of " . count($pdf->pages), 260, 50);                      
+                }
+             echo $pdf->render();
+            header('Content-type: application/pdf');
+            // $pdf->save($name);
+         
+            echo json_encode(array("result" => "EXITO","url" => $name));
+        } catch (Zend_Pdf_Exception $e) {
+            die ('PDF error: ' . $e->getMessage());  
+        } catch (Exception $e) {
+            die ('Application error: ' . $e->getMessage());    
+        }
     }
 
 
