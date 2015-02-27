@@ -25,7 +25,8 @@ $().ready(function() {
            
     });  
     $("#limpiarDetalle").click(function() {
-    	limpiarDetalle(); 	
+    	limpiarDetalle();
+    	$("#grillaDetalle").jqGrid('resetSelection');	
            
     }); 
 	
@@ -240,4 +241,5 @@ function cargaGRillaFacturaDetalle(){
 
 function limpiarDetalle(){
 	$('#table_tbody tr').remove();
+
 }
