@@ -145,6 +145,85 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
             echo json_encode(array('success' => false ));
         }           
     }
+
+    public function getseriesAction(){
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'VADM_SGTE_NRO_TALO'),  array(
+                             'C.COD_TALONARIO',
+                             'C.SERIE'))
+                    ->order(array('C.COD_TALONARIO DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1"></option>';
+            foreach ($result as $arr) {
+                $htmlResultado .= '<option value="' . $arr["COD_TALONARIO"] . '">' .$arr["SERIE"] . '</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
+    }
+
+     public function guardarAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        // print_r($parametros);
+        // print_r($parametros->detalle);
+        // die();
+        try {
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $db->beginTransaction();
+            $cabecera = array(
+                'COD_TALONARIO' => (int)($parametros->COD_TALONARIO),
+                'SER_COMPROBANTE' => $parametros->SER_COMPROBANTE,
+                'NRO_COMPROBANTE' => (int)($parametros->NRO_COMPROBANTE),
+                'NRO_TIMBRADO' => (int)($parametros->NRO_TIMBRADO),
+                'CODIGO_CLIENTE' => (int)($parametros->CODIGO_CLIENTE),
+                'TOTAL' => (float)($parametros->TOTAL),
+                'TOT_GRAVADAS' => (float)($parametros->TOT_GRAVADAS),
+                'TOT_EXENTAS' => (float)($parametros->TOT_EXENTAS),
+                'SALDO' => (float)($parametros->TOTAL),
+                'FECHA' => date("Y-m-d", strtotime($parametros->FECHA)),
+                'TIP_COMPROBANTE' => ('FACT')
+            );
+
+            $insert_cabecera = $db->insert('ADM_FACTURA_VENTA_CAB', $cabecera);
+            $codFactura = $db->lastInsertId();
+            $i =1;
+            foreach ($parametros->detalle as $fila) {
+                // print_r($fila);
+                $data_detalle = array(
+                    'ID_COMPROBANTE' => (int)($codFactura),
+                    'NRO_LINEA' => ($i),
+                    'CODIGO_SALDO' => (int)($fila->CODIGO_SALDO),
+                    'CODIGO_SUSCRIPCION' => (int)($fila->CODIGO_SUSCRIPCION),
+                    'DESCRIPCION' => $fila->NOMBRE,
+                    'CANTIDAD' => (float)($fila->CANTIDAD),
+                    'IMPORTE' => (float)($fila->IMPORTE),
+                    'COD_IVA' => 1,
+                    'FECHA_SALDO' => date("Y-m-d", strtotime($fila->FECHA_SALDO))
+                );
+                $detalle = $db->insert('ADM_FACTURA_VENTA_DET', $data_detalle);
+                $i++;
+            }      
+            $db->commit();
+           echo json_encode(array("success" => true));
+        } catch (Exception $e) {
+            $db->rollBack();
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+            
+        }
+    }
+
+
     public function pdfAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
