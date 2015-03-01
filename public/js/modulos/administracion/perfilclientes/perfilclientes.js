@@ -34,7 +34,7 @@ $().ready(function() {
 		 var data = obtenerDatos();
 		if(data != null){
 			enviarParametros(data);
-			console.log(data);
+			// console.log(data);
 			// enviarParametros(data);
 		}
 	 });
@@ -271,6 +271,9 @@ function cargaGRillaFacturaDetalle(){
 
 function limpiarDetalle(){
 	$('#table_tbody tr').remove();
+	$("#total-factura").text("");
+	$("#iva-factura").text("");
+	$("#totaliva-factura").text("");
 
 }
 
@@ -300,6 +303,8 @@ function obtenerDatos(){
 		var grillaDetalle = recuperaDetalles();
 
 		jsonObject.CODIGO_CLIENTE = parseInt($("#cliente-modal").val());
+		jsonObject.NOMBRE_CLIENTE = ($("#cliente-factura").val());
+		jsonObject.DOCUMENTO_CLIENTE = ($("#documentocliente-factura").val());
 		jsonObject.COD_TALONARIO = parseInt($('#series-factura').val());
 		jsonObject.SER_COMPROBANTE = $("#series-factura :selected").text();
 		jsonObject.FECHA = $("#fecha-factura").val();
@@ -358,12 +363,30 @@ function enviarParametros(data){
         dataType: 'json',
         async : true,
         success: function(respuesta){
+        		if(respuesta.success){
+	      			 $.unblockUI();
+    			 mostarVentana();    			
+        		window.open(table+'/printpdf','_blank');
+        		}
+
         	
-               $.unblockUI();
+              
         },
         error: function(event, request, settings){
 //        	mostarVentana("error-registro-listado","Ha ocurrido un error");
     		$.unblockUI();
         }
     });
+}
+
+function mostarVentana(){
+	$("#facturado").removeClass("hide");
+	limpiarDetalle();
+	cargaDetalleFactura();
+	setTimeout("ocultarWarningModal()",5000);
+	
+}
+
+function ocultarWarningModal(){
+	$("#facturado").addClass("hide");
 }
