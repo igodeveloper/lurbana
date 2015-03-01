@@ -3,6 +3,13 @@
 class Login_loginController extends Zend_Controller_Action {
 
     public function init() {
+        $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
+        $parametrosLogueo->unlock ();
+        if (Zend_Session::namespaceIsset('logueo')) {
+          $p = Zend_Session::namespaceUnset('logueo');
+        }
+        $parametrosLogueo->lock();
+
 
     }
 

@@ -5,11 +5,12 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
      public function init() {
         $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
         $parametrosLogueo->unlock ();   
+        // $p = Zend_Session::namespaceUnset('factura');
         if(!$parametrosLogueo->username){
                 $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
                 $r->gotoUrl('/login/login')->redirectAndExit();
             }
-        $parametrosLogueo->lock();    
+        $parametrosLogueo->lock();   
     }
 
     public function indexAction() {
@@ -24,7 +25,7 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
-
+        $p = Zend_Session::namespaceUnset('factura');
               $db = Zend_Db_Table::getDefaultAdapter();
              $select = $db->select()
                 ->from(array('C'=>'ADM_CLIENTES'),  array(
@@ -128,7 +129,7 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                          'LG.IMPORTE_SALDO',
                          'LG.FECHA_SALDO'))
                  ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
-                 // ->where('LG.CODIGO_CLIENTE = ?', 14)
+                 ->where('LG.IMPORTE_SALDO > ?', 0)
                  ->order(array('LG.FECHA_SALDO DESC'));
                  // ->limit(0, 10);
             
@@ -178,6 +179,12 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         // print_r($parametros);
         // print_r($parametros->detalle);
         // die();
+
+         $paramFact = new Zend_Session_Namespace ( 'factura' );
+        $paramFact->unlock ();   
+        // $paramFact->factura = $parametros;
+        $paramFact->factura = $parametros;
+
         try {
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
@@ -195,9 +202,12 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 'TIP_COMPROBANTE' => ('FACT')
             );
 
+
             $insert_cabecera = $db->insert('ADM_FACTURA_VENTA_CAB', $cabecera);
             $codFactura = $db->lastInsertId();
             $i =1;
+            $paramFact->cod_interno = $codFactura;
+        
             foreach ($parametros->detalle as $fila) {
                 // print_r($fila);
                 $data_detalle = array(
@@ -207,13 +217,14 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                     'CODIGO_SUSCRIPCION' => (int)($fila->CODIGO_SUSCRIPCION),
                     'DESCRIPCION' => $fila->NOMBRE,
                     'CANTIDAD' => (float)($fila->CANTIDAD),
-                    'IMPORTE' => (float)($fila->IMPORTE),
+                    'IMPORTE' => (float)($fila->IMPORTE_SALDO),
                     'COD_IVA' => 1,
                     'FECHA_SALDO' => date("Y-m-d", strtotime($fila->FECHA_SALDO))
                 );
                 $detalle = $db->insert('ADM_FACTURA_VENTA_DET', $data_detalle);
                 $i++;
-            }      
+            }
+            $paramFact->lock();      
             $db->commit();
            echo json_encode(array("success" => true));
         } catch (Exception $e) {
@@ -223,61 +234,61 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         }
     }
 
-
-    public function pdfAction(){
+    public function getcontrolfiscalAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-        //Para crear un nuevo documento PDF:
-    $pdf = new Zend_Pdf();
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+            ->from(array('LG'=>'VADM_SALDOS_CLIENTE'),  array(
+                         'LG.CODIGO_SALDO',
+                         'LG.CODIGO_SUSCRIPCION',
+                         'LG.CODIGO_CLIENTE',
+                         'LG.NOMBRE',
+                         'LG.DESCRIPCION_PLAN',
+                         'LG.TIPO_PLAN',
+                         'LG.IMPORTE_SALDO',
+                         'LG.FECHA_SALDO'))
+                 ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
+                 ->where('LG.IMPORTE_SALDO > ?', 0)
+                 ->order(array('LG.FECHA_SALDO DESC'));
+                 // ->limit(0, 10);
+            
+        // print_r($select);die();
+        $result = $db->fetchAll($select);
 
-    //Para crear una nueva página:
-    $pdf->pages[] = ($page = $pdf->newPage('A4'));
-    $pdf->pages[] = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
-    $pdf->pages[] = $pdf->newPage(Zend_Pdf_Page::SIZE_A4);
+        $arr = array();
+        foreach ($result as $row) {
+          array_push($arr, $row);
+        }
+        if(count($arr)>0){
+             echo json_encode($arr);    
+        }else{
+            echo json_encode(array('success' => false ));
+        }         
 
-    //Obtener ancho y alto de la página:
-    $ancho = $page->getWidth();
-    $alto = $page->getHeight();
-
-    //Usar estilos:
-    $estilo = new Zend_Pdf_Style();
-    $estilo->setFillColor(new Zend_Pdf_Color_RGB(0, 0, 0));
-    $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
-    $estilo->setFont($font, 10);
-    $page->setStyle($estilo);
-
-    //Escribir texto:$pdf->Ln();
-    $page->drawText("ancho".$ancho." alto ".$alto, 585, 832);
-
-    //Insertar imágenes:
-    //$img = Zend_Pdf_ImageFactory::factory('sentidoweb.png');
-    //$page->drawImage($img, $x, $y, $x+&ancho, $y+$alto);
-    //Devolver la salida:
-    echo $pdf->render();
-
-    //Eso sí, antes hay que tener en cuenta que tenemos que devolver al inicio del script el Content-Type:
-
-    header("Content-Type: application/pdf");
-    // Si queremos que se devuelva como un fichero adjunto
-    // header("Content-Disposition: attachment; filename=\"prueba.pdf\"");
     }
+
+
 
 
        public function printpdfAction() {
         // $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
-    //  // include auto-loader class
-    //     require_once 'Zend/Loader/Autoloader.php';
-    // // register auto-loader
-    //     $loader = Zend_Loader_Autoloader::getInstance();
-
+         $paramFact = new Zend_Session_Namespace ( 'factura' );
+         $paramFact->unlock ();   
+         $facturaPDF = $paramFact->factura;
+         // print_r($facturaPDF);
+         $paramFact->lock();
+         $p = Zend_Session::namespaceUnset('factura');
         try {
             // create PDF
             $pdf = new Zend_Pdf();
             
             // create A4 page
-            $page = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
+            // $page = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
+            $page = new Zend_Pdf_Page('609:963:');
             
             // define font resource
             $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
@@ -288,59 +299,71 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
             
             //Color de la linea
             $page->setLineColor(new Zend_Pdf_Color_Rgb(0,0,0));
-            //Linea superior Horizontal
-            $page->pathLine($width-10,$height-10);
-            $page->setFont($font, 10);
-            $page->drawText('INFOCOMEDOR', 10,$height-20);
-            //Linea inferior Horizontal
-            // $page->drawLine(38, 38, ($width-38), 38);
-            // //left line vertical
-            // $page->drawLine(38, 38, 38, $height-38);
-            // //right line vertical
-            // $page->drawLine($width-38, $height-38, $width-38, 38);
-            
-            // //Tamanho de letra, color, y titulo
-            // $page->setFont($font, 14)
-            // ->setFillColor(new Zend_Pdf_Color_Rgb(1, 0, 0))
-            // ->drawText('INFOCOMEDOR', 250, $height-75);
-            
-            
-            // Linea bajo el titulo
-            $page->drawLine(50, $height-78, ($width-50), $height-78);
-            
-            // $listado = new Zend_Session_Namespace('listado');
-            // $listado->unlock();
-            $y = 100;
-            $i=0;
-            $codigo_inventario = 10;
-            if( $codigo_inventario > 0){
-                $page->setFont($font, 14)
-                ->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0))
-                ->drawText( $codigo_inventario, 450, $height-75);
-            }
-            if( $codigo_inventario > 0){
-                 $page->setFont($font, 14)
-                    ->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0))
-                    ->drawText( $codigo_inventario, 450, $height-75);
-            }
+            //imprime fecha
+            $page->setFont($font, 9);
+        
+            //fecha hoja 1, 2, 3
+            $page->drawText($facturaPDF->FECHA, 141,$height-147);
+            $page->drawText($facturaPDF->FECHA, 141,$height-442);
+            $page->drawText($facturaPDF->FECHA, 141,$height-742);
 
-            // Hacemos la cabecera
+            //cliente
+            $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-161);
+            $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-456);
+            $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-756);
+
+            //ruc
+            $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-175);
+            $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-470);
+            $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-770);
+            // contado
+            $page->drawText('X', 512,$height-178);
+            $page->drawText('X', 512,$height-470);
+            $page->drawText('X', 512,$height-370);
+
+            $hoja_W_P= 70;
+            $hoja_W_M= 529;
+            $hoja1_H= 204;
+
+            $hoja2_H= 490;
+            $hoja3_H= 802;
+
+
+            foreach ($facturaPDF->detalle as $fila) {
+
+                $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja1_H);
+                $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja1_H);
+                // $hoja1_H= $hoja1_H + 14;
+                $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja2_H);
+                $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja2_H);
+
+                $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja3_H);
+                $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja3_H);
+                
+                $hoja1_H= $hoja1_H + 14;
+                $hoja2_H= $hoja2_H + 14;
+                $hoja3_H= $hoja3_H + 14;
+            }
             
-            $page->setFont($font, 14)
-                     ->setFillColor(new Zend_Pdf_Color_Rgb(0, 0, 0))
-                     ->drawText('Item', 40, $height-$y)
-                     ->drawText('Producto', 90, $height-$y)
-                     ->drawText('Inventario', 400, $height-$y);
-                     $y = $y+20;
-                     
+
+
+            // IVA 10
+            $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-317); 
+            $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-612); 
+            $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-915); 
+            // TOTAL IVA
+            $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-317); 
+            $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-612); 
+            $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-915); 
+            // TOTAL
+            $page->drawText($facturaPDF->TOTAL, 495,$height-297);
+            $page->drawText($facturaPDF->TOTAL, 495,$height-602);
+            $page->drawText($facturaPDF->TOTAL, 495,$height-898);
+                  
            
             // add page to document
             $pdf->pages[] = $page;
-            $name = 'inventario'. date("Ymd").date("H").date("i").date("s").'.pdf';
-    
-                foreach($pdf->pages As $key => $page){
-                    $page->drawText("Page " . ($key+1) . " of " . count($pdf->pages), 260, 50);                      
-                }
+
              echo $pdf->render();
             header('Content-type: application/pdf');
             // $pdf->save($name);
