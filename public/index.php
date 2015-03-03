@@ -22,6 +22,7 @@ require_once '../library/reports/db_operation.php';
 require_once '../library/reports/n2t.class.php';
 require_once '../library/reports/PDFReporteclientes.php';
 require_once '../library/reports/PDFReporteasistentes.php';
+require_once '../library/externos/numeros.php';
 
 // Create application, bootstrap, and run
 $application = new Zend_Application(
