@@ -320,13 +320,13 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 // contado
                 $page->drawText('X', 512,$height-178);
                 $page->drawText('X', 512,$height-470);
-                $page->drawText('X', 512,$height-370);
+                $page->drawText('X', 512,$height-770);
 
                 $hoja_W_P= 70;
                 $hoja_W_M= 529;
                 $hoja1_H= 204;
 
-                $hoja2_H= 490;
+                $hoja2_H= 504;
                 $hoja3_H= 802;
 
 
