@@ -273,110 +273,131 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
 
        public function printpdfAction() {
-        // $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-         $paramFact = new Zend_Session_Namespace ( 'factura' );
-         $paramFact->unlock ();   
-         $facturaPDF = $paramFact->factura;
-         // print_r($facturaPDF);
-         $paramFact->lock();
-         $p = Zend_Session::namespaceUnset('factura');
-        try {
-            // create PDF
-            $pdf = new Zend_Pdf();
-            
-            // create A4 page
-            // $page = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
-            $page = new Zend_Pdf_Page('609:963:');
-            
-            // define font resource
-            $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
-            
-            //prueba ancho y largo
-            $width  = $page->getWidth();
-            $height = $page->getHeight();
-            
-            //Color de la linea
-            $page->setLineColor(new Zend_Pdf_Color_Rgb(0,0,0));
-            //imprime fecha
-            $page->setFont($font, 9);
-        
-            //fecha hoja 1, 2, 3
-            $page->drawText($facturaPDF->FECHA, 141,$height-147);
-            $page->drawText($facturaPDF->FECHA, 141,$height-442);
-            $page->drawText($facturaPDF->FECHA, 141,$height-742);
-
-            //cliente
-            $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-161);
-            $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-456);
-            $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-756);
-
-            //ruc
-            $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-175);
-            $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-470);
-            $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-770);
-            // contado
-            $page->drawText('X', 512,$height-178);
-            $page->drawText('X', 512,$height-470);
-            $page->drawText('X', 512,$height-370);
-
-            $hoja_W_P= 70;
-            $hoja_W_M= 529;
-            $hoja1_H= 204;
-
-            $hoja2_H= 490;
-            $hoja3_H= 802;
-
-
-            foreach ($facturaPDF->detalle as $fila) {
-
-                $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja1_H);
-                $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja1_H);
-                // $hoja1_H= $hoja1_H + 14;
-                $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja2_H);
-                $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja2_H);
-
-                $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja3_H);
-                $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja3_H);
+            // $this->_helper->viewRenderer->setNoRender(true);
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+             $paramFact = new Zend_Session_Namespace ( 'factura' );
+             $paramFact->unlock ();   
+             $facturaPDF = $paramFact->factura;
+             // print_r($facturaPDF);
+             $paramFact->lock();
+             $p = Zend_Session::namespaceUnset('factura');
+            try {
+                // create PDF
+                $pdf = new Zend_Pdf();
                 
-                $hoja1_H= $hoja1_H + 14;
-                $hoja2_H= $hoja2_H + 14;
-                $hoja3_H= $hoja3_H + 14;
-            }
+                // create A4 page
+                // $page = new Zend_Pdf_Page(Zend_Pdf_Page::SIZE_A4);
+                $page = new Zend_Pdf_Page('609:963:');
+                
+                // define font resource
+                $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);
+                
+                //prueba ancho y largo
+                $width  = $page->getWidth();
+                $height = $page->getHeight();
+                
+                //Color de la linea
+                $page->setLineColor(new Zend_Pdf_Color_Rgb(0,0,0));
+                //imprime fecha
+                $page->setFont($font, 9);
             
+                //fecha hoja 1, 2, 3
+                $page->drawText($facturaPDF->FECHA, 141,$height-147);
+                $page->drawText($facturaPDF->FECHA, 141,$height-442);
+                $page->drawText($facturaPDF->FECHA, 141,$height-742);
+
+                //cliente
+                $facturaPDF->NOMBRE_CLIENTE = utf8_decode($facturaPDF->NOMBRE_CLIENTE);
+                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-161);
+                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-456);
+                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-756);
+
+                //ruc
+                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-175);
+                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-470);
+                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-770);
+                // contado
+                $page->drawText('X', 512,$height-178);
+                $page->drawText('X', 512,$height-470);
+                $page->drawText('X', 512,$height-370);
+
+                $hoja_W_P= 70;
+                $hoja_W_M= 529;
+                $hoja1_H= 204;
+
+                $hoja2_H= 490;
+                $hoja3_H= 802;
 
 
-            // IVA 10
-            $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-317); 
-            $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-612); 
-            $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-915); 
-            // TOTAL IVA
-            $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-317); 
-            $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-612); 
-            $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-915); 
-            // TOTAL
-            $page->drawText($facturaPDF->TOTAL, 495,$height-297);
-            $page->drawText($facturaPDF->TOTAL, 495,$height-602);
-            $page->drawText($facturaPDF->TOTAL, 495,$height-898);
-                  
-           
-            // add page to document
-            $pdf->pages[] = $page;
+                foreach ($facturaPDF->detalle as $fila) {
+                    $fila->IMPORTE_SALDO = number_format($fila->IMPORTE_SALDO);
+                    $fila->DESCRIPCION_PLAN = utf8_decode($fila->DESCRIPCION_PLAN);
+                    $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja1_H);
+                    $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja1_H);
+                    // $hoja1_H= $hoja1_H + 14;
+                    $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja2_H);
+                    $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja2_H);
 
-             echo $pdf->render();
-            header('Content-type: application/pdf');
-            // $pdf->save($name);
-         
-            echo json_encode(array("result" => "EXITO","url" => $name));
-        } catch (Zend_Pdf_Exception $e) {
-            die ('PDF error: ' . $e->getMessage());  
-        } catch (Exception $e) {
-            die ('Application error: ' . $e->getMessage());    
-        }
+                    $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja3_H);
+                    $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja3_H);
+                    
+                    $hoja1_H= $hoja1_H + 14;
+                    $hoja2_H= $hoja2_H + 14;
+                    $hoja3_H= $hoja3_H + 14;
+                }
+                
+
+
+                // IVA 10
+                $facturaPDF->TOT_GRAVADAS = number_format($facturaPDF->TOT_GRAVADAS);
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-317); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-612); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-915); 
+                // TOTAL IVA
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-317); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-612); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-915); 
+                
+                //calculamos el total en letras
+                $V = new EnLetras(); 
+                $total_letra=utf8_decode(strtoupper($V->ValorEnLetras($facturaPDF->TOTAL,"guaranies"))); 
+
+
+                // TOTAL
+                $facturaPDF->TOTAL = number_format($facturaPDF->TOTAL);
+                $page->drawText($facturaPDF->TOTAL, 495,$height-297);
+                $page->drawText($facturaPDF->TOTAL, 495,$height-602);
+                $page->drawText($facturaPDF->TOTAL, 495,$height-898); 
+                      
+                // Total letras
+                $page->drawText($total_letra, 135,$height-297);
+                $page->drawText($total_letra, 135,$height-602);
+                $page->drawText($total_letra, 135,$height-898); 
+               
+                // add page to document
+                $pdf->pages[] = $page;
+
+                 echo $pdf->render();
+                header('Content-type: application/pdf');
+                // $pdf->save($name);
+             
+                echo json_encode(array("result" => "EXITO","url" => $name));
+            } catch (Zend_Pdf_Exception $e) {
+                die ('PDF error: ' . $e->getMessage());  
+            } catch (Exception $e) {
+                die ('Application error: ' . $e->getMessage());    
+            }
     }
 
 
+    public function numeroAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        // $parametros = json_decode($this->getRequest()->getParam("parametros"));
+                        $number=35000; 
+             echo "<b> aaa".number_format($number)."</b>"; 
+   }
 
 }
 
