@@ -45,6 +45,7 @@ function buscarDatos(){
 	buscaDatosCliente();
 	buscarSaldos();
 	cargaDetalleFactura();
+	cargaFacturasCliente();
 	limpiarDetalle();
 }
 
@@ -172,6 +173,7 @@ function buscaGestionesCleinte(){
 	        }
     	});	
 }
+
 	
 function buscarSaldos() {
 	
@@ -377,6 +379,67 @@ function enviarParametros(data){
     		$.unblockUI();
         }
     });
+}
+function reimpresion(id){
+	alert(id);
+	$.blockUI({
+        message: "Aguarde un momento por favor"
+    });
+
+	var jsonReporte = new Object();	
+	jsonReporte.ID_COMPROBANTE = id;
+	jsonReporte.DOCUMENTO_CLIENTE = ($("#documentocliente-factura").val());
+
+	var dataString = JSON.stringify(jsonReporte); 
+
+	$.ajax({
+        url: table+'/reimpresion',
+        type: 'get',
+        data: {"parametros":dataString},
+        dataType: 'json',
+        async : true,
+        success: function(respuesta){
+        		if(respuesta.success){
+	      			 $.unblockUI();
+    			 mostarVentana();    			
+        		window.open(table+'/printpdf','_blank');
+        		}
+
+        	
+              
+        },
+        error: function(event, request, settings){
+//        	mostarVentana("error-registro-listado","Ha ocurrido un error");
+    		$.unblockUI();
+        }
+    });
+}
+
+function cargaFacturasCliente(){
+	var jsonReporte = new Object();	
+	jsonReporte.CODIGO_CLIENTE = $("#cliente-modal").val();
+	var dataString = JSON.stringify(jsonReporte); 
+
+	$.ajax({
+	         url: table+'/facturas',
+	        type: 'GET',
+	        data: {"parametros":dataString},
+	        dataType: 'json',
+	        async : false,
+	        success: function(respuesta){
+	        	if(typeof respuesta.success == 'undefined' && !respuesta.success){
+		        	$.each(respuesta, function( index, value ) {
+					  // alert( index + ": " + value.FECHA_GESTION );
+					  $('#facturas > tbody:last').append('<tr><td>'+value.FECHA+'</td><td>'+value.ID_COMPROBANTE+'</td><td>'+value.SER_COMPROBANTE+'-'+value.NRO_COMPROBANTE+'</td><td>'+value.TOTAL+'</td><td>'+value.SALDO+'</td><td>'+value.ESTADO+'</td><td><button type="button" class="btn btn-success" onclick="reimpresion('+value.ID_COMPROBANTE+')">Reimprimir</button></td></tr>');
+					});
+					// $("#collapseResumenGestiones").addClass("in");
+				}
+	        },
+	        error: function(event, request, settings){
+	         //   $.unblockUI();
+	        	 // alert(mostrarError("OcurrioError"));
+	        }
+    	});	
 }
 
 function mostarVentana(){
