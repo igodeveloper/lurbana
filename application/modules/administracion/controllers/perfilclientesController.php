@@ -331,8 +331,11 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
 
                 foreach ($facturaPDF->detalle as $fila) {
-                    $fila->IMPORTE_SALDO = number_format($fila->IMPORTE_SALDO);
+                    // $fila->IMPORTE_SALDO = number_format($fila->IMPORTE_SALDO);
+                    
+                    $fila->IMPORTE_SALDO = number_format($fila->IMPORTE_SALDO, 0, '', '.'); 
                     $fila->DESCRIPCION_PLAN = utf8_decode($fila->DESCRIPCION_PLAN);
+
                     $page->drawText($fila->DESCRIPCION_PLAN, $hoja_W_P, $height-$hoja1_H);
                     $page->drawText($fila->IMPORTE_SALDO, $hoja_W_M, $height-$hoja1_H);
                     // $hoja1_H= $hoja1_H + 14;
@@ -350,7 +353,9 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
 
                 // IVA 10
-                $facturaPDF->TOT_GRAVADAS = number_format($facturaPDF->TOT_GRAVADAS);
+                // $facturaPDF->TOT_GRAVADAS = number_format($facturaPDF->TOT_GRAVADAS);
+                $facturaPDF->TOT_GRAVADAS = number_format($facturaPDF->TOT_GRAVADAS, 0, '', '.'); 
+
                 $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-317); 
                 $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-612); 
                 $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-915); 
@@ -365,7 +370,9 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
 
                 // TOTAL
-                $facturaPDF->TOTAL = number_format($facturaPDF->TOTAL);
+                // $facturaPDF->TOTAL = number_format($facturaPDF->TOTAL);
+                $facturaPDF->TOTAL = number_format($facturaPDF->TOTAL, 0, '', '.'); 
+
                 $page->drawText($facturaPDF->TOTAL, 495,$height-297);
                 $page->drawText($facturaPDF->TOTAL, 495,$height-602);
                 $page->drawText($facturaPDF->TOTAL, 495,$height-898); 
@@ -398,6 +405,54 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                         $number=35000; 
              echo "<b> aaa".number_format($number)."</b>"; 
    }
+
+   public function facturasAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+            ->from(array('A'=>'ADM_FACTURA_VENTA_CAB'),  array(
+                         'A.ID_COMPROBANTE',
+                         'A.FECHA',
+                         'D.NRO_LINEA',
+                         'A.NRO_COMPROBANTE',
+                         'A.CODIGO_CLIENTE',
+                         'VS.NOMBRE',
+                         'VS.DESCRIPCION_PLAN',
+                         'D.IMPORTE',
+                         'A.TOT_GRAVADAS',
+                         'A.TOTAL'))
+                 ->join(array('D' => 'ADM_FACTURA_VENTA_DET'), 'A.ID_COMPROBANTE = D.ID_COMPROBANTE')
+                 ->join(array('VS' => 'VADM_SALDOS_CLIENTE'), 'VS.CODIGO_SALDO = D.CODIGO_SALDO')
+                 ->where('A.ID_COMPROBANTE = ?', $parametros->CODIGO_CLIENTE);
+            
+       
+        $result = $db->fetchAll($select);
+        $obj = new stdObject();
+
+        $arr = array();
+        $obj->detalle = array();
+        foreach ($result as $row) {
+            $obj->FECHA = $row["FECHA"];
+            $obj->NOMBRE_CLIENTE = $row["NOMBRE"];
+            $obj->DOCUMENTO_CLIENTE = $parametros->DOCUMENTO_CLIENTE;
+
+            $objDetalle->DESCRIPCION_PLAN = $row["DESCRIPCION_PLAN"];
+            $objDetalle->IMPORTE_SALDO = $row["IMPORTE"];
+
+            $obj->TOT_GRAVADAS = $row["TOT_GRAVADAS"];
+            $obj->TOTAL = $row["TOTAL"];
+            
+            array_push($obj->detalle, array('DESCRIPCION_PLAN' => $row["DESCRIPCION_PLAN"] ,'IMPORTE' => $row["IMPORTE"]  ));
+
+        }
+        if(count($arr)>0){
+             echo json_encode($arr);    
+        }else{
+            echo json_encode(array('success' => false ));
+        }           
+    }
 
 }
 
