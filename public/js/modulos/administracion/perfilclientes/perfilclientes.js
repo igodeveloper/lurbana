@@ -273,6 +273,7 @@ function cargaGRillaFacturaDetalle(){
 
 function limpiarDetalle(){
 	$('#table_tbody tr').remove();
+	// $('#table_tbody_facturas tr').remove();
 	$("#total-factura").text("");
 	$("#iva-factura").text("");
 	$("#totaliva-factura").text("");
@@ -381,7 +382,7 @@ function enviarParametros(data){
     });
 }
 function reimpresion(id){
-	alert(id);
+	// alert(id);
 	$.blockUI({
         message: "Aguarde un momento por favor"
     });
@@ -428,6 +429,7 @@ function cargaFacturasCliente(){
 	        async : false,
 	        success: function(respuesta){
 	        	if(typeof respuesta.success == 'undefined' && !respuesta.success){
+	        		$('#table_tbody_facturas tr').remove();
 		        	$.each(respuesta, function( index, value ) {
 					  // alert( index + ": " + value.FECHA_GESTION );
 					  $('#facturas > tbody:last').append('<tr><td>'+value.FECHA+'</td><td>'+value.ID_COMPROBANTE+'</td><td>'+value.SER_COMPROBANTE+'-'+value.NRO_COMPROBANTE+'</td><td>'+value.TOTAL+'</td><td>'+value.SALDO+'</td><td>'+value.ESTADO+'</td><td><button type="button" class="btn btn-success" onclick="reimpresion('+value.ID_COMPROBANTE+')">Reimprimir</button></td></tr>');
@@ -452,4 +454,27 @@ function mostarVentana(){
 
 function ocultarWarningModal(){
 	$("#facturado").addClass("hide");
+}
+
+function controlfiscal(){
+	var jsonReporte = new Object();	
+	jsonReporte.COD_TALONARIO = $("#series-factura").val();
+	var dataString = JSON.stringify(jsonReporte); 
+
+	$.ajax({
+	         url: table+'/getcontrolfiscal',
+	        type: 'GET',
+	        data: {"parametros":dataString},
+	        dataType: 'json',
+	        async : false,
+	        success: function(respuesta){
+	        	if(respuesta.success){
+	        		$("#controlfiscal-factura").val(respuesta.numero);
+				}
+	        },
+	        error: function(event, request, settings){
+	         //   $.unblockUI();
+	        	 // alert(mostrarError("OcurrioError"));
+	        }
+    	});	
 }
