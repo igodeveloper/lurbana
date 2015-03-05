@@ -240,29 +240,16 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
-            ->from(array('LG'=>'VADM_SALDOS_CLIENTE'),  array(
-                         'LG.CODIGO_SALDO',
-                         'LG.CODIGO_SUSCRIPCION',
-                         'LG.CODIGO_CLIENTE',
-                         'LG.NOMBRE',
-                         'LG.DESCRIPCION_PLAN',
-                         'LG.TIPO_PLAN',
-                         'LG.IMPORTE_SALDO',
-                         'LG.FECHA_SALDO'))
-                 ->where('LG.CODIGO_CLIENTE = ?', $parametros->CODIGO_CLIENTE)
-                 ->where('LG.IMPORTE_SALDO > ?', 0)
-                 ->order(array('LG.FECHA_SALDO DESC'));
-                 // ->limit(0, 10);
-            
-        // print_r($select);die();
-        $result = $db->fetchAll($select);
+                ->from(array('C'=>'VADM_SGTE_NRO_TALO'),  array(
+                             'C.NRO_SGTE'))
+                    ->where('C.COD_TALONARIO = ?', $parametros->COD_TALONARIO)
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
 
-        $arr = array();
-        foreach ($result as $row) {
-          array_push($arr, $row);
-        }
-        if(count($arr)>0){
-             echo json_encode($arr);    
+       
+        if(count($result)>0){
+             echo json_encode(array('success' => true, "numero"=>$result[0]["NRO_SGTE"] ));    
         }else{
             echo json_encode(array('success' => false ));
         }         
@@ -279,7 +266,10 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
              $paramFact = new Zend_Session_Namespace ( 'factura' );
              $paramFact->unlock ();   
              $facturaPDF = $paramFact->factura;
-             // print_r($facturaPDF);
+             if($paramFact->reimpresion){
+                $facturaPDF->detalle = json_decode($facturaPDF->detalle);
+             }
+             
              $paramFact->lock();
              $p = Zend_Session::namespaceUnset('factura');
             try {
@@ -331,6 +321,7 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
 
                 foreach ($facturaPDF->detalle as $fila) {
+                    // print_r($fila);die();
                     // $fila->IMPORTE_SALDO = number_format($fila->IMPORTE_SALDO);
                     
                     $fila->IMPORTE_SALDO = number_format($fila->IMPORTE_SALDO, 0, '', '.'); 
@@ -397,25 +388,19 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
             }
     }
 
-
-    public function numeroAction(){
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(true);
-        // $parametros = json_decode($this->getRequest()->getParam("parametros"));
-                        $number=35000; 
-             echo "<b> aaa".number_format($number)."</b>"; 
-   }
-
-   public function facturasAction(){
+   public function reimpresionAction(){
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
         $db = Zend_Db_Table::getDefaultAdapter();
+        // echo "hola"; die();
+        $p = Zend_Session::namespaceUnset('factura');
         $select = $db->select()
             ->from(array('A'=>'ADM_FACTURA_VENTA_CAB'),  array(
                          'A.ID_COMPROBANTE',
                          'A.FECHA',
                          'D.NRO_LINEA',
+                         'A.CODIGO_CLIENTE',
                          'A.NRO_COMPROBANTE',
                          'A.CODIGO_CLIENTE',
                          'VS.NOMBRE',
@@ -425,34 +410,71 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                          'A.TOTAL'))
                  ->join(array('D' => 'ADM_FACTURA_VENTA_DET'), 'A.ID_COMPROBANTE = D.ID_COMPROBANTE')
                  ->join(array('VS' => 'VADM_SALDOS_CLIENTE'), 'VS.CODIGO_SALDO = D.CODIGO_SALDO')
-                 ->where('A.ID_COMPROBANTE = ?', $parametros->CODIGO_CLIENTE);
+                 ->where('A.ID_COMPROBANTE = ?',  $parametros->ID_COMPROBANTE);
             
        
         $result = $db->fetchAll($select);
-        $obj = new stdObject();
+         // $arr = array();
+        $p = Zend_Session::namespaceUnset('factura');
+        $obj = new Zend_Session_Namespace ( 'factura' );
+        $obj->unlock();   
 
-        $arr = array();
-        $obj->detalle = array();
-        foreach ($result as $row) {
-            $obj->FECHA = $row["FECHA"];
-            $obj->NOMBRE_CLIENTE = $row["NOMBRE"];
-            $obj->DOCUMENTO_CLIENTE = $parametros->DOCUMENTO_CLIENTE;
+        $obj->factura->detalle = array();
+        $obj->factura->FECHA = $result[0]["FECHA"];
+        $obj->factura->NOMBRE_CLIENTE = $result[0]["NOMBRE"];
+        $obj->factura->CODIGO_CLIENTE = $result[0]["CODIGO_CLIENTE"];
+        $obj->factura->TOT_GRAVADAS = $result[0]["TOT_GRAVADAS"];
+        $obj->factura->TOTAL =$result[0]["TOTAL"];
+        $obj->factura->DOCUMENTO_CLIENTE = $parametros->DOCUMENTO_CLIENTE;
+       
+        foreach ($result as $row) {           
+            array_push($obj->factura->detalle, array('DESCRIPCION_PLAN' => $row["DESCRIPCION_PLAN"], "IMPORTE_SALDO"=>$row["IMPORTE"]));
 
-            $objDetalle->DESCRIPCION_PLAN = $row["DESCRIPCION_PLAN"];
-            $objDetalle->IMPORTE_SALDO = $row["IMPORTE"];
-
-            $obj->TOT_GRAVADAS = $row["TOT_GRAVADAS"];
-            $obj->TOTAL = $row["TOTAL"];
-            
-            array_push($obj->detalle, array('DESCRIPCION_PLAN' => $row["DESCRIPCION_PLAN"] ,'IMPORTE' => $row["IMPORTE"]  ));
 
         }
-        if(count($arr)>0){
-             echo json_encode($arr);    
+        
+        $obj->factura->detalle = json_encode($obj->factura->detalle);
+        $obj->reimpresion = true;
+        $obj->lock();
+        if(count($obj)>0){
+             echo json_encode(array('success' => true )); 
         }else{
             echo json_encode(array('success' => false ));
         }           
     }
+
+    public function facturasAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+            ->from(array('A'=>'ADM_FACTURA_VENTA_CAB'),  array(
+                         'A.ID_COMPROBANTE',
+                         'A.FECHA',
+                         'A.NRO_COMPROBANTE',
+                         'A.SER_COMPROBANTE',
+                         'A.TOT_GRAVADAS',
+                         'A.SALDO',
+                         'A.TOTAL',
+                         'A.ESTADO'))
+                 ->where('A.CODIGO_CLIENTE = ?',  $parametros->CODIGO_CLIENTE);     
+        $result = $db->fetchAll($select);
+        $arr = array();
+        foreach ($result as $row) {     
+            $row["TOT_GRAVADAS"] = number_format( $row["TOT_GRAVADAS"], 0, '', '.');        
+            $row["SALDO"] = number_format( $row["SALDO"], 0, '', '.');        
+            $row["TOTAL"] = number_format( $row["TOTAL"], 0, '', '.');        
+            array_push($arr,$row);
+        }
+        if(count($arr)>0){
+             echo json_encode($arr); 
+        }else{
+            echo json_encode(array('success' => false ));
+        }           
+    }
+
+    
 
 }
 
