@@ -370,6 +370,7 @@ function enviarParametros(data){
 	      			 $.unblockUI();
     			 mostarVentana();    			
         		window.open(table+'/printpdf','_blank');
+        		cargaFacturasCliente();
         		}
 
         	
