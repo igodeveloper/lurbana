@@ -290,34 +290,38 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 //Color de la linea
                 $page->setLineColor(new Zend_Pdf_Color_Rgb(0,0,0));
                 //imprime fecha
-                $page->setFont($font, 9);
+                $page->setFont($font, 8);
             
                 //fecha hoja 1, 2, 3
-                $page->drawText($facturaPDF->FECHA, 141,$height-147);
-                $page->drawText($facturaPDF->FECHA, 141,$height-442);
-                $page->drawText($facturaPDF->FECHA, 141,$height-742);
+                $fecha_W_1=($height-132);
+                $fecha_W_2=($height-440);
+                $fecha_W_3=($height-750);
+
+                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 141,$fecha_W_1);
+                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 141,$fecha_W_2);
+                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 141,$fecha_W_3);
 
                 //cliente
                 $facturaPDF->NOMBRE_CLIENTE = utf8_decode($facturaPDF->NOMBRE_CLIENTE);
-                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-161);
-                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-456);
-                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$height-756);
+                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$fecha_W_1+14);
+                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$fecha_W_2+14);
+                $page->drawText($facturaPDF->CODIGO_CLIENTE." - ".$facturaPDF->NOMBRE_CLIENTE, 140,$fecha_W_3+14);
 
                 //ruc
-                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-175);
-                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-470);
-                $page->drawText($facturaPDF->DOCUMENTO_CLIENTE, 140,$height-770);
+                $page->drawText($facturaPDF->FECHA, 140,($fecha_W_1+28));
+                $page->drawText($facturaPDF->FECHA, 140,($fecha_W_2+28));
+                $page->drawText($facturaPDF->FECHA, 140,($fecha_W_3+28));
                 // contado
-                $page->drawText('X', 512,$height-178);
-                $page->drawText('X', 512,$height-470);
-                $page->drawText('X', 512,$height-770);
+                $page->drawText('X', 515,($fecha_W_1));
+                $page->drawText('X', 515,($fecha_W_2));
+                $page->drawText('X', 515,($fecha_W_3));
 
                 $hoja_W_P= 70;
-                $hoja_W_M= 529;
-                $hoja1_H= 204;
+                $hoja_W_M= 532;
 
-                $hoja2_H= 504;
-                $hoja3_H= 802;
+                $hoja1_H= 165;
+                $hoja2_H= 473;
+                $hoja3_H= 769+14;
 
 
                 foreach ($facturaPDF->detalle as $fila) {
@@ -347,13 +351,13 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 // $facturaPDF->TOT_GRAVADAS = number_format($facturaPDF->TOT_GRAVADAS);
                 $facturaPDF->TOT_GRAVADAS = number_format($facturaPDF->TOT_GRAVADAS, 0, '', '.'); 
 
-                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-317); 
-                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-612); 
-                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-915); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-280); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-594); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 269,$height-900); 
                 // TOTAL IVA
-                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-317); 
-                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-612); 
-                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-915); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-280); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-594); 
+                $page->drawText($facturaPDF->TOT_GRAVADAS, 410,$height-900); 
                 
                 //calculamos el total en letras
                 $V = new EnLetras(); 
@@ -364,14 +368,14 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 // $facturaPDF->TOTAL = number_format($facturaPDF->TOTAL);
                 $facturaPDF->TOTAL = number_format($facturaPDF->TOTAL, 0, '', '.'); 
 
-                $page->drawText($facturaPDF->TOTAL, 495,$height-297);
-                $page->drawText($facturaPDF->TOTAL, 495,$height-602);
-                $page->drawText($facturaPDF->TOTAL, 495,$height-898); 
+                $page->drawText($facturaPDF->TOTAL, 495,$height-270);
+                $page->drawText($facturaPDF->TOTAL, 495,$height-584);
+                $page->drawText($facturaPDF->TOTAL, 495,$height-890); 
                       
                 // Total letras
-                $page->drawText($total_letra, 135,$height-297);
-                $page->drawText($total_letra, 135,$height-602);
-                $page->drawText($total_letra, 135,$height-898); 
+                $page->drawText($total_letra, 135,$height-270);
+                $page->drawText($total_letra, 135,$height-584);
+                $page->drawText($total_letra, 135,$height-890); 
                
                 // add page to document
                 $pdf->pages[] = $page;
