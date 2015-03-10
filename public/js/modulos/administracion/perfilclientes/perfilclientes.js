@@ -38,6 +38,8 @@ $().ready(function() {
 			// enviarParametros(data);
 		}
 	 });
+
+
 	
 });
 
@@ -274,6 +276,7 @@ function cargaGRillaFacturaDetalle(){
 function limpiarDetalle(){
 	$('#table_tbody tr').remove();
 	// $('#table_tbody_facturas tr').remove();
+	
 	$("#total-factura").text("");
 	$("#iva-factura").text("");
 	$("#totaliva-factura").text("");
@@ -317,6 +320,8 @@ function obtenerDatos(){
 		jsonObject.TOT_GRAVADAS = parseInt(datos.IVA_10);
 		jsonObject.TOT_EXENTAS = 0;
 		jsonObject.SALDO = parseInt(datos.TOT_GRAVADAS);
+		jsonObject.CONDICION = $('input[type=radio][name=tipoPago]:checked').val();
+
 		jsonObject.detalle = grillaDetalle;
 
 
@@ -368,9 +373,12 @@ function enviarParametros(data){
         success: function(respuesta){
         		if(respuesta.success){
 	      			 $.unblockUI();
-    			 mostarVentana();    			
-        		window.open(table+'/printpdf','_blank');
+    			 mostarVentana();
+    			$("#controlfiscal-factura").val(null);
+				$("#series-factura").val(-1);		
         		cargaFacturasCliente();
+        		window.open(table+'/printpdf','_blank');
+        		
         		}
 
         	
