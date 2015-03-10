@@ -192,6 +192,7 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 'COD_TALONARIO' => (int)($parametros->COD_TALONARIO),
                 'SER_COMPROBANTE' => $parametros->SER_COMPROBANTE,
                 'NRO_COMPROBANTE' => (int)($parametros->NRO_COMPROBANTE),
+                'CONDICION' => $parametros->CONDICION,
                 'NRO_TIMBRADO' => (int)($parametros->NRO_TIMBRADO),
                 'CODIGO_CLIENTE' => (int)($parametros->CODIGO_CLIENTE),
                 'TOTAL' => (float)($parametros->TOTAL),
@@ -204,10 +205,12 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
 
             $insert_cabecera = $db->insert('ADM_FACTURA_VENTA_CAB', $cabecera);
+            
             $codFactura = $db->lastInsertId();
             $i =1;
-            $paramFact->cod_interno = $codFactura;
-        
+            $paramFact->factura->ID_COMPROBANTE = $codFactura;
+            $paramFact->lock(); 
+        // print_r($codFactura); die();
             foreach ($parametros->detalle as $fila) {
                 // print_r($fila);
                 $data_detalle = array(
@@ -224,7 +227,7 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 $detalle = $db->insert('ADM_FACTURA_VENTA_DET', $data_detalle);
                 $i++;
             }
-            $paramFact->lock();      
+                 
             $db->commit();
            echo json_encode(array("success" => true));
         } catch (Exception $e) {
@@ -311,10 +314,22 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                 $page->drawText($facturaPDF->FECHA, 140,($fecha_W_1+28));
                 $page->drawText($facturaPDF->FECHA, 140,($fecha_W_2+28));
                 $page->drawText($facturaPDF->FECHA, 140,($fecha_W_3+28));
+
                 // contado
-                $page->drawText('X', 515,($fecha_W_1));
-                $page->drawText('X', 515,($fecha_W_2));
-                $page->drawText('X', 515,($fecha_W_3));
+                $con_cre = 515;
+                if ($facturaPDF->CONDICION == "CRE") {
+                    $con_cre = $con_cre + 30;
+                }
+                $page->drawText('X', $con_cre,($fecha_W_1));
+                $page->drawText('X', $con_cre,($fecha_W_2));
+                $page->drawText('X', $con_cre,($fecha_W_3));
+
+                // numero interno
+                $page->drawText(utf8_decode('Código interno: '.$facturaPDF->ID_COMPROBANTE), 500,($fecha_W_1+20));
+                $page->drawText(utf8_decode('Código interno: '.$facturaPDF->ID_COMPROBANTE), 500,($fecha_W_2+20));
+                $page->drawText(utf8_decode('Código interno: '.$facturaPDF->ID_COMPROBANTE), 500,($fecha_W_3+20));
+
+
 
                 $hoja_W_P= 70;
                 $hoja_W_M= 532;
@@ -406,6 +421,7 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
                          'D.NRO_LINEA',
                          'A.CODIGO_CLIENTE',
                          'A.NRO_COMPROBANTE',
+                         'A.CONDICION',
                          'A.CODIGO_CLIENTE',
                          'VS.NOMBRE',
                          'VS.DESCRIPCION_PLAN',
@@ -425,10 +441,12 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
 
         $obj->factura->detalle = array();
         $obj->factura->FECHA = $result[0]["FECHA"];
+        $obj->factura->ID_COMPROBANTE = $result[0]["ID_COMPROBANTE"];
         $obj->factura->NOMBRE_CLIENTE = $result[0]["NOMBRE"];
         $obj->factura->CODIGO_CLIENTE = $result[0]["CODIGO_CLIENTE"];
         $obj->factura->TOT_GRAVADAS = $result[0]["TOT_GRAVADAS"];
         $obj->factura->TOTAL =$result[0]["TOTAL"];
+        $obj->factura->CONDICION =$result[0]["CONDICION"];
         $obj->factura->DOCUMENTO_CLIENTE = $parametros->DOCUMENTO_CLIENTE;
        
         foreach ($result as $row) {           
