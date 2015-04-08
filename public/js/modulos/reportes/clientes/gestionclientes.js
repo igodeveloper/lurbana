@@ -25,6 +25,20 @@ $().ready(function() {
     textoBase = textoBase+"Total a abonar\n";
     $("#reporte-txt").attr("value",textoBase);
 
+
+    $.getJSON(table+'/getcliente', function(data) {
+        var nombreCliente = [];
+
+        $(data).each(function(key, value) {
+            nombreCliente.push(value.DESCRIPCION_PERSONA);
+        });
+
+        $("#cliente-reporte").autocomplete({
+            source: nombreCliente
+        });
+       
+    });
+
 });
 
 function mostarVentana(box,mensaje){

@@ -16,6 +16,19 @@ $().ready(function() {
     $("#ano-reporte").datepicker("option", "dateFormat", "yy");
     $("#ano-reporte").datepicker("setDate", new Date());
 
+     $.getJSON('../reportes/gestionclientes/getcliente', function(data) {
+        var nombreCliente = [];
+
+        $(data).each(function(key, value) {
+            nombreCliente.push(value.DESCRIPCION_PERSONA);
+        });
+
+        $("#cliente-reporte").autocomplete({
+            source: nombreCliente
+        });
+       
+    });
+
 });
 
 function mostarVentana(box,mensaje){
