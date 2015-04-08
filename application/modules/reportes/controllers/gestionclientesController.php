@@ -277,13 +277,45 @@ class reportes_gestionclientesController extends Zend_Controller_Action {
             $htmlResultado = '<option value="0">Seleccione</option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+                trim(($arr["DESCRIPCION_PERSONA"])) . '</option>';
             }
 
         } catch (Exception $e) {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
         }
         echo $htmlResultado;
+    }
+
+    //cargamos lista de clientes
+    public function getclienteAction()
+    {
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'ADM_CLIENTES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'P.DESCRIPCION_PERSONA',
+                             'P.NRO_DOCUMENTO_PERSONA'))
+                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                    ->order(array('C.CODIGO_CLIENTE DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+             $arrAux = array();
+            foreach ($result as $arr) {
+                 array_push($arrAux,array(
+                "CODIGO_CLIENTE"=>$arr["CODIGO_CLIENTE"],
+                 "DESCRIPCION_PERSONA"=>$arr["DESCRIPCION_PERSONA"]
+                ));
+                
+            }
+             echo json_encode($arrAux);    
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
     }
 
 //modificado mayuscula  
