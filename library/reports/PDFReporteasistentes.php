@@ -114,10 +114,10 @@
                 while($row2 = mysql_fetch_assoc($dtDatos2))
                 {
                     $FECHA = $row2["FECHA"];
-                    $OBSERVACION = $row2["OBSERVACION"];
+                    $OBSERVACION = utf8_decode($row2["OBSERVACION"]);
                     $CANTIDAD_GESTIONES = $row2["CANTIDAD_GESTIONES"];
                     // $COD_UNIDAD_MEDIDA = $row2["COD_UNIDAD_MEDIDA"];
-                    $CLIENTE = $row2["CLIENTE"];
+                    $CLIENTE = utf8_decode($row2["CLIENTE"]);
 
                     $x=-2;
                     $this->SetX(11+$x);
