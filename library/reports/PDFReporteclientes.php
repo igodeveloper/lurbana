@@ -136,11 +136,42 @@
                     $this->Ln(5);
                 }
                 $this->Ln(10);
+                $sql_cliente = "SELECT C.CODIGO_CLIENTE FROM ADM_PERSONAS P 
+                                INNER JOIN ADM_CLIENTES C 
+                                ON P.CODIGO_PERSONA = C.CODIGO_PERSONA 
+                                WHERE UPPER(P.DESCRIPCION_PERSONA) LIKE UPPER('".$CLIENTE_DES."')";
+                $resultado_cliente = $this->Conn->query($sql_cliente); 
+                $row11 = mysql_fetch_assoc($resultado_cliente);
+                $cod_cliente =   $row11["CODIGO_CLIENTE"];      
+
+                $fecha = substr($this->parametros->FECHA_DESDE, 0, 4).'-'.substr($this->parametros->FECHA_DESDE, 5, 2);    
+                $sql3 = "select 
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',1) AS MENS_ACT, 
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',2) AS MENS_ANT, 
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',3) AS CASUAL_ACT, 
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',4) AS CASUAL_ANT,
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',5) AS MENS_UTI,
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',6) AS CASUAL_UTI,
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',7) AS DISPONIBLE,
+                         F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',8) AS TOTAL_ABON";
+
+                $saldos = $this->Conn->query($sql3); 
+
                 if($this->parametros->RESUMEN == "S"){
-                    $this->SetFont('Arial','',12);
-                    $this->SetX(10);
-                    $this->MultiCell(400,5,$this->parametros->RESUMENTXT,0,1);    
-                    $this->Ln(10);
+                     while($row3 = mysql_fetch_assoc($saldos)){
+                        $this->SetFont('Arial','',10);
+                        $this->SetX(10);
+                        $this->MultiCell(400,5,"Saldo Mensual Actual: ".$row3["MENS_ACT"],0,1);    
+                        $this->Ln(5);
+                        $this->MultiCell(400,5,"Saldo Mensual Anterior: ".$row3["MENS_ANT"],0,1);    
+                        $this->Ln(5);
+                        $this->MultiCell(400,5,"Saldo Casual Actual: ".$row3["CASUAL_ACT"],0,1);    
+                        $this->Ln(5);
+                        $this->MultiCell(400,5,"Saldo Casual Anterior: ".$row3["CASUAL_ANT"],0,1);    
+                        $this->Ln(5);
+
+                     }
+                    
                 }
 
                   
