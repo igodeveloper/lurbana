@@ -119,7 +119,11 @@ function buscaDatosCliente() {
 		        	$("#tipocliente-info").val(respuesta[0].TIPO_CLIENTE);
 		        	$("#fecha-factura").val(fechaHoy());
 					$("#cliente-factura").val(respuesta[0].DESCRIPCION_PERSONA);
-					$("#documentocliente-factura").val(respuesta[0].NRO_DOCUMENTO_PERSONA);
+					var documento = respuesta[0].RUC_PERSONA;
+					if( documento == null || documento.length <1 ){
+						documento = respuesta[0].NRO_DOCUMENTO_PERSONA;
+					}
+					$("#documentocliente-factura").val(documento);
 					$("#collapseDatosPersonales").addClass("in");
 					buscaGestionesCleinte();
 	        	}else{
