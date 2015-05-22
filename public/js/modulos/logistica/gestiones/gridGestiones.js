@@ -165,6 +165,18 @@ function cargarGrillaRegistro() {
                         label: 'GENTILEZA',
                         width: 120,
                         hidden : true
+                    }, {
+                        title: false,
+                        name: '',
+                        label: "",
+                        id: 'modificar',
+                        align: 'center',
+                        edittype: 'link',
+                        width: 40,
+                        hidden: false,
+                        classes: 'linkjqgrid',
+                        sortable: false,
+                        formatter: cargarLinkModificar
                     }
                 ],
                 emptyrecords: "Sin Datos",
@@ -194,6 +206,15 @@ function cargarGrillaRegistro() {
     $("#grillaGestiones").setGridWidth(widthOfGrid());   
 }
 
+function cargarLinkModificar(cellvalue, options, rowObject)
+{
+    var parametros = new Object();
+    parametros.NUMERO_GESTION = rowObject[0];
+
+    json = JSON.stringify(parametros);
+    return "<button type='button' class='btn btn-success' onclick='track("+json+")'><i class='icon icon-list'></i></button>";
+}
+
 function buscar(){
     
     $("#grillaGestiones").jqGrid('setGridParam', { datatype: "json", postData: {
@@ -202,6 +223,36 @@ function buscar(){
                                              "ESTADO_GESTION": $("#estadogestion-filtro").val(),
                                             "ASISTENTE": $("#gestor-filtro").val()}),
                 }}).trigger("reloadGrid");
+}
+
+function track(param){
+    $("#modalNuevo-track").show();
+    var jsonReporte = new Object(); 
+    jsonReporte.NUMERO_GESTION = param.NUMERO_GESTION;
+    var dataString = JSON.stringify(jsonReporte); 
+
+    $.ajax({
+             url: table+'/facturas',
+            type: 'GET',
+            data: {"parametros":dataString},
+            dataType: 'json',
+            async : false,
+            success: function(respuesta){
+                if(typeof respuesta.success == 'undefined' && !respuesta.success){
+                    $('#table_tbody_facturas tr').remove();
+                    $.each(respuesta, function( index, value ) {
+                      // alert( index + ": " + value.FECHA_GESTION );
+                      $('#facturas > tbody:last').append('<tr><td>'+value.FECHA+'</td><td>'+value.ID_COMPROBANTE+'</td><td>'+value.SER_COMPROBANTE+'-'+value.NRO_COMPROBANTE+'</td><td>'+value.TOTAL+'</td><td>'+value.SALDO+'</td><td>'+value.ESTADO+'</td><td><button type="button" class="btn btn-success" onclick="reimpresion('+value.ID_COMPROBANTE+')">Reimprimir</button></td></tr>');
+                    });
+                    // $("#collapseResumenGestiones").addClass("in");
+                }
+            },
+            error: function(event, request, settings){
+             //   $.unblockUI();
+                 // alert(mostrarError("OcurrioError"));
+            }
+        }); 
+    
 }
 
 function modalModificar(rowData){
@@ -239,6 +290,4 @@ if (rowData.GENTILEZA == 'S') {
 // getClienteSuscripcion();
 
 $("#modalNuevo").show();
-
-
 }

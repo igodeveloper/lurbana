@@ -64,12 +64,21 @@ $().ready(function() {
         getClienteSaldo();
     });
 
-         $("#close-modal-suscripcion").click(function() {
+     $("#close-modal-suscripcion").click(function() {
             $("#modalNuevo-suscripcion").hide();
            
     }); 
      $("#cancelar-modal-suscripcion").click(function() {
             $("#modalNuevo-suscripcion").hide();
+           
+    });
+
+     $("#close-modal-track").click(function() {
+            $("#modalNuevo-track").hide();
+           
+    }); 
+     $("#cancelar-modal-track").click(function() {
+            $("#modalNuevo-track").hide();
            
     });
     
