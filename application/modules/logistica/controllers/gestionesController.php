@@ -736,6 +736,65 @@ class logistica_gestionesController extends Zend_Controller_Action {
             }
         }
 
+    public function getlistatrackAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+            ->from(array('A'=>'LOG_GESTIONES_ACT'),  array(
+                         'A.ORDEN',
+                         'A.CODIGO_ZONA',
+                         'B.DESCRIPCION AS DESCRIPCION_ZONA',
+                         'A.DESCRIPCION AS GESTIONES',
+                         'A.REALIZADO',
+                         'A.FEC_HORA_REALIZ'))
+                ->join(array('B' => 'LOG_ZONAS'), 'A.CODIGO_ZONA  = B.CODIGO_ZONA')
+                 // ->where('A.CODIGO_GESTION = ?',  $parametros->NUMERO_GESTION);     
+                 ->where('A.CODIGO_GESTION = ?',  1113)
+                 ->order(array('A.ORDEN ASC'));
+        $result = $db->fetchAll($select);
+        $arr = array();
+        foreach ($result as $row) {     
+            array_push($arr,array('ORDEN' => $row["ORDEN"],
+                                  'CODIGO_ZONA' => $row["CODIGO_ZONA"],
+                                  'DESCRIPCION_ZONA' => $row["DESCRIPCION_ZONA"],
+                                  'DESCRIPCION' => $row["GESTIONES"],
+                                  'REALIZADO' => $row["REALIZADO"],
+                                  'FEC_HORA_REALIZ' => $row["FEC_HORA_REALIZ"]));
+        }
+        if(count($arr)>0){
+             echo json_encode($arr); 
+        }else{
+            echo json_encode(array('success' => false ));
+        }  
+    }
+
+    public function getzonasAction(){
+     $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $result = '';
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'LOG_ZONAS'),  array(
+                             'C.CODIGO_ZONA',
+                             'C.DESCRIPCION'))
+                    ->order(array('C.DESCRIPCION DESC'))
+                    ->distinct(true);
+                
+            $result = $db->fetchAll($select);
+            $htmlResultado = '<option value="-1">Zonas</option>';
+            foreach ($result as $arr) {
+                $htmlResultado .= '<option value="' . $arr["CODIGO_ZONA"] . '">'.$arr["DESCRIPCION"].'</option>';
+            }
+
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+        echo $htmlResultado;
+    }
+
 
   
 }
