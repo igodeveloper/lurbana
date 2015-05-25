@@ -2,6 +2,12 @@ var pathname = window.location.pathname;
 var table = pathname;
 jQuery(document).ready(function(){
     cargarGrillaRegistro();
+    $('#modalNuevo-track').bind('hidden.bs.modal', function () {
+        $("html").css("margin-right", "0px");
+    });
+    $('#modalNuevo-track').bind('show.bs.modal', function () {
+          $("html").css("margin-right", "-15px");
+    });
 
    
 });
@@ -142,7 +148,7 @@ function cargarGrillaRegistro() {
                         name: 'OBSERVACION',
                         index: 'OBSERVACION',
                         label: 'OBSERVACION',
-                        width: 185,
+                        width: 180,
                         hidden : false,
                         classes:'wrapColumnText'
                     }
@@ -232,26 +238,29 @@ function track(param){
     var dataString = JSON.stringify(jsonReporte); 
 
     $.ajax({
-             url: table+'/facturas',
-            type: 'GET',
-            data: {"parametros":dataString},
-            dataType: 'json',
-            async : false,
-            success: function(respuesta){
-                if(typeof respuesta.success == 'undefined' && !respuesta.success){
-                    $('#table_tbody_facturas tr').remove();
-                    $.each(respuesta, function( index, value ) {
-                      // alert( index + ": " + value.FECHA_GESTION );
-                      $('#facturas > tbody:last').append('<tr><td>'+value.FECHA+'</td><td>'+value.ID_COMPROBANTE+'</td><td>'+value.SER_COMPROBANTE+'-'+value.NRO_COMPROBANTE+'</td><td>'+value.TOTAL+'</td><td>'+value.SALDO+'</td><td>'+value.ESTADO+'</td><td><button type="button" class="btn btn-success" onclick="reimpresion('+value.ID_COMPROBANTE+')">Reimprimir</button></td></tr>');
-                    });
-                    // $("#collapseResumenGestiones").addClass("in");
-                }
-            },
-            error: function(event, request, settings){
-             //   $.unblockUI();
-                 // alert(mostrarError("OcurrioError"));
+        url: table+'/getlistatrack',
+        type: 'GET',
+        data: {"parametros":dataString},
+        dataType: 'json',
+        async : false,
+        success: function(respuesta){
+            if(typeof respuesta.success == 'undefined' && !respuesta.success){
+                $('#table_tbody_track tr').remove();
+                $.each(respuesta, function( index, value ) {
+                  // alert( index + ": " + value.FECHA_GESTION );
+                  $('#track > tbody:last').append('<tr><td id="orden-'+value.ORDEN+'">'+value.ORDEN+'</td><td id="codigo-zona-'+value.ORDEN+'">'
+                    +value.CODIGO_ZONA+'</td><td id="descripcion-zona-'+value.ORDEN+'">'+value.DESCRIPCION_ZONA+'</td><td id="descripcion-'+value.ORDEN+'">'
+                    +value.DESCRIPCION+'</td><td id="realizado-'+value.ORDEN+'">'+value.REALIZADO+'</td><td id="fec-hora-'+value.ORDEN+'">'
+                    +value.FEC_HORA_REALIZ+
+                    '</td><td><div class="btn-group"><button type="button" class="btn btn-warning" onclick="editarTrack('+value.ORDEN+','+value.CODIGO_ZONA+','+value.DESCRIPCION_ZONA+','+value.REALIZADO+','+value.FEC_HORA_REALIZ+')">Editar</button><button type="button" class="btn btn-danger" onclick="borrartrack('+value.ORDEN+')">Borrar</button><div></td></tr>');
+                });
             }
-        }); 
+        },
+        error: function(event, request, settings){
+         //   $.unblockUI();
+             // alert(mostrarError("OcurrioError"));
+        }
+    }); 
     
 }
 

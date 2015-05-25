@@ -1,5 +1,7 @@
 $().ready(function() {
     // alert(table);
+    getZonas();
+    $("body").css("overflow", "hidden");
  	$("#muestramodal").click(function() {
         $("#planactivo-modal").children("li").remove();
  		limpiarFormulario();
@@ -7,6 +9,7 @@ $().ready(function() {
  		cargarAsistenteServicios();
 		// cargarPlanesActivos();
         bloqueardatos(false);
+        
 			$("#fechagestion-modal").datepicker();
 		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
 		    $("#fechagestion-modal").datepicker("setDate", new Date());
@@ -195,16 +198,6 @@ function obtenerJsonModal() {
     	focus++;
     	addrequiredattr('fechagestion-modal',focus); 
 	}
-	// if($('#iniciogestion-modal').attr("value") == null || $('#iniciogestion-modal').attr("value").length == 0){
- //        mensaje+= ' | Fecha inicio ';
- //    	focus++;
- //    	addrequiredattr('iniciogestion-modal',focus); 
-	// }
-	// if($('#fingestion-modal').attr("value") == null || $('#fingestion-modal').attr("value").length == 0){
- //        mensaje+= ' | Fecha fin ';
- //    	focus++;
- //    	addrequiredattr('fingestion-modal',focus); 
-	// }
 	if($('#tarea-modal').attr("value") == null || $('#tarea-modal').attr("value").length == 0){
         mensaje+= ' | Tarea ';
     	focus++;
@@ -358,6 +351,27 @@ function cargarCliente(){
         }
     });	
 }
+
+function getZonas(){
+    
+ // alert('Tipo Producto');
+    $.ajax({
+        url: table+'/getzonas',
+        type: 'post',
+        dataType: 'html',
+        async : false,
+        success: function(respuesta){
+            if(respuesta== 'error'){
+                // mostarVentana("error-title",mostrarError("OcurrioError"));
+            }else{
+                $("#zona-track").html(respuesta);            
+            }
+        },
+        error: function(event, request, settings){
+        }
+    }); 
+}
+
 function cargarAsistenteServicios(){
 	
 //	alert('Tipo Producto');
@@ -375,7 +389,7 @@ function cargarAsistenteServicios(){
         },
         error: function(event, request, settings){
          //   $.unblockUI();
-        	 alert(mostrarError("OcurrioError"));
+        	 alert("OcurrioError");
         }
     });	
 }
@@ -485,7 +499,9 @@ function getClienteSaldo(){
              // alert(mostrarError("OcurrioError"));
         }
     }); 
+}
 
-
+function editarTrack(numero){
+   
 }
 
