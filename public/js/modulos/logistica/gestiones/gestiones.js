@@ -501,7 +501,7 @@ function getClienteSaldo(){
     }); 
 }
 
-function editarTrack(numero){
+function editarTrack(orden,codigoZona,descripcionZona,){
    
 }
 
