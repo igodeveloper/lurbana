@@ -745,6 +745,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
             ->from(array('A'=>'LOG_GESTIONES_ACT'),  array(
                          'A.CODIGO_GESTION',
                          'A.ORDEN',
+                         'A.PROCESO',
                          'A.CODIGO_ZONA',
                          'B.DESCRIPCION AS DESCRIPCION_ZONA',
                          'A.DESCRIPCION AS GESTIONES',
@@ -760,6 +761,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
             array_push($arr,array(
                                   'CODIGO_GESTION' => $row["CODIGO_GESTION"],
                                   'ORDEN' => $row["ORDEN"],
+                                  'PROCESO' => $row["PROCESO"],
                                   'CODIGO_ZONA' => $row["CODIGO_ZONA"],
                                   'DESCRIPCION_ZONA' => $row["DESCRIPCION_ZONA"],
                                   'DESCRIPCION' => $row["GESTIONES"],
@@ -806,6 +808,53 @@ class logistica_gestionesController extends Zend_Controller_Action {
                   'CODIGO_GESTION = ?' => $parametros->CODIGO_GESTION,
                   'ORDEN = ?' => $parametros->ORDEN
               ));
+            echo json_encode(array('success' => true ));
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+    }
+
+    public function updatetrackAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $select = $db->select()
+                ->from(array('C'=>'LOG_GESTIONES_ACT'),  array(
+                             'MAX(C.ORDEN) AS ORDEN_ULTIMO'))
+                ->where('C.CODIGO_GESTION = ?',  $parametros->NUMERO_GESTION);                
+              $orden_insertar = $db->fetchAll($select);
+
+            
+             if(empty($parametros->ORDEN)){
+                 $data = array(
+                    'CODIGO_GESTION' => $parametros->CODIGO_GESTION,
+                    'ORDEN' => $orden_insertar[0]['ORDEN_ULTIMO']+ 1,
+                    'PROCESO' => $parametros->PROCESO,
+                    'CODIGO_ZONA' => $parametros->CODIGO_ZONA,
+                    'DESCRIPCION' => $parametros->DESCRIPCION,
+                    'REALIZADO' => $parametros->REALIZADO,
+                    'FEC_HORA_REALIZ' => $parametros->FEC_HORA_REALIZ
+                );
+                $insert = $db->insert('LOG_GESTIONES_ACT', $data);
+             }else{
+                $data = array(
+                    'PROCESO' => $parametros->PROCESO,
+                    'CODIGO_ZONA' => $parametros->CODIGO_ZONA,
+                    'DESCRIPCION' => $parametros->DESCRIPCION,
+                    'REALIZADO' => $parametros->REALIZADO,
+                    'FEC_HORA_REALIZ' => $parametros->FEC_HORA_REALIZ
+                );
+                $where = array(
+                  'CODIGO_GESTION = ?' => $parametros->CODIGO_GESTION,
+                  'ORDEN = ?' => $parametros->ORDEN
+                );
+                $udate = $db->update('LOG_GESTIONES_ACT', $data, $where);
+             }
+            
+             
+
             echo json_encode(array('success' => true ));
         } catch (Exception $e) {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
