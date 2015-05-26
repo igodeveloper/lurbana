@@ -743,6 +743,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
             ->from(array('A'=>'LOG_GESTIONES_ACT'),  array(
+                         'A.CODIGO_GESTION',
                          'A.ORDEN',
                          'A.CODIGO_ZONA',
                          'B.DESCRIPCION AS DESCRIPCION_ZONA',
@@ -750,24 +751,24 @@ class logistica_gestionesController extends Zend_Controller_Action {
                          'A.REALIZADO',
                          'A.FEC_HORA_REALIZ'))
                 ->join(array('B' => 'LOG_ZONAS'), 'A.CODIGO_ZONA  = B.CODIGO_ZONA')
-                 // ->where('A.CODIGO_GESTION = ?',  $parametros->NUMERO_GESTION);     
-                 ->where('A.CODIGO_GESTION = ?',  1113)
+                 ->where('A.CODIGO_GESTION = ?',  $parametros->NUMERO_GESTION)     
+                 // ->where('A.CODIGO_GESTION = ?',  1113)
                  ->order(array('A.ORDEN ASC'));
         $result = $db->fetchAll($select);
         $arr = array();
         foreach ($result as $row) {     
-            array_push($arr,array('ORDEN' => $row["ORDEN"],
+            array_push($arr,array(
+                                  'CODIGO_GESTION' => $row["CODIGO_GESTION"],
+                                  'ORDEN' => $row["ORDEN"],
                                   'CODIGO_ZONA' => $row["CODIGO_ZONA"],
                                   'DESCRIPCION_ZONA' => $row["DESCRIPCION_ZONA"],
                                   'DESCRIPCION' => $row["GESTIONES"],
                                   'REALIZADO' => $row["REALIZADO"],
                                   'FEC_HORA_REALIZ' => $row["FEC_HORA_REALIZ"]));
         }
-        if(count($arr)>0){
+       
              echo json_encode($arr); 
-        }else{
-            echo json_encode(array('success' => false ));
-        }  
+       
     }
 
     public function getzonasAction(){
@@ -793,6 +794,22 @@ class logistica_gestionesController extends Zend_Controller_Action {
             echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
         }
         echo $htmlResultado;
+    }
+
+    public function deteletrackAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $db->delete('LOG_GESTIONES_ACT', array(
+                  'CODIGO_GESTION = ?' => $parametros->CODIGO_GESTION,
+                  'ORDEN = ?' => $parametros->ORDEN
+              ));
+            echo json_encode(array('success' => true ));
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
     }
 
 
