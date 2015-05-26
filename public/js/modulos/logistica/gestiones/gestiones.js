@@ -75,7 +75,6 @@ $().ready(function() {
             $("#modalNuevo-suscripcion").hide();
            
     });
-
      $("#close-modal-track").click(function() {
             $("#modalNuevo-track").hide();
            
@@ -501,7 +500,7 @@ function getClienteSaldo(){
     }); 
 }
 
-function editarTrack(orden,codigoZona,descripcionZona,){
+function editarTrack(orden,codigoZona,descripcionZona){
    
 }
 
