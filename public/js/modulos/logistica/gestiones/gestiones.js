@@ -43,7 +43,10 @@ $().ready(function() {
            
     });
 	
-	$('#guardar-modal').click(function() {
+	$('#add-track').click(function() {
+        guardarTrack();
+     });
+    $('#guardar-modal').click(function() {
 		 var data = obtenerJsonModal();
 		if(data != null){
 			enviarParametros(data);
@@ -159,7 +162,15 @@ function mostarVentana(box,mensaje){
         $("#warning-message-modal-suscripcion").text(mensaje);
         $("#warning-modal-suscripcion").show();
         setTimeout("ocultarWarningModalSuscripcion()",1000);
-	} 
+	} else if(box == "success-modal-track") {
+        $("#success-message-modal-track").text(mensaje);
+        $("#success-modal-track").show();
+        setTimeout("ocultarSuccessmodalTrack()",1000);
+    } else if(box == "warning-modal-track") {
+        $("#warning-message-modal-track").text(mensaje);
+        $("#warning-modal-track").show();
+        setTimeout("ocultarWarningModalTrack()",1000);
+    } 
 }
 
 function ocultarWarningModal(){
@@ -173,6 +184,13 @@ function ocultarWarningModalSuscripcion(){
 
 }function ocultarSuccessmodalSuscripcion(){
 	$("#success-modal-suscripcion").hide(500);
+}
+
+function ocultarWarningModalTrack(){
+    $("#warning-modal-track").hide(500);
+
+}function ocultarSuccessmodalTrack(){
+    $("#success-modal-track").hide(500);
 }
 
 function addrequiredattr(id,focus){

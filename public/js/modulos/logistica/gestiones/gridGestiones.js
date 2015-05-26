@@ -233,6 +233,13 @@ function cargarGrillaRegistroTrack() {
                         name: 'ORDEN',
                         index: 'ORDEN',
                         label: 'ORDEN',
+                        hidden :true,
+                        width: 100,
+                        align: 'right'
+                    },{
+                        name: 'PROCESO',
+                        index: 'PROCESO',
+                        label: 'PROCESO',
                         hidden :false,
                         width: 100,
                         align: 'right'
@@ -338,7 +345,7 @@ function borrarTrack(param){
         async : false,
         success: function(respuesta){
             if(respuesta.success){
-                alert("Se elimino el registro");
+                mostrarVentana("success-modal-track","El registro se elimino correctamente.");
                  var parametros = new Object();
 
                 parametros.NUMERO_GESTION = dataString.CODIGO_GESTION;
@@ -346,23 +353,41 @@ function borrarTrack(param){
                 json = JSON.stringify(parametros);
                 track(json);
             }else{
-                alert("No se elimino el registro");
+                mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo. No se elimino el registro");
             }
             
         },
         error: function(event, request, settings){
-         //   $.unblockUI();
-             // alert(mostrarError("OcurrioError"));
+          mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
         }
     }); 
    
 }
 function editarTrack(param){
+   
+    $("#gestion-track").attr("value", param.CODIGO_GESTION);
     $("#orden-track").attr("value", param.ORDEN);
     $("#zona-track").attr("value", param.CODIGO_ZONA);
+    $("#proceso-track").attr("value", param.PROCESO);
     $("#descripcion-track").attr("value", param.DESCRIPCION);
     $("#realizado-track").attr("value", param.REALIZADO);
     $("#hora-track").attr("value", param.FEC_HORA_REALIZ);
+}
+function guardarTrack(){
+     var jsonReporte = new Object(); 
+    
+
+    jsonReporte.CODIGO_GESTION = $("#gestion-track").val();
+    jsonReporte.ORDEN = $("#orden-track").val();
+    jsonReporte.PROCESO = $("#proceso-track").val();
+    jsonReporte.CODIGO_ZONA = $("#zona-track").val();
+    jsonReporte.DESCRIPCION = $("#descripcion-track").val();
+    jsonReporte.REALIZADO = $("#realizado-track").val();
+    jsonReporte.FEC_HORA_REALIZ = $("#hora-track").val();
+    jsonReporte.ITEM = jQuery("#grillaGestionesTrack").jqGrid('getGridParam', 'records');
+
+
+
 }
 
 function track(param){
@@ -387,8 +412,7 @@ function track(param){
             }
         },
         error: function(event, request, settings){
-         //   $.unblockUI();
-             // alert(mostrarError("OcurrioError"));
+            mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
         }
     }); 
     
@@ -432,7 +456,9 @@ $("#modalNuevo").show();
 }
 
 function limpiarTrack(){
+    $("#gestion-track").attr("value", null);
     $("#orden-track").attr("value", null);
+    $("#proceso-track").attr("value", null);
     $("#zona-track").attr("value", -1);
     $("#descripcion-track").attr("value", null);
     $("#realizado-track").attr("value", -1);
