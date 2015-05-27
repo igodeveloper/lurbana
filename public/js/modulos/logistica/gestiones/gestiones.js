@@ -145,7 +145,7 @@ function roundnumber(number){
 	return number_round;
 
 }
-function mostarVentana(box,mensaje){
+function mostrarVentana(box,mensaje){
 	if(box == "warning-modal") {
 		$("#warning-message-modal").text(mensaje);
 		$("#warning-modal").show();
@@ -242,7 +242,7 @@ function obtenerJsonModal() {
     
 	if (mensaje != 'Atención: '){
 		mensaje+= ' |';
-		mostarVentana("warning-modal", mensaje);
+		mostrarVentana("warning-modal", mensaje);
 		return null;
 	}else {
 		jsonObject.NUMERO_GESTION = $('#codigogestion-modal').attr("value");
@@ -302,16 +302,16 @@ function enviarParametros(data){
         async : true,
         success: function(respuesta){
         	 if(respuesta.success){
-               mostarVentana("success-modal","Se ingreso el registro con exito");
+               mostrarVentana("success-modal","Se ingreso el registro con exito");
                limpiarFormulario();
                 buscar();                               
             }else{
-                mostarVentana("warning-modal","Verifique sus datos, ocurrio un error");  
+                mostrarVentana("warning-modal","Verifique sus datos, ocurrio un error");  
             }            
                $.unblockUI();
         },
         error: function(event, request, settings){
-//        	mostarVentana("error-registro-listado","Ha ocurrido un error");
+//        	mostrarVentana("error-registro-listado","Ha ocurrido un error");
     		$.unblockUI();
         }
     });
@@ -357,7 +357,7 @@ function cargarCliente(){
         async : false,
         success: function(respuesta){
         	if(respuesta== 'error'){
-        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        		// mostrarVentana("error-title",mostrarError("OcurrioError"));
         	}else{
             	$("#cliente-modal").html(respuesta);       		
         	}
@@ -379,7 +379,7 @@ function getZonas(){
         async : false,
         success: function(respuesta){
             if(respuesta== 'error'){
-                // mostarVentana("error-title",mostrarError("OcurrioError"));
+                // mostrarVentana("error-title",mostrarError("OcurrioError"));
             }else{
                 $("#zona-track").html(respuesta);            
             }
@@ -399,7 +399,7 @@ function cargarAsistenteServicios(){
         async : false,
         success: function(respuesta){
         	if(respuesta== 'error'){
-        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        		// mostrarVentana("error-title",mostrarError("OcurrioError"));
         	}else{
             	$("#asistenteservicios-modal").html(respuesta);       		
         	}
@@ -421,7 +421,7 @@ function cargarPlanesActivos(){
         async : false,
         success: function(respuesta){
         	if(respuesta== 'error'){
-        		// mostarVentana("error-title",mostrarError("OcurrioError"));
+        		// mostrarVentana("error-title",mostrarError("OcurrioError"));
         	}else{
             	$("#planactivo-modal").html(respuesta);       		
         	}
@@ -450,7 +450,7 @@ function getClienteSuscripcion(){
         	if(respuesta.success == false){
         		// $("#planactivo-modal:contains(\".list-group-item\")").remove();
                 $("#planactivo-modal").children("li").remove();
-                mostarVentana("warning-modal","No hay suscripciones");  
+                mostrarVentana("warning-modal","No hay suscripciones");  
                $( "#planactivo-modal" ).append( "<li class=\"list-group-item\"><button id=\"muestramodalsuscripcion\" onclick=\"mostrarSuscripcion()\">Realice una suscripcion para el cliente</button></li>" );
         		
         		$("#saldogestion-modal").attr("value",null);
@@ -495,7 +495,7 @@ function getClienteSaldo(){
             console.log(respuesta);
             $("#saldogestion-modal").attr("disabled",true);
             if(respuesta.success == false){
-                mostarVentana("mensaje","No se pudo recuperar el saldo, intente de nuevo.")
+                mostrarVentana("mensaje","No se pudo recuperar el saldo, intente de nuevo.")
             }else{
                 $("#saldogestion-modal").attr("value",respuesta.SALDO);
                 $("#tipoclientecodigo-modal").attr("value",respuesta.TIPO_CLIENTE);
