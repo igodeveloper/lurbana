@@ -823,7 +823,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
              $select = $db->select()
                 ->from(array('C'=>'LOG_GESTIONES_ACT'),  array(
                              'MAX(C.ORDEN) AS ORDEN_ULTIMO'))
-                ->where('C.CODIGO_GESTION = ?',  $parametros->NUMERO_GESTION);                
+                ->where('C.CODIGO_GESTION = ?',  $parametros->CODIGO_GESTION);                
               $orden_insertar = $db->fetchAll($select);
 
             
