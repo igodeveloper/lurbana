@@ -373,44 +373,46 @@ function editarTrack(param){
     $("#realizado-track").attr("value", param.REALIZADO);
     $("#hora-track").attr("value", param.FEC_HORA_REALIZ);
 }
-function guardarTrack(){
+function ObtenerTrack(){
+
      var jsonReporte = new Object(); 
     
 
-    jsonReporte.NUMERO_GESTION = $("#gestion-track").val();
-    jsonReporte.ORDEN = $("#orden-track").val();
-    jsonReporte.PROCESO = $("#proceso-track").val();
-    jsonReporte.CODIGO_ZONA = $("#zona-track").val();
-    jsonReporte.DESCRIPCION = $("#descripcion-track").val();
-    jsonReporte.REALIZADO = $("#realizado-track").val();
-    jsonReporte.FEC_HORA_REALIZ = $("#hora-track").val();
+    
     var verificacion = true;
-    if(jsonReporte.CODIGO_GESTION.length < 1){
+    if($("#gestion-track").val().length < 1){
         mostrarVentana("warning-modal-track","El identificador de la gestion no esta seteado");
         verificacion = false;
-    }else if(jsonReporte.ORDEN.length < 1){
+    }else if($("#orden-track").val().length < 1){
         mostrarVentana("warning-modal-track","El orden no esta seteado");      
         verificacion = false;  
-    }else if(jsonReporte.PROCESO.length < 1){
+    }else if($("#proceso-track").val().length < 1){
         mostrarVentana("warning-modal-track","El numero de proceso no esta seteado");
         verificacion = false;
-    }else if(jsonReporte.CODIGO_ZONA < 0 ){
+    }else if($("#zona-track").val() < 0 ){
         mostrarVentana("warning-modal-track","Seleccione una zona");
         verificacion = false;
-    }else if(jsonReporte.DESCRIPCION.length < 1){
+    }else if($("#descripcion-track").val().length < 1){
         mostrarVentana("warning-modal-track","Ingrese una descripción de la actividad");
         verificacion = false;
-    }else if(jsonReporte.REALIZADO.length < 0){
+    }else if($("#realizado-track").val().length < 0){
         mostrarVentana("warning-modal-track","Seleccione si se realizo o no");
         verificacion = false;
     }else{
         mostrarVentana("warning-modal-track","Ocurrio un error inesperado, verifique los datos a ingresar");
         verificacion = false;
     }
-
     if(verificacion){
-        guardarTrack(jsonReporte);
+        jsonReporte.NUMERO_GESTION = $("#gestion-track").val();
+        jsonReporte.ORDEN = $("#orden-track").val();
+        jsonReporte.PROCESO = $("#proceso-track").val();
+        jsonReporte.CODIGO_ZONA = $("#zona-track").val();
+        jsonReporte.DESCRIPCION = $("#descripcion-track").val();
+        jsonReporte.REALIZADO = $("#realizado-track").val();
+        jsonReporte.FEC_HORA_REALIZ = $("#hora-track").val();
+        return jsonReporte;
     }else{
+        return false;
         mostrarVentana("warning-modal-track","Ocurrio un error inesperado, verifique los datos a ingresar");
     }
 
@@ -418,27 +420,34 @@ function guardarTrack(){
 
 
 }
-function guardarTrack(param){
-    limpiarTrack();
+function guardarTrack(){
     $("#modalNuevo-track").show();
-    var dataString = JSON.stringify(param); 
-
-    $.ajax({
-        url: table+'/updatetrack',
-        type: 'GET',
-        data: {"parametros":dataString},
-        dataType: 'json',
-        async : false,
-        success: function(respuesta){
-            mostrarVentana("success-modal-track","El registro se guardo con exito");          
-            track(dataString); 
-            limpiarTrack();    
-            
-        },
-        error: function(event, request, settings){
-            mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
-        }
-    }); 
+    var objetoTrack = ObtenerTrack();
+    if(objetoTrack){ 
+        var dataString = JSON.stringify(objetoTrack); 
+        console.log(dataString);
+        $.ajax({
+            url: table+'/updatetrack',
+            type: 'GET',
+            data: {"parametros":dataString},
+            dataType: 'json',
+            async : false,
+            success: function(respuesta){
+                if(respuesta.success){
+                     mostrarVentana("success-modal-track","El registro se guardo con exito");          
+                    track(dataString); 
+                    limpiarTrack(); 
+                }{
+                     mostrarVentana("warning-modal-track",respuesta.mensaje);
+                }
+                  
+                
+            },
+            error: function(event, request, settings){
+                mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
+            }
+        }); 
+    }
     
 }
 
@@ -509,7 +518,7 @@ $("#modalNuevo").show();
 }
 
 function limpiarTrack(){
-    $("#gestion-track").attr("value", null);
+    // $("#gestion-track").attr("value", null);
     $("#orden-track").attr("value", null);
     $("#proceso-track").attr("value", null);
     $("#zona-track").attr("value", -1);
