@@ -318,7 +318,7 @@ function cargarLinkModificar(cellvalue, options, rowObject)
 function cargarLinkBorrar(cellvalue, options, rowObject)
 {
     json = JSON.stringify(rowObject);
-    return "<button type='button' class='btn btn-warning' onclick='editarTrack("+json+")'><i class='icon icon-list'></i></button>&nbsp;&nbsp;<button type='button' class='btn btn-danger' onclick='borrarTrack("+json+")'><i class='icon icon-list'></i></button>";
+    return "<button type='button' class='btn btn-warning' onclick='editarTrack("+json+")'><i class='icon icon-edit'></i></button>&nbsp;&nbsp;<button type='button' class='btn btn-danger' onclick='borrarTrack("+json+")'><i class='icon icon-remove-circle'></i></button>";
 }
 
 function buscar(){
@@ -337,6 +337,7 @@ function borrarTrack(param){
     jsonReporte.ORDEN = param.ORDEN;
     jsonReporte.CODIGO_GESTION = param.CODIGO_GESTION;
     var dataString = JSON.stringify(jsonReporte); 
+    var codigoGestion = param.CODIGO_GESTION;
     $.ajax({
         url: table+'/deteletrack',
         type: 'POST',
@@ -346,12 +347,8 @@ function borrarTrack(param){
         success: function(respuesta){
             if(respuesta.success){
                 mostrarVentana("success-modal-track","El registro se elimino correctamente.");
-                 var parametros = new Object();
-
-                parametros.NUMERO_GESTION = dataString.CODIGO_GESTION;
-               
-                json = JSON.stringify(parametros);
-                track(json);
+                track();
+                
             }else{
                 mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo. No se elimino el registro");
             }
@@ -361,16 +358,17 @@ function borrarTrack(param){
           mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
         }
     }); 
+    
    
 }
 function editarTrack(param){
-   
+   var realizado = (param.REALIZADO == 'Si' ? 1 : 0);
     $("#gestion-track").attr("value", param.CODIGO_GESTION);
     $("#orden-track").attr("value", param.ORDEN);
     $("#zona-track").attr("value", param.CODIGO_ZONA);
     $("#proceso-track").attr("value", param.PROCESO);
     $("#descripcion-track").attr("value", param.DESCRIPCION);
-    $("#realizado-track").attr("value", param.REALIZADO);
+    $("#realizado-track").attr("value", realizado);
     $("#hora-track").attr("value", param.FEC_HORA_REALIZ);
 }
 function ObtenerTrack(){
@@ -383,9 +381,6 @@ function ObtenerTrack(){
     if($("#gestion-track").val().length < 1){
         mostrarVentana("warning-modal-track","El identificador de la gestion no esta seteado");
         verificacion = false;
-    }else if($("#orden-track").val().length < 1){
-        mostrarVentana("warning-modal-track","El orden no esta seteado");      
-        verificacion = false;  
     }else if($("#proceso-track").val().length < 1){
         mostrarVentana("warning-modal-track","El numero de proceso no esta seteado");
         verificacion = false;
@@ -395,11 +390,8 @@ function ObtenerTrack(){
     }else if($("#descripcion-track").val().length < 1){
         mostrarVentana("warning-modal-track","Ingrese una descripción de la actividad");
         verificacion = false;
-    }else if($("#realizado-track").val().length < 0){
+    }else if($("#realizado-track").val() < 0){
         mostrarVentana("warning-modal-track","Seleccione si se realizo o no");
-        verificacion = false;
-    }else{
-        mostrarVentana("warning-modal-track","Ocurrio un error inesperado, verifique los datos a ingresar");
         verificacion = false;
     }
     if(verificacion){
@@ -425,7 +417,6 @@ function guardarTrack(){
     var objetoTrack = ObtenerTrack();
     if(objetoTrack){ 
         var dataString = JSON.stringify(objetoTrack); 
-        console.log(dataString);
         $.ajax({
             url: table+'/updatetrack',
             type: 'GET',
@@ -434,10 +425,10 @@ function guardarTrack(){
             async : false,
             success: function(respuesta){
                 if(respuesta.success){
-                     mostrarVentana("success-modal-track","El registro se guardo con exito");          
-                    track(dataString); 
+                    mostrarVentana("success-modal-track","El registro se guardo con exito");          
+                    track();
                     limpiarTrack(); 
-                }{
+                }else{
                      mostrarVentana("warning-modal-track",respuesta.mensaje);
                 }
                   
@@ -447,6 +438,8 @@ function guardarTrack(){
                 mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
             }
         }); 
+       
+        
     }
     
 }
@@ -454,10 +447,17 @@ function guardarTrack(){
 function track(param){
     limpiarTrack();
     $("#modalNuevo-track").show();
-    $("#gestion-track").attr("value", param.NUMERO_GESTION);
-    var jsonReporte = new Object(); 
-    jsonReporte.NUMERO_GESTION = param.NUMERO_GESTION;
-    var dataString = JSON.stringify(jsonReporte); 
+    if(typeof param != "undefined"){
+        $("#gestion-track").attr("value", param.NUMERO_GESTION);
+        var jsonReporte = new Object(); 
+        jsonReporte.NUMERO_GESTION = param.NUMERO_GESTION;
+        var dataString = JSON.stringify(jsonReporte); 
+    }else{
+        var jsonReporte = new Object(); 
+        jsonReporte.NUMERO_GESTION = $("#gestion-track").val();
+        var dataString = JSON.stringify(jsonReporte); 
+    }
+    
 
     $.ajax({
         url: table+'/getlistatrack',

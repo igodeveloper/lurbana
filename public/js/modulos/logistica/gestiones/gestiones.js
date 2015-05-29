@@ -2,6 +2,7 @@ $().ready(function() {
     // alert(table);
     getZonas();
     $("body").css("overflow", "hidden");
+    
  	$("#muestramodal").click(function() {
         $("#planactivo-modal").children("li").remove();
  		limpiarFormulario();
@@ -165,11 +166,11 @@ function mostrarVentana(box,mensaje){
 	} else if(box == "success-modal-track") {
         $("#success-message-modal-track").text(mensaje);
         $("#success-modal-track").show();
-        setTimeout("ocultarSuccessmodalTrack()",1000);
+        setTimeout("ocultarSuccessmodalTrack()",2000);
     } else if(box == "warning-modal-track") {
         $("#warning-message-modal-track").text(mensaje);
         $("#warning-modal-track").show();
-        setTimeout("ocultarWarningModalTrack()",1000);
+        setTimeout("ocultarWarningModalTrack()",2000);
     } 
 }
 
