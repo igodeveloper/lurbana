@@ -1,6 +1,8 @@
 <script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/gestiones.js"?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/modalSuscripciones.js"?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() ."/js/modulos/logistica/gestiones/gridGestiones.js"?>"></script>
+
+
 <style type="text/css" media="all">
     /* fix rtl for demo */
     .chosen-rtl .chosen-drop { left: -9000px; }
@@ -377,14 +379,14 @@
         <div class="modal-body" style="overflow:hidden">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-1 ">
+                    <div class="col-lg-1 hide">
                         <input name="gestion-track" id="gestion-track" class="form-control input-sm" placeholder="gestion"></input>
                     </div>  
-                    <div class="col-lg-1 ">
+                    <div class="col-lg-1 hide">
                         <input name="orden-track" id="orden-track" class="form-control input-sm" placeholder="orden"></input>
                     </div>  
                     <div class="col-lg-1">
-                        <input name="proceso-track" id="proceso-track" class="form-control input-sm" placeholder="proceso"></input>
+                        <input name="proceso-track" id="proceso-track" class="form-control input-sm" placeholder="Paso"></input>
                     </div>    
                     <div class="col-lg-2">
                       <select id="zona-track" class="input-sm form-control" placeholder="Zonas">
@@ -393,18 +395,18 @@
                     <div class="col-lg-4">
                         <input name="descripcion-track" id="descripcion-track" class="form-control input-sm" placeholder="Actividad"></input>
                     </div>
-                    <div class="col-lg-1" placeholder="Estado">
+                    <div class="col-lg-2" placeholder="Estado">
                       <select id="realizado-track" class="input-sm form-control">
-                        <option value="-1">Realizado</option>
+                        <option value="-1">Realizado?</option>
                         <option value="1">Si</option>
                         <option value="0">No</option>
                       </select>
                     </div>
                     <div class="col-lg-2">
-                        <input name="hora-track" id="hora-track" class="form-control input-sm" placeholder="Hora"></input>
+                        <input name="hora-track" id="hora-track" class="form-control input-sm" type="text"></input>
                     </div>
                     <div class="col-lg-1">
-                        <a  id="add-track"class="btn btn-success" >+</a>
+                        <a  id="add-track"class="btn btn-success" ><i class="icon icon-save"></i></a>
                     </div>
                 </div>
             </div>
@@ -417,13 +419,13 @@
        </div>
         <div class="modal-footer">
             <a  id="cancelar-modal-track"class="btn btn-danger">Cancelar</a>
-            <a  id="guardar-modal-track"class="btn btn-success">Guardar</a>
         </div>
     </div>       
 </div>
 </div>
   <script type="text/javascript">
 $(document).ready(function() { 
+$("#hora-track").datetimepicker();
 $("#cliente-modal").select2();
 $("#asistenteservicios-modal").select2();
 $("#cliente-modal-suscripcion").select2();
