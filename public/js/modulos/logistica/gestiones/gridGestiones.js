@@ -258,11 +258,18 @@ function cargarGrillaRegistroTrack() {
                         width: 200,
                         align: 'left'
                     },{
+                        name: 'DESTINO',
+                        index: 'DESTINO',
+                        label: 'DESTINO',
+                        hidden :false,
+                        width: 100,
+                        align: 'left'
+                    },{
                         name: 'DESCRIPCION',
                         index: 'DESCRIPCION',
                         label: 'DESCRIPCION',
                         hidden :false,
-                        width: 450,
+                        width: 350,
                         align: 'left'
                     },{
                         name: 'REALIZADO',
@@ -367,6 +374,7 @@ function editarTrack(param){
     $("#orden-track").attr("value", param.ORDEN);
     $("#zona-track").attr("value", param.CODIGO_ZONA);
     $("#proceso-track").attr("value", param.PROCESO);
+    $("#destino-track").attr("value", param.DESTINO);
     $("#descripcion-track").attr("value", param.DESCRIPCION);
     $("#realizado-track").attr("value", realizado);
     $("#hora-track").attr("value", param.FEC_HORA_REALIZ);
@@ -399,6 +407,7 @@ function ObtenerTrack(){
         jsonReporte.ORDEN = $("#orden-track").val();
         jsonReporte.PROCESO = $("#proceso-track").val();
         jsonReporte.CODIGO_ZONA = $("#zona-track").val();
+        jsonReporte.DESTINO = $("#destino-track").val();
         jsonReporte.DESCRIPCION = $("#descripcion-track").val();
         jsonReporte.REALIZADO = $("#realizado-track").val();
         jsonReporte.FEC_HORA_REALIZ = $("#hora-track").val();
@@ -447,6 +456,8 @@ function guardarTrack(){
 function track(param){
     limpiarTrack();
     $("#modalNuevo-track").show();
+      
+
     if(typeof param != "undefined"){
         $("#gestion-track").attr("value", param.NUMERO_GESTION);
         var jsonReporte = new Object(); 
@@ -523,6 +534,11 @@ function limpiarTrack(){
     $("#proceso-track").attr("value", null);
     $("#zona-track").attr("value", -1);
     $("#descripcion-track").attr("value", null);
-    $("#realizado-track").attr("value", -1);
+    $("#destino-track").attr("value", null);
     $("#hora-track").attr("value", null);
+    $("#realizado-track").attr("value", 0); 
+    $("#hora-track").datetimepicker({
+            value:new Date(),
+             format:'Y/m/d H:i'
+        });
 }

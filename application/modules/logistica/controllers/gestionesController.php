@@ -748,6 +748,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                          'A.PROCESO',
                          'A.CODIGO_ZONA',
                          'B.DESCRIPCION AS DESCRIPCION_ZONA',
+                         'A.DESTINO',
                          'A.DESCRIPCION AS GESTIONES',
                          'A.REALIZADO',
                          'A.FEC_HORA_REALIZ'))
@@ -764,6 +765,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                                   'PROCESO' => $row["PROCESO"],
                                   'CODIGO_ZONA' => $row["CODIGO_ZONA"],
                                   'DESCRIPCION_ZONA' => $row["DESCRIPCION_ZONA"],
+                                  'DESTINO' => $row["DESTINO"],
                                   'DESCRIPCION' => $row["GESTIONES"],
                                   'REALIZADO' => ($row["REALIZADO"] == 1 ? 'Si' : 'No'),
                                   'FEC_HORA_REALIZ' => $row["FEC_HORA_REALIZ"]));
@@ -833,6 +835,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     'ORDEN' => $orden_insertar[0]['ORDEN_ULTIMO']+ 1,
                     'PROCESO' => $parametros->PROCESO,
                     'CODIGO_ZONA' => $parametros->CODIGO_ZONA,
+                    'DESTINO' => $parametros->DESTINO,
                     'DESCRIPCION' => $parametros->DESCRIPCION,
                     'REALIZADO' => $parametros->REALIZADO,
                     'FEC_HORA_REALIZ' => $parametros->FEC_HORA_REALIZ
@@ -843,6 +846,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
                     'PROCESO' => $parametros->PROCESO,
                     'CODIGO_ZONA' => $parametros->CODIGO_ZONA,
                     'DESCRIPCION' => $parametros->DESCRIPCION,
+                    'DESTINO' => $parametros->DESTINO,
                     'REALIZADO' => $parametros->REALIZADO,
                     'FEC_HORA_REALIZ' => $parametros->FEC_HORA_REALIZ
                 );
