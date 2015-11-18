@@ -41,7 +41,8 @@ class Login_loginController extends Zend_Controller_Action {
 	            $cod_usuario = trim(utf8_encode($arr["COD_USUARIO"]));
 	            $parametrosLogueo->username = trim($parametros->username);
 	            $parametrosLogueo->cod_usuario = trim(utf8_encode($arr["COD_USUARIO"]));
-	            $parametrosLogueo->desc_usuario = trim(utf8_encode($arr["NOMBRE_APELLIDO"]));            
+                $parametrosLogueo->desc_usuario = trim(utf8_encode($arr["NOMBRE_APELLIDO"]));         
+                $parametrosLogueo->id = "";         
         	}
 	        $parametrosLogueo->lock(); 
 	                    

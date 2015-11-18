@@ -1,0 +1,230 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl() ." /js/modulos/logistica/gestiones/gestiones.js "?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() ." /js/modulos/logistica/gestiones/gridGestiones.js "?>"></script>
+
+
+<style type="text/css" media="all">
+    /* fix rtl for demo */
+    
+    .chosen-rtl .chosen-drop {
+        left: -9000px;
+    }
+    .wrapColumnText {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+    }
+</style>
+
+<div>
+    <div class="panel-default " align=center>
+        <div class="col-lg-12 ">
+            <div class="panel panel-primary">
+                <div class="panel-heading" data-toggle="collapse" data-parent="#datosPersonales" href="#collapseDatosPersonales">
+                    <h3 class="panel-title"><a > Datos Generales</a></h3>
+                </div>
+                <div id="collapseDatosPersonales" class="panel-collapse collapse">
+                    <!-- <br> -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group col-lg-3 hide">
+                                    <!-- <label class="col-lg-6 control-label">Gestion:</label> -->
+                                    <div class="col-lg-12">
+                                        <input name="codigogestion-modal" id="codigogestion-modal" class="form-control input-sm"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-2 control-label">Cliente:</label>
+                                    <div class="col-lg-7">
+                                        <select id="cliente-modal" class="" style="width: 100%;">
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input name="tipocliente-modal" id="tipocliente-modal" class="form-control input-sm"></input>
+                                        <input name="tipoclientecodigo-modal" id="tipoclientecodigo-modal" class="hide"></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Fecha:</label>
+                                    <div class="col-lg-7">
+                                        <input name="fechagestion-modal" id="fechagestion-modal" class="form-control input-sm"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-2 control-label">Tarea:</label>
+                                    <div class="col-lg-10">
+                                        <textarea class="form-control" id="tarea-modal" placeholder="Ingrese comentario" rows="6" maxlength="1500"> </textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Inicio:</label>
+                                    <div class="col-lg-7">
+                                        <input name="iniciogestion-modal" id="iniciogestion-modal" class="form-control input-sm"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Fin:</label>
+                                    <div class="col-lg-7">
+                                        <input name="fingestion-modal" id="fingestion-modal" class="form-control input-sm"></input>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Tiempo Estimado:</label>
+                                    <div class="col-lg-5">
+                                        <input name="tiempoestimado-modal" type="number" id="tiempoestimado-modal" class="form-control input-sm"></input>
+                                    </div>
+                                    <div class="col-lg-2"> <span>min</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Cant gestiones:</label>
+                                    <div class="col-lg-5">
+                                        <input name="cantidadgestion-modal" type="" id="cantidadgestion-modal" class="form-control input-sm"></input>
+                                    </div>
+                                    <div class="col-lg-2"> <span>uni</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-2 control-label">Asignado a:</label>
+                                    <div class="col-lg-10">
+                                        <select id="asistenteservicios-modal" class="" style="width:100%;">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Estado:</label>
+                                    <div class="col-lg-7">
+                                        <select id="estado-modal" class="input-sm form-control">
+                                            <option value="-1">Seleccione</option>
+                                            <option value="P">Pendiente</option>
+                                            <option value="E">En Proceso</option>
+                                            <option value="F">Finalizado</option>
+                                            <option value="A">Anulado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-2 control-label">Plan activo:</label>
+                                    <div class="col-lg-10">
+                                        <ul class="list-group" id="planactivo-modal">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label">Saldo:</label>
+                                    <div class="col-lg-5">
+                                        <input name="saldogestion-modal" id="saldogestion-modal" class="form-control input-sm">
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <span>uni</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label"> Enviar email:</label>
+                                    <div class="col-lg-5">
+                                        <input id="enviaremail-modal" type="checkbox" name="vehicle" value="SI"> Si
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label class="col-lg-5 control-label"> Gentileza:</label>
+                                    <div class="col-lg-5">
+                                        <input id="gentileza-modal" type="checkbox" name="" value="S"> Si
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 ">
+            <div class="panel panel-primary">
+                <div class="panel-heading" data-toggle="collapse" data-parent="#datosPersonales2" href="#collapseDatosPersonales2">
+                    <h3 class="panel-title"><a > Pasos a seguir</a></h3>
+                </div>
+                <div id="collapseDatosPersonales2" class="panel-collapse collapse">
+                    <!-- <br> -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-1 hide">
+                                <input name="gestion-track" id="gestion-track" class="form-control input-sm" placeholder="gestion">
+                            </div>
+                            <div class="col-lg-1 hide">
+                                <input name="orden-track" id="orden-track" class="form-control input-sm" placeholder="orden">
+                            </div>
+                            <div class="col-lg-1">
+                                <input name="proceso-track" id="proceso-track" class="form-control input-sm" placeholder="Paso">
+                            </div>
+                            <div class="col-lg-2">
+                                <select id="zona-track" class="input-sm form-control" placeholder="Zonas">
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <input name="destino-track" id="destino-track" class="form-control input-sm" maxlength="120" placeholder="Destino">
+                            </div>
+                            <div class="col-lg-3">
+                                <input name="descripcion-track" id="descripcion-track" class="form-control input-sm" placeholder="Actividad">
+                            </div>
+                            <div class="col-lg-1" placeholder="Estado">
+                                <select id="realizado-track" class="input-sm form-control">
+                                    <option value="-1">Realizado?</option>
+                                    <option value="1">Si</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <input name="hora-track" id="hora-track" class="form-control input-sm" type="text">
+                            </div>
+                            <div class="col-lg-1">
+                                <a id="add-track" class="btn btn-success"><i class="icon icon-save"></i></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="grillaGestionesTrack"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a  id="cancelar-modal"class="btn btn-danger">Cancelar</a>
+        <a id="guardar-modal" class="btn btn-success">Guardar</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#hora-track").datetimepicker();
+        $("#cliente-modal").select2();
+        $("#asistenteservicios-modal").select2();
+        $("#cliente-modal-suscripcion").select2();
+        $("#asistenteservicios-modal-suscripcion").select2();
+        $("#planactivo-modal-suscripcion").select2();
+
+    });
+</script>
