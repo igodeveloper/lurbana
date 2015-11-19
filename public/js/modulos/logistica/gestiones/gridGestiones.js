@@ -2,12 +2,12 @@ var pathname = window.location.pathname;
 var table = pathname;
 jQuery(document).ready(function(){
     cargarGrillaRegistro();
-    $('#modalNuevo-track').bind('hidden.bs.modal', function () {
+    /*$('#modalNuevo-track').bind('hidden.bs.modal', function () {
         $("html").css("margin-right", "0px");
     });
     $('#modalNuevo-track').bind('show.bs.modal', function () {
           $("html").css("margin-right", "-15px");
-    });
+    });*/
 
    
 });

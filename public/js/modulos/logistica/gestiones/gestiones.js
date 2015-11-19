@@ -4,37 +4,12 @@ $().ready(function() {
     $("body").css("overflow", "hidden");
     
  	$("#muestramodal").click(function() {
-        $("#planactivo-modal").children("li").remove();
- 		limpiarFormulario();
- 		cargarCliente();
- 		cargarAsistenteServicios();
-		// cargarPlanesActivos();
-        bloqueardatos(false);
-        
-			$("#fechagestion-modal").datepicker();
-		    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fechagestion-modal").datepicker("setDate", new Date());
-		    $("#iniciogestion-modal").datepicker();
-		    $("#iniciogestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#iniciogestion-modal").datepicker("setDate", new Date());
-		    $("#fingestion-modal").datepicker();
-		    $("#fingestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-		    $("#fingestion-modal").datepicker("setDate", new Date());
-		    $("#tiempoestimado-modal").attr("value",40);
-		    $("#cantidadgestion-modal").attr("value",1);
-		    $("#estado-modal").val('P');
-            $("#gentileza-modal").prop('checked', false);
-		    
-		    $("#saldogestion-modal").attr("disabled",true);
-            $("#codigogestion-modal").attr("disabled",true);
-            $("#tipocliente-modal").attr("disabled",true);
-            $("#guardar-modal").attr("disabled",false);
-            $("#modalNuevo").show();
-            $("#ui-datepicker-div").css('display','none');
+            cargarModalNuevo();
             // $("#asistenteservicios-modal").val(3);
             // console.log($("#asistenteservicios-modal").val());
            
-    }); 
+    });
+
      $("#close-modal").click(function() {
             $("#modalNuevo").hide();
            
@@ -110,6 +85,36 @@ $().ready(function() {
     // });
 
 });
+function cargarModalNuevo(block){
+       $("#planactivo-modal").children("li").remove();
+        limpiarFormulario();
+        cargarCliente();
+        cargarAsistenteServicios();
+        // cargarPlanesActivos();
+        bloqueardatos(false);
+        
+        $("#fechagestion-modal").datepicker();
+        $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+        $("#fechagestion-modal").datepicker("setDate", new Date());
+        $("#iniciogestion-modal").datepicker();
+        $("#iniciogestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+        $("#iniciogestion-modal").datepicker("setDate", new Date());
+        $("#fingestion-modal").datepicker();
+        $("#fingestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
+        $("#fingestion-modal").datepicker("setDate", new Date());
+        $("#tiempoestimado-modal").attr("value",40);
+        $("#cantidadgestion-modal").attr("value",1);
+        $("#estado-modal").val('P');
+        $("#gentileza-modal").prop('checked', false);
+        
+        $("#saldogestion-modal").attr("disabled",true);
+        $("#codigogestion-modal").attr("disabled",true);
+        $("#tipocliente-modal").attr("disabled",true);
+        $("#guardar-modal").attr("disabled",false);
+        $("#modalNuevo").show();
+        $("#ui-datepicker-div").css('display','none');
+}
+
 function bloqueardatos(block){
         $("#codigogestion-modal").attr("disabled",block);
         $("#saldogestion-modal").attr("disabled",block);
