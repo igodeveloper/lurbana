@@ -238,7 +238,7 @@ class reportes_gestionclientesController extends Zend_Controller_Action {
             // print_r($json_rowData); die();
 
             $var_nombrearchivo = 'clientes';
-            $path_tmp = './reportes_pdf/clientes/';
+            $path_tmp = '../public/reportes_pdf/clientes/';
             $orientation='P';
             $unit='mm';
             $format='A4';
