@@ -26,7 +26,7 @@ $().ready(function() {
     $("#reporte-txt").attr("value",textoBase);
 
 
-    $.getJSON(table+'/getcliente', function(data) {
+    $.getJSON('../reportes/resumensaldosclientes/getcliente', function(data) {
         var nombreCliente = [];
 
         $(data).each(function(key, value) {

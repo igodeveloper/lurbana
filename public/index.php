@@ -14,6 +14,8 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+//Define Base Path
+define('BASE_PATH', realpath(dirname(__FILE__)));
 /** Zend_Application */
 //require_once 'Zend/Application.php';
 require_once '../library/Zend/Application.php';

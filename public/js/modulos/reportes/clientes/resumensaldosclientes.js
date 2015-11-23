@@ -16,7 +16,7 @@ $().ready(function() {
     $("#ano-reporte").datepicker("option", "dateFormat", "yy");
     $("#ano-reporte").datepicker("setDate", new Date());
 
-     $.getJSON('../reportes/gestionclientes/getcliente', function(data) {
+     $.getJSON('../reportes/resumensaldosclientes/getcliente', function(data) {
         var nombreCliente = [];
 
         $(data).each(function(key, value) {

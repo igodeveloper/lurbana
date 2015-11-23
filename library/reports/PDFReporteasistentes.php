@@ -28,7 +28,7 @@
             $x = 0;
             $y = 0;
             // $this->Image("./images/central.jpg",10,10,25,25);
-            $this->Image("./menu/img/lurbana-login.png",10,5,50,30);
+            $this->Image(BASE_PATH."/menu/img/lurbana-login.png",10,5,50,30);
             $this->Ln(15);
             //Arial bold 15
             $this->SetFont('Arial','B',12);

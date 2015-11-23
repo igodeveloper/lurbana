@@ -218,7 +218,8 @@ class reportes_gestiongestorController extends Zend_Controller_Action {
 
             
             $var_nombrearchivo = 'asistentes';
-            $path_tmp = '../public/reportes_pdf/asistentes/';
+            //$path_tmp = '../public/reportes_pdf/asistentes/';
+            $path_tmp = BASE_PATH."/reportes_pdf/asistentes/";
             //$path_tmp = $_SERVER['DOCUMENT_ROOT'];
             //die( $path_tmp);
             $orientation='P';
