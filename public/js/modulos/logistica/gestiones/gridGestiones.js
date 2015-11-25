@@ -354,7 +354,9 @@ function borrarTrack(param){
         success: function(respuesta){
             if(respuesta.success){
                 mostrarVentana("success-modal-track","El registro se elimino correctamente.");
-                track();
+                var param = new Object();
+                param.NUMERO_GESTION = codigoGestion;
+                track(param);
                 
             }else{
                 mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo. No se elimino el registro");
