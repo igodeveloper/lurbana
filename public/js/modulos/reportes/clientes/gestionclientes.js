@@ -14,6 +14,7 @@ $().ready(function() {
     $("#fechahasta-reporte").datepicker("option", "dateFormat", "yy-mm-dd");
     $("#fechahasta-reporte").datepicker("setDate", new Date());
     $("#reporte-txt").hide();
+    $("#ui-datepicker-div").css('display','none');
     var textoBase = "Total de Gestiones\n";
     textoBase = textoBase+"Saldo a favor del mes de\n";
     textoBase = textoBase+"Saldo a favor del mes de \n";

@@ -14,6 +14,7 @@ $().ready(function() {
     $("#fechahasta-reporte").datepicker();
     $("#fechahasta-reporte").datepicker("option", "dateFormat", "yy-mm-dd");
     $("#fechahasta-reporte").datepicker("setDate", new Date());
+    $("#ui-datepicker-div").css('display','none');
 
 });
 
