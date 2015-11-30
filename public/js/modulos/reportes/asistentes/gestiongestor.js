@@ -49,7 +49,7 @@ function imprimirReporte(){
 		async: false,
 		success: function(respuesta) {
 			if (respuesta.success) {
-                window.open('../reportes_pdf/asistentes/'+respuesta.archivo);
+                window.open('../../reportes_pdf/asistentes/'+respuesta.archivo);
  				$("#modalReportes").hide();
                 limpiarReporte();
             }else{
