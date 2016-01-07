@@ -60,12 +60,14 @@
             // echo $sql."<br>";                              
             // die();
             $dtDatos = $this->Conn->query($sql);
-            // print_r($dtDatos);die();
+	//				print_r($dtDatos[0]['CLIENTE']);die('hola');	
+		 //  print_r($dtDatos[0][0]);die();
             $count = 1;
-            
-            while($row = mysql_fetch_assoc($dtDatos))
+           
+	   while($row = mysql_fetch_assoc($dtDatos))
             {
-                $CLIENTE_DES     = $row['CLIENTE'];
+             
+		     $CLIENTE_DES     = $row['CLIENTE'];
                 $x=-2;
                 $this->SetX(11+$x);
                 $this->SetFont('Arial','B',9);
@@ -107,9 +109,9 @@
                 $sql2.=" ORDER BY FECHA DESC";   
 
                 // echo $sql2."<br>"; 
-                // die();                             
+                //die();                             
                 $dtDatos2 = $this->Conn->query($sql2);
-            
+            //	print_r($dtDatos2);die();
                 $count2 = 1;
             
                 while($row2 = mysql_fetch_assoc($dtDatos2))
@@ -154,9 +156,9 @@
                          F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',6) AS CASUAL_UTI,
                          F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',7) AS DISPONIBLE,
                          F_TRAE_SALDOS(".$cod_cliente.",'".$fecha."',8) AS TOTAL_ABON";
-
+//print_r($sql3); die("fin");
                 $saldos = $this->Conn->query($sql3); 
-
+	
                 if($this->parametros->RESUMEN == "S"){
                      while($row3 = mysql_fetch_assoc($saldos)){
                         $this->SetFont('Arial','',10);

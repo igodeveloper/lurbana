@@ -91,10 +91,10 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
         $db = Zend_Db::factory('Pdo_Mysql', array(
-            'host'     => '192.185.21.196',
-            'username' => 'activa11_sistema',
-            'password' => 'sansolucionlurbana11',
-            'dbname'   => 'activa11_sistema_bck'
+            'host'     => '127.0.0.1',
+            'username' => 'root',
+            'password' => 'sansolucionlurbana',
+            'dbname'   => 'activa11_sistema'
         ));
 
         $result = $db->query("select F_TRAE_SALDOS(".$parametros->CODIGO_CLIENTE.",'".$parametros->FECHA_SALDO."',1) AS MENS_ACT, 

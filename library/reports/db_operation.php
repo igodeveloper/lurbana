@@ -13,10 +13,10 @@
             $conection['database']="academico";  
 */           
             
-            $conection['server']="192.185.21.196";  
-            $conection['dbuser']="activa11_sistema";       
-            $conection['dbpass']="sansolucionlurbana11";	   
-            $conection['database']="activa11_sistema_bck";  
+            $conection['server']="127.0.0.1";  
+            $conection['dbuser']="root";       
+            $conection['dbpass']="sansolucionlurbana";	   
+            $conection['database']="activa11_sistema";  
 
             // $conection['server']="localhost";  
             // $conection['dbuser']="root";       
@@ -30,6 +30,7 @@
 		        mysql_select_db($conection['database']);
                 $this->conn=$conect;
             }else{
+//		die("mori");
                 return "nomeconecte";
             }
 	}
