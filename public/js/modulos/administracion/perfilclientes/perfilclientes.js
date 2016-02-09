@@ -165,8 +165,11 @@ function buscaGestionesCleinte(){
 	        dataType: 'json',
 	        async : false,
 	        success: function(respuesta){
+	        	$('#table_tbody_gestiones tr').remove();
 	        	if(typeof respuesta.success == 'undefined' && !respuesta.success){
+
 		        	$.each(respuesta, function( index, value ) {
+
 					  // alert( index + ": " + value.FECHA_GESTION );
 					  $('#gestiones > tbody:last').append('<tr><td>'+value.FECHA_GESTION+'</td><td>'+value.FECHA_FIN+'</td><td>'+value.DESCRIPCION_PERSONA+'</td><td>'+value.CANTIDAD_GESTIONES+'</td><td>'+value.OBSERVACION+'</td></tr>');
 					});
@@ -265,6 +268,7 @@ function cargaGRillaFacturaDetalle(){
 	var detalle = jQuery("#grillaDetalle").jqGrid('getGridParam','selarrrow');
 	var suma = 0;
 	var iva10 = 0;
+	$('#table_tbody_gestiones tr').remove();
 	$.each(detalle, function( index, value ) {
 		var grilla = new Object();
 		grilla = jQuery('#grillaDetalle').jqGrid ('getRowData', value);
@@ -441,14 +445,16 @@ function cargaFacturasCliente(){
 	        dataType: 'json',
 	        async : false,
 	        success: function(respuesta){
+	        	$('#table_tbody_facturas tr').remove();
 	        	if(typeof respuesta.success == 'undefined' && !respuesta.success){
-	        		$('#table_tbody_facturas tr').remove();
+	        		
 		        	$.each(respuesta, function( index, value ) {
 					  // alert( index + ": " + value.FECHA_GESTION );
 					  $('#facturas > tbody:last').append('<tr><td>'+value.FECHA+'</td><td>'+value.ID_COMPROBANTE+'</td><td>'+value.SER_COMPROBANTE+'-'+value.NRO_COMPROBANTE+'</td><td>'+value.TOTAL+'</td><td>'+value.SALDO+'</td><td>'+value.ESTADO+'</td><td><button type="button" class="btn btn-success" onclick="reimpresion('+value.ID_COMPROBANTE+')">Reimprimir</button></td></tr>');
 					});
 					// $("#collapseResumenGestiones").addClass("in");
 				}
+				
 	        },
 	        error: function(event, request, settings){
 	         //   $.unblockUI();
