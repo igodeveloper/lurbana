@@ -309,7 +309,8 @@ function enviarParametros(data){
         	 if(respuesta.success){
                mostrarVentana("success-modal","Se ingreso el registro con exito");
                limpiarFormulario();
-                buscar();                               
+                cargarModalNuevo();
+                //buscar();                               
             }else{
                 mostrarVentana("warning-modal","Verifique sus datos, ocurrio un error");  
             }            
