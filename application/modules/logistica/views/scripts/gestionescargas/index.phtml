@@ -149,7 +149,11 @@
                               <table id="grillaGestionesTrack"></table>
                            </div>
                            <div class="table-responsive" id="form">
-                              <div class="row col-lg-8 col-lg-offset-2">
+                              <div class="panel panel-default">
+                              <div class="panel-heading">Nueva Actividad <a class="close" id="close-modal">×</a></div>
+
+                                <div class="panel-body">
+                                   <div class="row col-lg-8 col-lg-offset-2">
                                  <div class="form-group col-lg-12">
                                     <div class="hidden">
                                        <input name="modificar-acti" type="text" id="modificar-acti" class="form-control input-sm ">
@@ -208,14 +212,21 @@
                                     </div>
 
                                     <div class="col-lg-6 ">
-                                       <div class="col-lg-2 col-lg-offset-10">
+                                       <div class="col-lg-2 col-lg-offset-8">
+                                           <a  id="cancel-actividad"class="btn btn-danger" ><i class="icon icon-undo"></i></a>
+                                       </div>
+                                       <div class="col-lg-2">
                                            <a  id="add-actividad"class="btn btn-success" ><i class="icon icon-save"></i></a>
                                        </div>
+                                       
                                        
                                     </div>
                                  </div>
                                 
                               </div>
+                                </div>
+                              </div>
+                              
 
                              <!-- codigo_gestion+orden es pk
                              codigo_gestor

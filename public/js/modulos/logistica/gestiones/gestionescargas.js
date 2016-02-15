@@ -1,16 +1,10 @@
 $().ready(function() {
     // alert(table);
+    mostrarVentana("warning-modal","hola");
     getZonas();
     $("#form").hide();
     $("#grid").show();
     //$("body").css("overflow", "hidden");
-    
- 	$("#muestramodal").click(function() {
-            cargarModalNuevo();
-            // $("#asistenteservicios-modal").val(3);
-            // console.log($("#asistenteservicios-modal").val());
-           
-    });
 
      $("#close-modal").click(function() {
             $("#modalNuevo").hide();
@@ -25,8 +19,8 @@ $().ready(function() {
         guardarActividad();
      });
 
-	$('#mostrar-modal-actividad').click(function() {
-       mostrarFormularioActividad();
+    $('#cancel-actividad,#close-modal,#mostrar-modal-actividad').click(function() {
+        mostrarFormularioActividad();
      });
 
     $('#guardar-modal').click(function() {
@@ -60,13 +54,9 @@ $().ready(function() {
      $("#cancelar-modal-suscripcion").click(function() {
             $("#modalNuevo-suscripcion").hide();
            
-    });
-     $("#close-modal-track").click(function() {
-            $("#modalNuevo-track").hide();
-           
     }); 
-     $("#cancelar-modal-track").click(function() {
-            $("#modalNuevo-track").hide();
+     $("#cancelar-modal-acti").click(function() {
+            $("#modalNuevo-acti").hide();
            
     });
     
@@ -85,24 +75,17 @@ $().ready(function() {
     });
 
 
-
-
-    // $('#cantidadgestion-modal').live('keyup', function(){
-    //     $(this).val(format.call($(this).val().split(' ').join(''),' ','.'));
-    // });
-
 });
 function mostrarFormularioActividad(){
-    $("#form").show();
-    $("#grid").hide();
-    $("#mostrar-modal-actividad").hide();
+    $("#form").toggle()
+    $("#grid").toggle()
+    $("#mostrar-modal-actividad").toggle();
 }
 function cargarModalNuevo(block){
        $("#planactivo-modal").children("li").remove();
         limpiarFormulario();
         cargarCliente();
         cargarAsistenteServicios();
-        // cargarPlanesActivos();
         bloqueardatos(false);
         
         $("#fechagestion-modal").datepicker();
@@ -166,8 +149,8 @@ function roundnumber(number){
 function mostrarVentana(box,mensaje){
 	if(box == "warning-modal") {
 		$("#warning-message-modal").text(mensaje);
-		$("#warning-modal").show();
-		setTimeout("ocultarWarningModal()",1000);
+        $("#warning-modal").show();
+        setTimeout('ocultarWarningModal()',1000);
 	} else if(box == "success-modal") {
         $("#success-message-modal").text(mensaje);
         $("#success-modal").show();
@@ -180,19 +163,19 @@ function mostrarVentana(box,mensaje){
         $("#warning-message-modal-suscripcion").text(mensaje);
         $("#warning-modal-suscripcion").show();
         setTimeout("ocultarWarningModalSuscripcion()",1000);
-	} else if(box == "success-modal-track") {
-        $("#success-message-modal-track").text(mensaje);
-        $("#success-modal-track").show();
-        setTimeout("ocultarSuccessmodalTrack()",2000);
-    } else if(box == "warning-modal-track") {
-        $("#warning-message-modal-track").text(mensaje);
-        $("#warning-modal-track").show();
-        setTimeout("ocultarWarningModalTrack()",2000);
+	} else if(box == "success-modal-acti") {
+        $("#success-message-modal-acti").text(mensaje);
+        $("#success-modal-acti").show();
+        setTimeout("ocultarSuccessmodalActi()",2000);
+    } else if(box == "warning-modal-acti") {
+        $("#warning-message-modal-acti").text(mensaje);
+        $("#warning-modal-acti").show();
+        setTimeout("ocultarWarningModalActi()",2000);
     } 
 }
 
 function ocultarWarningModal(){
-    $("#warning-modal").hide(500);
+    $("#warning-modal").hide(1000);
 
 }function ocultarSuccessmodal(){
     $("#success-modal").hide(500);
@@ -204,11 +187,12 @@ function ocultarWarningModalSuscripcion(){
 	$("#success-modal-suscripcion").hide(500);
 }
 
-function ocultarWarningModalTrack(){
-    $("#warning-modal-track").hide(500);
+function ocultarWarningModalActi(){
+    $("#warning-modal-acti").hide(500);
 
-}function ocultarSuccessmodalTrack(){
-    $("#success-modal-track").hide(500);
+}
+function ocultarSuccessmodalActi(){
+    $("#success-modal-acti").hide(500);
 }
 
 function addrequiredattr(id,focus){
@@ -321,7 +305,6 @@ function enviarParametros(data){
         	 if(respuesta.success){
                mostrarVentana("success-modal","Se ingreso el registro con exito");
                limpiarFormulario();
-                cargarModalNuevo();
                 //buscar();                               
             }else{
                 mostrarVentana("warning-modal","Verifique sus datos, ocurrio un error");  
@@ -335,14 +318,6 @@ function enviarParametros(data){
     });
 }
 
-
-function limpiarFiltos(){
-
-	$("#descripcionpersona-filtro").attr("value",null);
-	$("#numerodocumentopersona-filtro").attr("value",null);
-	$("#estado-filtro").val(null);
-	$("#telefonopersona-filtro").attr("value",null);
-	}
 
 function limpiarFormulario(){
 
@@ -419,7 +394,8 @@ function cargarAsistenteServicios(){
         	if(respuesta== 'error'){
         		// mostrarVentana("error-title",mostrarError("OcurrioError"));
         	}else{
-            	$("#asistenteservicios-modal").html(respuesta);       		
+                $("#asistenteservicios-modal").html(respuesta);             
+            	$("#asistente-acti").html(respuesta);       		
         	}
         },
         error: function(event, request, settings){
@@ -534,10 +510,6 @@ function getClienteSaldo(){
              // alert(mostrarError("OcurrioError"));
         }
     }); 
-}
-
-function editarTrack(orden,codigoZona,descripcionZona){
-   
 }
 
 
