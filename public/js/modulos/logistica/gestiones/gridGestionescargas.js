@@ -386,6 +386,9 @@ function ObtenerActi(){
     }else if($("#descripcion-acti").val().length < 1){
         mostrarVentana("warning-modal-acti","Ingrese una descripción de la actividad");
         verificacion = false;
+    }else if($("#destino-acti").val().length < 1){
+        mostrarVentana("warning-modal-acti","Ingrese un destino");
+        verificacion = false;
     }else if($("#realizado-acti").val() < 0){
         mostrarVentana("warning-modal-acti","Seleccione si se realizo o no");
         verificacion = false;

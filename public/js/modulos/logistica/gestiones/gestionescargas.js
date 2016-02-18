@@ -1,9 +1,8 @@
 $().ready(function() {
-    // alert(table);
-    mostrarVentana("warning-modal","hola");
     getZonas();
     $("#form").hide();
     $("#grid").show();
+    
     //$("body").css("overflow", "hidden");
 
      $("#close-modal").click(function() {
@@ -73,13 +72,17 @@ $().ready(function() {
         cantidad_gestion = roundnumber(cantidad_gestion);
         $("#cantidadgestion-modal-suscripcion").attr("value", cantidad_gestion);
     });
-
-
 });
 function mostrarFormularioActividad(){
+
     $("#form").toggle()
     $("#grid").toggle()
     $("#mostrar-modal-actividad").toggle();
+    $("#codigo-gestion-acti").attr("disabled",true);
+    $("#orden-acti").attr("disabled",true);
+    $("#realizado-acti").attr("disabled",true);
+    $("#realizado-acti").attr("disabled",true);
+    $("#hora-acti").attr("disabled",true);
 }
 function cargarModalNuevo(block){
        $("#planactivo-modal").children("li").remove();
@@ -87,6 +90,7 @@ function cargarModalNuevo(block){
         cargarCliente();
         cargarAsistenteServicios();
         bloqueardatos(false);
+
         
         $("#fechagestion-modal").datepicker();
         $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
@@ -150,11 +154,11 @@ function mostrarVentana(box,mensaje){
 	if(box == "warning-modal") {
 		$("#warning-message-modal").text(mensaje);
         $("#warning-modal").show();
-        setTimeout('ocultarWarningModal()',1000);
+        setTimeout('ocultarWarningModal()',3000);
 	} else if(box == "success-modal") {
         $("#success-message-modal").text(mensaje);
         $("#success-modal").show();
-        setTimeout("ocultarSuccessmodal()",1000);
+        setTimeout("ocultarSuccessmodal()",3000);
     } else if(box == "success-modal-suscripcion") {
         $("#success-message-modal-suscripcion").text(mensaje);
         $("#success-modal-suscripcion").show();
@@ -175,10 +179,10 @@ function mostrarVentana(box,mensaje){
 }
 
 function ocultarWarningModal(){
-    $("#warning-modal").hide(1000);
+    $("#warning-modal").hide(3000);
 
 }function ocultarSuccessmodal(){
-    $("#success-modal").hide(500);
+    $("#success-modal").hide(3000);
 }
 function ocultarWarningModalSuscripcion(){
 	$("#warning-modal-suscripcion").hide(500);
@@ -188,11 +192,11 @@ function ocultarWarningModalSuscripcion(){
 }
 
 function ocultarWarningModalActi(){
-    $("#warning-modal-acti").hide(500);
+    $("#warning-modal-acti").hide(2000);
 
 }
 function ocultarSuccessmodalActi(){
-    $("#success-modal-acti").hide(500);
+    $("#success-modal-acti").hide(2000);
 }
 
 function addrequiredattr(id,focus){
@@ -241,6 +245,10 @@ function obtenerJsonModal() {
     if(validacionSalfo){
         mensaje+= ' | '+validacionSalfo+' ';
     }
+    var ids = jQuery("#grillaGestionesTrack").jqGrid('getRowData');
+    if(ids.length < 1){
+        mensaje+= ' | Se debe asignar al menos una actividad a la gestión';
+    }
     
 	if (mensaje != 'Atención: '){
 		mensaje+= ' |';
@@ -259,8 +267,11 @@ function obtenerJsonModal() {
 		// if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
         jsonObject.ESTADO = $("#estado-modal").val();
         jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
-		jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
-		return jsonObject
+        jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
+		jsonObject.ACTIVIDADES = ids;
+
+		return jsonObject;
+
 	}
 }
 
@@ -303,8 +314,11 @@ function enviarParametros(data){
         async : true,
         success: function(respuesta){
         	 if(respuesta.success){
+               $('#collapseDetalles').collapse();
+               window.scrollTo(0, 0);
                mostrarVentana("success-modal","Se ingreso el registro con exito");
                limpiarFormulario();
+                cargarModalNuevo();
                 //buscar();                               
             }else{
                 mostrarVentana("warning-modal","Verifique sus datos, ocurrio un error");  
@@ -338,6 +352,9 @@ function limpiarFormulario(){
  $("#estado-modal").val(null);
  $("#saldogestion-modal").val(null);
  $("#planactivo-modal").children("li").remove();
+ var grid = jQuery("#grillaGestionesTrack");
+            grid.jqGrid('clearGridData');
+ 
 
 }
 function cargarCliente(){
