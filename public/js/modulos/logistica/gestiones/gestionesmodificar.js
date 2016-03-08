@@ -42,6 +42,10 @@ $().ready(function() {
         $("#modalNuevo-suscripcion").hide();
 
     });
+    $("#cancelar-modal").click(function() {
+        window.location.replace("../logistica/gestiones");
+
+    }); 
     $("#cancelar-modal-suscripcion").click(function() {
         $("#modalNuevo-suscripcion").hide();
 
@@ -78,41 +82,14 @@ function mostrarFormularioActividad() {
     $("#hora-acti").attr("disabled", true);
 }
 
-/*function cargarModalNuevo() {
-    $("#planactivo-modal").children("li").remove();
-    limpiarFormulario();
-    cargarCliente();
-    cargarAsistenteServicios();
-    bloqueardatos(false);
 
-
-    $("#fechagestion-modal").datepicker();
-    $("#fechagestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-    $("#fechagestion-modal").datepicker("setDate", new Date());
-    $("#iniciogestion-modal").datepicker();
-    $("#iniciogestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-    $("#iniciogestion-modal").datepicker("setDate", new Date());
-    $("#fingestion-modal").datepicker();
-    $("#fingestion-modal").datepicker("option", "dateFormat", "yy-mm-dd");
-    $("#fingestion-modal").datepicker("setDate", new Date());
-    $("#tiempoestimado-modal").attr("value", 40);
-    $("#cantidadgestion-modal").attr("value", 1);
-    $("#estado-modal").val('P');
-    $("#gentileza-modal").prop('checked', false);
-
-    $("#saldogestion-modal").attr("disabled", true);
-    $("#codigogestion-modal").attr("disabled", true);
-    $("#tipocliente-modal").attr("disabled", true);
-    $("#guardar-modal").attr("disabled", false);
-    $("#modalNuevo").show();
-    $("#ui-datepicker-div").css('display', 'none');
-}*/
 
 
 function bloqueardatos(block) {
     $("#codigogestion-modal").attr("disabled", block);
     $("#saldogestion-modal").attr("disabled", block);
     $("#cliente-modal").attr("disabled", block);
+    $("#tipocliente-modal").attr("disabled", block);
     $("#fechagestion-modal").attr("disabled", block);
     $("#enviaremail-modal").prop('checked', !block);
     $("#gentileza-modal").prop('checked', !block);
@@ -304,17 +281,10 @@ function enviarParametros(data) {
     $.blockUI({
         message: "Aguarde un momento por favor"
     });
-
-    var urlenvio = '';
-    if (data.NUMERO_GESTION !== null && data.NUMERO_GESTION.length !== 0) {
-        urlenvio = table + '/modificar';
-    } else {
-        urlenvio = table + '/guardar';
-    }
     var dataString = JSON.stringify(data);
 
     $.ajax({
-        url: urlenvio,
+        url: table + '/modificar',
         type: 'post',
         data: {
             "parametros": dataString
@@ -325,17 +295,16 @@ function enviarParametros(data) {
             if (respuesta.success) {
                 $('#collapseDetalles').collapse();
                 window.scrollTo(0, 0);
-                mostrarVentana("success-modal", "Se ingreso el registro con exito");
+                mostrarVentana("success-modal", "Se modifico el registro con éxito.");
                 limpiarFormulario();
-                cargarModalNuevo();
-                //buscar();                               
+                window.location.replace("../logistica/gestiones");                             
             } else {
-                mostrarVentana("warning-modal", "Verifique sus datos, ocurrio un error");
+                mostrarVentana("warning-modal", "Verifique sus datos, ocurrio un error.");
             }
             $.unblockUI();
         },
         error: function(event, request, settings) {
-            //          mostrarVentana("error-registro-listado","Ha ocurrido un error");
+            mostrarVentana("warning-modal","Ha ocurrido un error");
             $.unblockUI();
         }
     });
@@ -560,6 +529,7 @@ function getDatosIniciales() {
             if(data.success){
                 var rowData = data.gestion[0];
                 $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
+                $('#codigo-gestion-acti').attr("value",rowData.NUMERO_GESTION);
                  $("#cliente-modal").select2("val", rowData.CODIGO_CLIENTE);
                  $('#fechagestion-modal').attr("value",rowData.FECHA_GESTION);
                  $('#tarea-modal').attr("value",rowData.OBSERVACION);

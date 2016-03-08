@@ -147,7 +147,7 @@ function editarActividad(rowid){
 
     var param = $('#grillaGestionesTrack').jqGrid('getRowData', rowid);
     var realizado = (param.REALIZADO == 'Si' ? 1 : 0);
-    $("#gestion-acti").attr("value", param.CODIGO_GESTION);
+    $("#codigo-gestion-acti").attr("value", param.CODIGO_GESTION);
     $("#orden-acti").attr("value", param.ORDEN);
     $("#zona-acti").select2("val", param.CODIGO_ZONA);
     $("#proceso-acti").attr("value", param.PROCESO);
@@ -179,7 +179,7 @@ function ObtenerActi(){
         verificacion = false;
     }
     if(verificacion){
-        jsonReporte.NUMERO_GESTION = $("#gestion-acti").val();
+        jsonReporte.CODIGO_GESTION = $("#codigo-gestion-acti").val();
         jsonReporte.ORDEN = $("#orden-acti").val();
         jsonReporte.PROCESO = $("#proceso-acti").val();
         jsonReporte.CODIGO_ZONA = $("#zona-acti").select2('data').id;
