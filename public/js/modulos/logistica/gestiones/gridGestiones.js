@@ -194,7 +194,8 @@ function cargarGrillaRegistro() {
                 altRows: true,
                 ondblClickRow: function(rowid) {
                        var rowdata=  jQuery(this).jqGrid('getRowData', rowid);
-                        modalModificar(rowdata);
+                       window.location.replace("../logistica/gestionesmodificar?id="+rowdata.NUMERO_GESTION);
+                        //modalModificar(rowdata);
                 },
                 onSelectRow: function (id, status, e) {
                     // $scope.$apply($scope.secOrdSeleccionado= id);
