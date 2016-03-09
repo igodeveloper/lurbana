@@ -239,7 +239,7 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
                 }
             }
             $param = $parametros->ACTIVIDADES;
-            $n = $db->delete('log_gestiones_act', array(
+            $n = $db->delete('LOG_GESTIONES_ACT', array(
                 'CODIGO_GESTION = ?' => $parametros->NUMERO_GESTION
             ));
             
