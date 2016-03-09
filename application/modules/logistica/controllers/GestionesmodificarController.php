@@ -246,18 +246,16 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
             if (!empty($parametros->NUMERO_GESTION)) {
                 $i = 1;
                 foreach ($param as $value) {
-                    if(!empty($value->ORDEN)){
-                        $data   = array(
-                            'CODIGO_GESTION' => $parametros->NUMERO_GESTION,
-                            'ORDEN' => $i++,
-                            'PROCESO' => $value->PROCESO,
-                            'CODIGO_ZONA' => $value->CODIGO_ZONA,
-                            'DESTINO' => $value->DESTINO,
-                            'DESCRIPCION' => $value->DESCRIPCION,
-                            'REALIZADO' => $value->REALIZADO
-                        );
-                        $insert = $db->insert('LOG_GESTIONES_ACT', $data);
-                    }
+                    $data   = array(
+                        'CODIGO_GESTION' => $parametros->NUMERO_GESTION,
+                        'ORDEN' => $i++,
+                        'PROCESO' => $value->PROCESO,
+                        'CODIGO_ZONA' => $value->CODIGO_ZONA,
+                        'DESTINO' => $value->DESTINO,
+                        'DESCRIPCION' => $value->DESCRIPCION,
+                        'REALIZADO' => $value->REALIZADO
+                    );
+                    $insert = $db->insert('LOG_GESTIONES_ACT', $data);
                     
                 }
             }

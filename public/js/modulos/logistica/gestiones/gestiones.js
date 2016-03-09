@@ -4,7 +4,8 @@ $().ready(function() {
     $("body").css("overflow", "hidden");
     
  	$("#muestramodal").click(function() {
-            cargarModalNuevo();
+            //cargarModalNuevo();
+            window.location.replace("../logistica/gestionescargas");
             // $("#asistenteservicios-modal").val(3);
             // console.log($("#asistenteservicios-modal").val());
            
