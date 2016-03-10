@@ -126,9 +126,17 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
                 'CODIGO_ZONA' => $row["CODIGO_ZONA"],
                 'DESCRIPCION_ZONA' => $row["DESCRIPCION_ZONA"],
                 'DESTINO' => $row["DESTINO"],
+                'HORA_ESTIMADA' => $row["HORA_ESTIMADA"],
                 'DESCRIPCION' => $row["GESTIONES"],
                 'REALIZADO' => ($row["REALIZADO"] == 1 ? 'Si' : 'No'),
-                'FEC_HORA_REALIZ' => $row["FEC_HORA_REALIZ"]
+                'FEC_HORA_REALIZ' => $row["FEC_HORA_REALIZ"],
+                'MOTIVO_CANCEL' => $row["MOTIVO_CANCEL"],
+                'SYNC' => $row["SYNC"],
+                'LATITUD' => $row["LATITUD"],
+                'LONGITUD' => $row["LONGITUD"],
+                'CODIGO_GESTOR' => $row["CODIGO_GESTOR"],
+                'INICIO_ACTIVIDAD' => $row["INICIO_ACTIVIDAD"],
+                'FIN_ACTIVIDAD' => $row["FIN_ACTIVIDAD"]
             );
             
             array_push($resultado['actividades'], $arrayDatos);
@@ -252,8 +260,17 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
                         'PROCESO' => $value->PROCESO,
                         'CODIGO_ZONA' => $value->CODIGO_ZONA,
                         'DESTINO' => $value->DESTINO,
+                        'HORA_ESTIMADA'=> $value->HORA_ESTIMADA,
                         'DESCRIPCION' => $value->DESCRIPCION,
-                        'REALIZADO' => $value->REALIZADO
+                        'REALIZADO' => $value->REALIZADO,
+                        'FEC_HORA_REALIZ'=> $value->FEC_HORA_REALIZ,
+                        'MOTIVO_CANCEL'=> $value->MOTIVO_CANCEL,
+                        'SYNC'=> $value->SYNC,
+                        'LATITUD'=> $value->LATITUD,
+                        'LONGITUD'=> $value->LONGITUD,
+                        'CODIGO_GESTOR'=> $value->CODIGO_GESTOR,
+                        'INICIO_ACTIVIDAD'=> $value->INICIO_ACTIVIDAD,
+                        'FIN_ACTIVIDAD'=> $value->FIN_ACTIVIDAD
                     );
                     $insert = $db->insert('LOG_GESTIONES_ACT', $data);
                     

@@ -1,5 +1,5 @@
 $().ready(function() {
-    $.blockUI({message: "Aguarde un momento por favor"});
+    
     getZonas();
     cargarCliente();
     cargarAsistenteServicios();

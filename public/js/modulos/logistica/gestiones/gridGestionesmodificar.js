@@ -74,7 +74,7 @@ function cargarGrillaRegistroTrack() {
                         index: 'DESCRIPCION_ZONA', 
                         label: 'ZONA',
                         hidden :false,
-                        width: 200,
+                        width: 150,
                         align: 'left'
                     },{
                         name: 'DESTINO',
@@ -95,13 +95,69 @@ function cargarGrillaRegistroTrack() {
                         index: 'REALIZADO',
                         label: 'REALIZADO',
                         hidden :false,
-                        width: 150,
+                        width: 100,
                         align: 'center'
                     },{
                         name: 'FEC_HORA_REALIZ',
                         index: 'FEC_HORA_REALIZ',
                         label: 'FECHA - HORA',
                         hidden :false,
+                        width: 140,
+                        align: 'right'
+                    },{
+                        name: 'HORA_ESTIMADA',
+                        index: 'HORA_ESTIMADA',
+                        label: 'HORA',
+                        hidden :false,
+                        width: 120,
+                        align: 'right'
+                    },{
+                        name: 'MOTIVO_CANCEL',
+                        index: 'MOTIVO_CANCEL',
+                        label: 'MOTIVO_CANCEL',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'SYNC',
+                        index: 'SYNC',
+                        label: 'SYNC',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'LATITUD',
+                        index: 'LATITUD',
+                        label: 'LATITUD',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'LONGITUD',
+                        index: 'LONGITUD',
+                        label: 'LONGITUD',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'CODIGO_GESTOR',
+                        index: 'CODIGO_GESTOR',
+                        label: 'CODIGO_GESTOR',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'INICIO_ACTIVIDAD',
+                        index: 'INICIO_ACTIVIDAD',
+                        label: 'INICIO_ACTIVIDAD',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'FIN_ACTIVIDAD',
+                        index: 'FIN_ACTIVIDAD',
+                        label: 'FIN_ACTIVIDAD',
+                        hidden :true,
                         width: 150,
                         align: 'right'
                     }, {
@@ -152,9 +208,16 @@ function editarActividad(rowid){
     $("#zona-acti").select2("val", param.CODIGO_ZONA);
     $("#proceso-acti").attr("value", param.PROCESO);
     $("#destino-acti").attr("value", param.DESTINO);
+    $("#hora-estimada-acti").attr("value", param.HORA_ESTIMADA);
     $("#descripcion-acti").attr("value", param.DESCRIPCION);
     $("#realizado-acti").attr("value", realizado);
-    $("#hora-acti").attr("value", param.FEC_HORA_REALIZ);
+    $("#motivo-cancel-acti").attr("value", param.MOTIVO_CANCEL);
+    $("#sync-acti").attr("value", param.SYNC);
+    $("#latitud-acti").attr("value", param.LATITUD);
+    $("#longitud-acti").attr("value", param.LONGITUD);
+    $("#asistente-acti").attr("value", param.CODIGO_GESTOR);
+    $("#inicio-actividad-acti").attr("value", param.INICIO_ACTIVIDAD);
+    $("#fin-actividad-acti").attr("value", param.FIN_ACTIVIDAD);
     $("#modificar-acti").attr("value", rowid);
     mostrarFormularioActividad();
 }
@@ -185,9 +248,17 @@ function ObtenerActi(){
         jsonReporte.CODIGO_ZONA = $("#zona-acti").select2('data').id;
         jsonReporte.DESCRIPCION_ZONA = $("#zona-acti").select2('data').text;;
         jsonReporte.DESTINO = $("#destino-acti").val();
+        jsonReporte.HORA_ESTIMADA = $("#hora-estimada-acti").val();
         jsonReporte.DESCRIPCION = $("#descripcion-acti").val();
         jsonReporte.REALIZADO = $("#realizado-acti").val();
         jsonReporte.FEC_HORA_REALIZ = $("#hora-acti").val();
+        jsonReporte.MOTIVO_CANCEL = $("#motivo-cancel-acti").val();
+        jsonReporte.SYNC = $("#sync-acti").val();
+        jsonReporte.LATITUD = $("#latitud-acti").val();
+        jsonReporte.LONGITUD = $("#longitud-acti").val();
+        jsonReporte.CODIGO_GESTOR = $("#asistente-acti").select2('data').id;
+        jsonReporte.INICIO_ACTIVIDAD = $("#inicio-actividad-acti").val();
+        jsonReporte.FIN_ACTIVIDAD = $("#fin-actividad-acti").val();
         return jsonReporte;
     }else{
         return false;
