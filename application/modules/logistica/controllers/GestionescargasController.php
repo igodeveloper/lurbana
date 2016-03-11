@@ -331,98 +331,78 @@ class logistica_gestionescargasController extends Zend_Controller_Action
         }
     }
     
-    public function enviaremail($emailDestino, $nombre, $bodyTexto, $asunto)
-    {
-        try {
+    private function enviaremail($emailDestino,$nombre,$bodyTexto,$asunto){
+        try{
             // $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => '', 'password' => '');
-            /*$config         = array(
-                'port' => 25,
-                'auth' => 'login',
-                'username' => 'pedido@sansolucion.com',
-                'password' => 'pedido123.'
-            );*/
-
-            $config         = array(
-                'port' => 25,
-                'auth' => 'login',
-                'username' => 'ivan.gomez@konecta.com.py',
-                'password' => 'programacion'
-            );
+            $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'pedido123.');
             // $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
             // $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
-            /*$smtpConnection = new Zend_Mail_Transport_Smtp('mail.sansolucion.com', $config); */
-            $smtpConnection = new Zend_Mail_Transport_Smtp('mail.konecta.com.py', $config);
-            
+            $smtpConnection = new Zend_Mail_Transport_Smtp('mail.sansolucion.com', $config);
+
             $mail = new Zend_Mail('utf-8');
             $mail->setBodyText($bodyTexto);
-            // $mail->setFrom('pedido@sansolucion.com', 'Informe');
-            $mail->setFrom('ivan.gomez@konecta.com', 'Informe');
+            $mail->setFrom('pedido@sansolucion.com', 'Informe');
             $mail->addTo($emailDestino, $nombre);
             $mail->setSubject($asunto);
             print_r($email);
             $mail->send($smtpConnection);
             return true;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e){
             return $e->getMessage();
         }
     }
-    
-    public function obtenerasistente($codigo)
-    {
-        $db     = Zend_Db_Table::getDefaultAdapter();
-        $select = $db->select()->from(array(
-            'C' => 'LOG_GESTORES'
-        ), array(
-            'C.CODIGO_GESTOR',
-            'P.DESCRIPCION_PERSONA',
-            'P.EMAIL_PERSONA'
-        ))->join(array(
-            'P' => 'ADM_PERSONAS'
-        ), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')->where("C.CODIGO_GESTOR = ?", $codigo)->distinct(true);
+
+    private function obtenerasistente($codigo){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+        ->from(array('C'=>'LOG_GESTORES'),  array(
+                     'C.CODIGO_GESTOR',
+                     'P.DESCRIPCION_PERSONA',
+                     'P.EMAIL_PERSONA'))
+            ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+            ->where("C.CODIGO_GESTOR = ?", $codigo)
+            ->distinct(true);
         
         $result = $db->fetchAll($select);
-        if ($result[0]['CODIGO_GESTOR'] != null) {
-            return json_encode(array(
-                'CODIGO_GESTOR' => $result[0]['CODIGO_GESTOR'],
-                'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
-                'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA']
-                
-            ));
-        } else {
-            return false;
-        }
-        
-        
+         if($result[0]['CODIGO_GESTOR'] != null){
+                return json_encode(array(
+                    'CODIGO_GESTOR' => $result[0]['CODIGO_GESTOR'],
+                    'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
+                    'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA']
+                    
+                 ));    
+            }else{
+                return false;
+            }
+
+
     }
-    
-    public function obtenercliente($codigo)
-    {
-        $db     = Zend_Db_Table::getDefaultAdapter();
-        $select = $db->select()->from(array(
-            'C' => 'ADM_CLIENTES'
-        ), array(
-            'C.CODIGO_CLIENTE',
-            'P.DESCRIPCION_PERSONA',
-            'P.ENVIAR_EMAIL',
-            'P.EMAIL_PERSONA'
-        ))->join(array(
-            'P' => 'ADM_PERSONAS'
-        ), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')->where("C.CODIGO_CLIENTE = ?", $codigo)->distinct(true);
-        
-        $result = $db->fetchAll($select);
-        if ($result[0]['CODIGO_CLIENTE'] != null) {
-            return json_encode(array(
-                'CODIGO_CLIENTE' => $result[0]['CODIGO_CLIENTE'],
-                'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
-                'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA'],
-                'ENVIAR_EMAIL' => $result[0]['ENVIAR_EMAIL']
+
+    private function obtenercliente($codigo){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array('C'=>'ADM_CLIENTES'),  array(
+                             'C.CODIGO_CLIENTE',
+                             'P.DESCRIPCION_PERSONA',
+                             'P.ENVIAR_EMAIL',
+                             'P.EMAIL_PERSONA'))
+                    ->join(array('P' => 'ADM_PERSONAS'), 'P.CODIGO_PERSONA  = C.CODIGO_PERSONA')
+                    ->where("C.CODIGO_CLIENTE = ?", $codigo)
+                    ->distinct(true);
                 
-            ));
-        } else {
-            return false;
-        }
-        
+                $result = $db->fetchAll($select);
+         if($result[0]['CODIGO_CLIENTE'] != null){
+                return json_encode(array(
+                    'CODIGO_CLIENTE' => $result[0]['CODIGO_CLIENTE'],
+                    'DESCRIPCION_PERSONA' => $result[0]['DESCRIPCION_PERSONA'],
+                    'EMAIL_PERSONA' => $result[0]['EMAIL_PERSONA'],
+                    'ENVIAR_EMAIL' => $result[0]['ENVIAR_EMAIL'],
+                    
+                 ));    
+            }else{
+                return false;
+            }
+
     }
     public function getplanesclienteAction()
     {
@@ -790,15 +770,25 @@ class logistica_gestionescargasController extends Zend_Controller_Action
             if (empty($parametros->NUMERO_GESTION)) {
               $i = 1;
               foreach ($parametros as $value) {
+                $realizado = ($value->REALIZADO == 'Si' ? 1 : 0);
                 $data   = array(
-                    'CODIGO_GESTION' => $id_gestion,
-                    'ORDEN' => $i++,
-                    'PROCESO' => $value->PROCESO,
-                    'CODIGO_ZONA' => $value->CODIGO_ZONA,
-                    'DESTINO' => $value->DESTINO,
-                    'DESCRIPCION' => $value->DESCRIPCION,
-                    'REALIZADO' => $value->REALIZADO
-                );
+                        'CODIGO_GESTION' => $id_gestion,
+                        'ORDEN' => $i++,
+                        'PROCESO' => $value->PROCESO,
+                        'CODIGO_ZONA' => $value->CODIGO_ZONA,
+                        'DESTINO' => $value->DESTINO,
+                        'HORA_ESTIMADA'=> $value->HORA_ESTIMADA,
+                        'DESCRIPCION' => $value->DESCRIPCION,
+                        'REALIZADO' => $realizado,
+                        'FEC_HORA_REALIZ'=> $value->FEC_HORA_REALIZ,
+                        'MOTIVO_CANCEL'=> $value->MOTIVO_CANCEL,
+                        'SYNC'=> $value->SYNC,
+                        'LATITUD'=> $value->LATITUD,
+                        'LONGITUD'=> $value->LONGITUD,
+                        'CODIGO_GESTOR'=> $value->CODIGO_GESTOR,
+                        'INICIO_ACTIVIDAD'=> $value->INICIO_ACTIVIDAD,
+                        'FIN_ACTIVIDAD'=> $value->FIN_ACTIVIDAD
+                    );
                 $insert = $db->insert('LOG_GESTIONES_ACT', $data);
               }               
             }          

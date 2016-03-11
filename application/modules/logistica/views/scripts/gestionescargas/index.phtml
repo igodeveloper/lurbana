@@ -161,8 +161,14 @@
                                    <div class="row col-lg-8 col-lg-offset-2">
                                  <div class="form-group col-lg-12 hidden">
                                     <div class="hidden">
-                                       <input name="modificar-acti" type="text" id="modificar-acti" class="form-control input-sm ">
-                                    </div> 
+                                       <input name="modificar-acti" type="text" id="modificar-acti" class="form-control input-sm "> 
+                                       <input name="motivo-cancel-acti" type="text" id="motivo-cancel-acti" class="form-control input-sm "> 
+                                       <input name="sync-acti" type="text" id="sync-acti" class="form-control input-sm "> 
+                                       <input name="latitud-acti" type="text" id="latitud-acti" class="form-control input-sm "> 
+                                       <input name="longitud-acti" type="text" id="longitud-acti" class="form-control input-sm "> 
+                                       <input name="inicio-actividad-acti" type="text" id="inicio-actividad-acti" class="form-control input-sm ">
+                                       <input name="fin-actividad-acti" type="text" id="fin-actividad-acti" class="form-control input-sm ">
+                                    </div>
                                     <label class="col-lg-2 control-label ">Gestión</label>
                                     <div class="col-lg-4">
                                        <input name="codigo-gestion-acti" type="text" id="codigo-gestion-acti" class="form-control input-sm">
@@ -198,10 +204,14 @@
                                         <select id="zona-acti" style="width:100%";></select>
                                     </div>
                                  </div>
-                                  <div class="form-group col-lg-12">
+                                 <div class="form-group col-lg-12">
                                     <label class="col-lg-2 control-label">Destino</label>
-                                    <div class="col-lg-10">
+                                    <div class="col-lg-6">
                                         <input name="destino-acti" type="text" id="destino-acti" class="form-control input-sm">
+                                    </div> 
+                                    <label class="col-lg-1 control-label">Hora</label>
+                                    <div class="col-lg-3">
+                                        <input name="hora-estimada-acti" id="hora-estimada-acti" class="form-control input-sm">
                                     </div>
                                  </div>
                                  <div class="form-group col-lg-12">
@@ -363,6 +373,10 @@
    $(document).ready(function() {
    
        $("#hora-acti").datetimepicker();
+        $("#hora-estimada-acti").datetimepicker({
+             datepicker:false,
+             format:'H:i'
+         });
        $("#cliente-modal").select2();
        $("#asistenteservicios-modal").select2();
        $("#asistente-acti").select2();

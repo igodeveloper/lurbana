@@ -217,6 +217,7 @@ function editarActividad(rowid){
     $("#longitud-acti").attr("value", param.LONGITUD);
     $("#asistente-acti").attr("value", param.CODIGO_GESTOR);
     $("#inicio-actividad-acti").attr("value", param.INICIO_ACTIVIDAD);
+    $("#hora-acti").attr("value", param.FEC_HORA_REALIZ);
     $("#fin-actividad-acti").attr("value", param.FIN_ACTIVIDAD);
     $("#modificar-acti").attr("value", rowid);
     mostrarFormularioActividad();
@@ -242,6 +243,7 @@ function ObtenerActi(){
         verificacion = false;
     }
     if(verificacion){
+        var realizado = ($("#realizado-acti").val() == 1 ? 'Si' :'No');
         jsonReporte.CODIGO_GESTION = $("#codigo-gestion-acti").val();
         jsonReporte.ORDEN = $("#orden-acti").val();
         jsonReporte.PROCESO = $("#proceso-acti").val();
@@ -250,7 +252,7 @@ function ObtenerActi(){
         jsonReporte.DESTINO = $("#destino-acti").val();
         jsonReporte.HORA_ESTIMADA = $("#hora-estimada-acti").val();
         jsonReporte.DESCRIPCION = $("#descripcion-acti").val();
-        jsonReporte.REALIZADO = $("#realizado-acti").val();
+        jsonReporte.REALIZADO = realizado;
         jsonReporte.FEC_HORA_REALIZ = $("#hora-acti").val();
         jsonReporte.MOTIVO_CANCEL = $("#motivo-cancel-acti").val();
         jsonReporte.SYNC = $("#sync-acti").val();
@@ -259,6 +261,7 @@ function ObtenerActi(){
         jsonReporte.CODIGO_GESTOR = $("#asistente-acti").select2('data').id;
         jsonReporte.INICIO_ACTIVIDAD = $("#inicio-actividad-acti").val();
         jsonReporte.FIN_ACTIVIDAD = $("#fin-actividad-acti").val();
+
         return jsonReporte;
     }else{
         return false;

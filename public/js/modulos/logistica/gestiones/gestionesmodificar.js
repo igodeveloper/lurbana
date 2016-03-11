@@ -252,7 +252,6 @@ function obtenerJsonModal() {
         jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
         jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
         jsonObject.ACTIVIDADES = ids;
-
         return jsonObject;
 
     }
