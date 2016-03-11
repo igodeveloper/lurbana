@@ -1,17 +1,7 @@
 var pathname = window.location.pathname;
 var table = pathname;
 jQuery(document).ready(function(){
-    cargarGrillaRegistro();
-    cargarGrillaRegistroTrack();
-
-    /*$('#modalNuevo-track').bind('hidden.bs.modal', function () {
-        $("html").css("margin-right", "0px");
-    });
-    $('#modalNuevo-track').bind('show.bs.modal', function () {
-          $("html").css("margin-right", "-15px");
-    });*/
-
-   
+    cargarGrillaRegistroTrack();   
 });
 
 function setTooltipsOnColumnHeader(grid, iColumn, text){
@@ -39,180 +29,7 @@ function widthOfGrid() {
 /**
  * Carga la tabla visual con el listado de registros. La estructura de la tabla es especificada.
  */
-function cargarGrillaRegistro() {
-    jQuery("#grillaGestiones").jqGrid({
-        
-                url: table+"/buscar",
-                datatype: "local",
-                mtype : "POST",
-                autowith: true,
-                height: 280,
-                rowNum: 15,
-                rowList: [],
-                
-                colModel:[
-                    {
-                        name: 'NUMERO_GESTION',
-                        index: 'NUMERO_GESTION',
-                        label: 'NRO',
-                        hidden :false,
-                        width: 40,
-                        align: 'right'
-                    },{
-                        name: 'FECHA_GESTION',
-                        index: 'FECHA_GESTION',
-                        label: 'FECHA',
-                        hidden :false,
-                        width: 80,
-                        align: 'center'
-                    },{
-                        name: 'FECHA_INICIO',
-                        index: 'FECHA_INICIO',
-                        label: 'INICIO',
-                        hidden :false,
-                        width: 110,
-                        align: 'center'
-                    },{ 
-                        name: 'FECHA_FIN',
-                        index: 'FECHA_FIN',
-                        label: 'FIN',
-                        width: 110,
-                        hidden : false,
-                        align: 'center'    
-                    },
-                        { name: 'CODIGO_CLIENTE',
-                        index: 'CODIGO_CLIENTE',
-                        width: 100,
-                        hidden : true
-                    },
-                        { name: 'CLIENTE',
-                        index: 'CLIENTE',
-                        label: 'CLIENTE',
-                        width: 170,
-                        hidden : false,
-                        align: 'left'
-                    },
-                    { 
-                        name: 'CODIGO_GESTOR',
-                        index: 'CODIGO_GESTOR',
-                        label: 'GESTOR',
-                        width: 70,
-                        hidden : true
-                    }, 
-                    { 
-                        name: 'GESTOR',
-                        index: 'GESTOR',
-                        label: 'GESTOR',
-                        width: 110,
-                        hidden : false,
-                        align: 'left'
-                    }, 
-                    { 
-                        name: 'CODIGO_USUARIO',
-                        index: 'CODIGO_USUARIO',
-                        label: 'USUARIO',
-                        width: 100,
-                        hidden : true
-                    }, 
-                    // { 
-                    //     name: 'ID_USUARIO',
-                    //     index: 'ID_USUARIO',
-                    //     label: 'USUARIO',
-                    //     width: 55,
-                    //     hidden : false
-                    // }, 
-                    { 
-                        name: 'ESTADO',
-                        index: 'ESTADO',
-                        label: 'ESTADO',
-                        width: 70,
-                        hidden : false,
-                        align: 'center'
-                    }, { 
-                        name: 'CANTIDAD_GESTIONES',
-                        index: 'CANTIDAD_GESTIONES',
-                        label: 'GESTION',
-                        width: 50,
-                        hidden : false,
-                        align: 'right',
-                        formatter: 'number',
-                formatoptions:{thousandsSeparator: ".", decimalPlaces:2},
-                    }, { 
-                        name: 'CANTIDAD_MINUTOS',
-                        index: 'CANTIDAD_MINUTOS',
-                        label: 'MINUTOS',
-                        width: 50,
-                        hidden : false,
-                        align: 'right',
-                        formatter: 'number',
-                formatoptions:{thousandsSeparator: ".", decimalPlaces:0},
-                    }, { 
-                        name: 'OBSERVACION',
-                        index: 'OBSERVACION',
-                        label: 'OBSERVACION',
-                        width: 180,
-                        hidden : false,
-                        classes:'wrapColumnText'
-                    }
-                    , { 
-                        name: 'CODIGO_PLAN',
-                        index: 'CODIGO_PLAN',
-                        // label: 'OBSERVACION',
-                        width: 65,
-                        hidden : true
-                    }
-                    , { 
-                        name: 'DESCRIPCION_PLAN',
-                        index: 'DESCRIPCION_PLAN',
-                        label: 'PLAN',
-                        width: 120,
-                        hidden : true
-                    }, { 
-                        name: 'GENTILEZA',
-                        index: 'GENTILEZA',
-                        label: 'GENTILEZA',
-                        width: 120,
-                        hidden : true
-                    }, {
-                        title: false,
-                        name: '',
-                        label: "",
-                        id: 'modificar',
-                        align: 'center',
-                        edittype: 'link',
-                        width: 40,
-                        hidden: false,
-                        classes: 'linkjqgrid',
-                        sortable: false,
-                        formatter: cargarLinkModificar
-                    }
-                ],
-                emptyrecords: "Sin Datos",
-                shrinkToFit:true,
-                pager:"#paginadorClientes",
-                viewrecords: true,
-                gridview: false,
-                hidegrid: false,
-                altRows: true,
-                ondblClickRow: function(rowid) {
-                       var rowdata=  jQuery(this).jqGrid('getRowData', rowid);
-                        modalModificar(rowdata);
-                },
-                onSelectRow: function (id, status, e) {
-                    // $scope.$apply($scope.secOrdSeleccionado= id);
-                    // $scope.buscarDetalleSolicitud();
-                    // $scope.buscarFacturaReferenciada();
-                },
-                loadError: function(xhr, status, error ){
-                    if (xhr && xhr.status===404) {
-                        // $scope.solicitudAjustesGrid.clearGridData();
-                    } else{
-                        // $scope.alertErrorService.addSimpleAlert("operationFailure", 0, error.toString());
-                        // $scope.$apply();
-                    }
-                  }});
-    $("#grillaGestiones").setGridWidth(widthOfGrid());   
-}
+
 
 function cargarGrillaRegistroTrack() {
     jQuery("#grillaGestionesTrack").jqGrid({
@@ -223,7 +40,7 @@ function cargarGrillaRegistroTrack() {
                 rowNum: 1000,
                 rowList: [],
                 
-                colModel:[
+                 colModel:[
                     {
                         name: 'CODIGO_GESTION',
                         index: 'CODIGO_GESTION',
@@ -257,7 +74,7 @@ function cargarGrillaRegistroTrack() {
                         index: 'DESCRIPCION_ZONA', 
                         label: 'ZONA',
                         hidden :false,
-                        width: 200,
+                        width: 150,
                         align: 'left'
                     },{
                         name: 'DESTINO',
@@ -278,13 +95,69 @@ function cargarGrillaRegistroTrack() {
                         index: 'REALIZADO',
                         label: 'REALIZADO',
                         hidden :false,
-                        width: 150,
+                        width: 100,
                         align: 'center'
                     },{
                         name: 'FEC_HORA_REALIZ',
                         index: 'FEC_HORA_REALIZ',
                         label: 'FECHA - HORA',
                         hidden :false,
+                        width: 140,
+                        align: 'right'
+                    },{
+                        name: 'HORA_ESTIMADA',
+                        index: 'HORA_ESTIMADA',
+                        label: 'HORA',
+                        hidden :false,
+                        width: 120,
+                        align: 'right'
+                    },{
+                        name: 'MOTIVO_CANCEL',
+                        index: 'MOTIVO_CANCEL',
+                        label: 'MOTIVO_CANCEL',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'SYNC',
+                        index: 'SYNC',
+                        label: 'SYNC',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'LATITUD',
+                        index: 'LATITUD',
+                        label: 'LATITUD',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'LONGITUD',
+                        index: 'LONGITUD',
+                        label: 'LONGITUD',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'CODIGO_GESTOR',
+                        index: 'CODIGO_GESTOR',
+                        label: 'CODIGO_GESTOR',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'INICIO_ACTIVIDAD',
+                        index: 'INICIO_ACTIVIDAD',
+                        label: 'INICIO_ACTIVIDAD',
+                        hidden :true,
+                        width: 150,
+                        align: 'right'
+                    },{
+                        name: 'FIN_ACTIVIDAD',
+                        index: 'FIN_ACTIVIDAD',
+                        label: 'FIN_ACTIVIDAD',
+                        hidden :true,
                         width: 150,
                         align: 'right'
                     }, {
@@ -356,26 +229,30 @@ function borrarActividad(rowid){
    
 }
 function editarActividad(rowid){
-    var param = jQuery("grillaGestionesTrack").jqGrid('getRowData', rowid);
-   var realizado = (param.REALIZADO == 'Si' ? 1 : 0);
-    $("#gestion-acti").attr("value", param.CODIGO_GESTION);
+   var param = $('#grillaGestionesTrack').jqGrid('getRowData', rowid);
+    var realizado = (param.REALIZADO == 'Si' ? 1 : 0);
+    $("#codigo-gestion-acti").attr("value", param.CODIGO_GESTION);
     $("#orden-acti").attr("value", param.ORDEN);
-    $("#zona-acti").attr("value", param.CODIGO_ZONA);
-    $("#zona-acti").attr("value", param.CODIGO_ZONA);
+    $("#zona-acti").select2("val", param.CODIGO_ZONA);
     $("#proceso-acti").attr("value", param.PROCESO);
     $("#destino-acti").attr("value", param.DESTINO);
+    $("#hora-estimada-acti").attr("value", param.HORA_ESTIMADA);
     $("#descripcion-acti").attr("value", param.DESCRIPCION);
     $("#realizado-acti").attr("value", realizado);
+    $("#motivo-cancel-acti").attr("value", param.MOTIVO_CANCEL);
+    $("#sync-acti").attr("value", param.SYNC);
+    $("#latitud-acti").attr("value", param.LATITUD);
+    $("#longitud-acti").attr("value", param.LONGITUD);
+    $("#asistente-acti").attr("value", param.CODIGO_GESTOR);
+    $("#inicio-actividad-acti").attr("value", param.INICIO_ACTIVIDAD);
     $("#hora-acti").attr("value", param.FEC_HORA_REALIZ);
+    $("#fin-actividad-acti").attr("value", param.FIN_ACTIVIDAD);
     $("#modificar-acti").attr("value", rowid);
     mostrarFormularioActividad();
 }
 function ObtenerActi(){
 
-     var jsonReporte = new Object(); 
-    
-
-    
+    var jsonReporte = new Object();     
     var verificacion = true;
     if($("#proceso-acti").val().length < 1){
         mostrarVentana("warning-modal-acti","El numero de proceso no esta seteado");
@@ -394,15 +271,24 @@ function ObtenerActi(){
         verificacion = false;
     }
     if(verificacion){
-        jsonReporte.NUMERO_GESTION = $("#gestion-acti").val();
+        var realizado = ($("#realizado-acti").val() == 1 ? 'Si' :'No');
+        jsonReporte.CODIGO_GESTION = $("#codigo-gestion-acti").val();
         jsonReporte.ORDEN = $("#orden-acti").val();
         jsonReporte.PROCESO = $("#proceso-acti").val();
         jsonReporte.CODIGO_ZONA = $("#zona-acti").select2('data').id;
-        jsonReporte.DESCRIPCION_ZONA = $("#zona-acti").select2('data').text;;
+        jsonReporte.DESCRIPCION_ZONA = $("#zona-acti").select2('data').text;
         jsonReporte.DESTINO = $("#destino-acti").val();
+        jsonReporte.HORA_ESTIMADA = $("#hora-estimada-acti").val();
         jsonReporte.DESCRIPCION = $("#descripcion-acti").val();
-        jsonReporte.REALIZADO = $("#realizado-acti").val();
+        jsonReporte.REALIZADO = realizado;
         jsonReporte.FEC_HORA_REALIZ = $("#hora-acti").val();
+        jsonReporte.MOTIVO_CANCEL = $("#motivo-cancel-acti").val();
+        jsonReporte.SYNC = $("#sync-acti").val();
+        jsonReporte.LATITUD = $("#latitud-acti").val();
+        jsonReporte.LONGITUD = $("#longitud-acti").val();
+        jsonReporte.CODIGO_GESTOR = $("#asistenteservicios-modal").select2('data').id;
+        jsonReporte.INICIO_ACTIVIDAD = $("#inicio-actividad-acti").val();
+        jsonReporte.FIN_ACTIVIDAD = $("#fin-actividad-acti").val();
         return jsonReporte;
     }else{
         return false;
