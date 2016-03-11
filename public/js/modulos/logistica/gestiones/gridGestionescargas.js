@@ -189,9 +189,6 @@ function cargarGrillaRegistroTrack() {
 
 }
 
-function addDatos(){
-   
-}
 function cargarLinkModificar(cellvalue, options, rowObject)
 {
     var parametros = new Object();
@@ -223,10 +220,6 @@ function buscar(){
 function borrarActividad(rowid){
    console.log(rowid);
     $('#grillaGestionesTrack').jqGrid('delRowData',rowid);
-
-    
-    
-   
 }
 function editarActividad(rowid){
    var param = $('#grillaGestionesTrack').jqGrid('getRowData', rowid);
@@ -343,77 +336,5 @@ function track(param){
         jsonReporte.NUMERO_GESTION = $("#gestion-track").val();
         var dataString = JSON.stringify(jsonReporte); 
     }
-    
-
-   /* $.ajax({
-        url: table+'/getlistatrack',
-        type: 'GET',
-        data: {"parametros":dataString},
-        dataType: 'json',
-        async : false,
-        success: function(respuesta){               
-            cargarGrillaRegistroTrack();
-            var grid = jQuery("#grillaGestionesTrack");
-            grid.jqGrid('clearGridData');
-            for (i=0;i<respuesta.length;i++) {
-                grid.jqGrid('addRowData', i+1, respuesta[i]);
-            }
-        },
-        error: function(event, request, settings){
-            mostrarVentana("warning-modal-track","Ocurrio un error en el servidor, intente de nuevo");
-        }
-    }); */
-    
-}
-
-function modalModificar(rowData){
-    
-
-cargarCliente();
-cargarAsistenteServicios();
-  bloqueardatos(true);
- $('#codigogestion-modal').attr("value",rowData.NUMERO_GESTION);
- // $('#cliente-modal').select2(rowData.CODIGO_CLIENTE);
- $("#cliente-modal").select2("val", rowData.CODIGO_CLIENTE);
- // $('#cliente-modal').select2("3");
- // $('#nombrecliente-modal').attr("value",rowData.DESCRIPCION_PERSONA_CLIENTE);
- $('#fechagestion-modal').attr("value",rowData.FECHA_GESTION);
- $('#tarea-modal').attr("value",rowData.OBSERVACION);
- $("#iniciogestion-modal").attr("value",rowData.FECHA_INICIO);
- $("#fingestion-modal").attr("value",rowData.FECHA_FIN);
- $("#tiempoestimado-modal").val(rowData.CANTIDAD_MINUTOS);
- $("#cantidadgestion-modal").val(rowData.CANTIDAD_GESTIONES);
- $("#asistenteservicios-modal").select2("val",rowData.CODIGO_GESTOR);
- $("#estado-modal").val(rowData.ESTADO);
- // $("#gentileza-modal").val(rowData.GENTILEZA);
-
-// $("#planactivo-modal").select2("val",rowData.CODIGO_PLAN);
-if (rowData.ESTADO == 'A') {
-    $("#guardar-modal").attr("disabled",true);
-}else{
-    $("#guardar-modal").attr("disabled",false);
-}
-if (rowData.GENTILEZA == 'S') {
-    $( "#gentileza-modal" ).prop( "checked", true );
-}else{
-    $( "#gentileza-modal" ).prop( "checked", false );
-}
-// getClienteSuscripcion();
-
-$("#modalNuevo").show();
-}
-
-function limpiarTrack(){
-    // $("#gestion-track").attr("value", null);
-    $("#orden-track").attr("value", null);
-    $("#proceso-track").attr("value", null);
-    $("#zona-track").attr("value", -1);
-    $("#descripcion-track").attr("value", null);
-    $("#destino-track").attr("value", null);
-    $("#hora-track").attr("value", null);
-    $("#realizado-track").attr("value", 0); 
-    $("#hora-track").datetimepicker({
-            value:new Date(),
-             format:'Y/m/d H:i'
-        });
+       
 }
