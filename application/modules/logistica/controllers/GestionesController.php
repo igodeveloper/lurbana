@@ -76,6 +76,7 @@ class logistica_gestionesController extends Zend_Controller_Action {
             if ($filtros->ESTADO_GESTION != -1) {
                 $select->where("G.ESTADO = ?", $filtros->ESTADO_GESTION);
             }
+           
             $result = $db->fetchAll($select);
         } else {
             $result = $db->fetchAll($select);

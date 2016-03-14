@@ -96,7 +96,7 @@ function enviarParametrossuscripcion(data){
     });
 
 	var urlenvio = '';
-	urlenvio = table+'/guardarsuscripcion';
+	urlenvio = '../logistica/gestiones/guardarsuscripcion';
 	var dataString = JSON.stringify(data);
 
 	$.ajax({
@@ -107,15 +107,15 @@ function enviarParametrossuscripcion(data){
         async : true,
         success: function(respuesta){
         	 if(respuesta.success){
-               mostarVentana("success-modal-suscripcion","Se ingreso el registro con exito");
+               //mostarVentana("success-modal-suscripcion","Se ingreso el registro con exito");
                limpiarFormularioModal();
 			   $("#modalNuevo-suscripcion").hide();
 			   limpiarFormulario();
                 buscar();                               
             }else if(respuesta.code == 1){
-                mostarVentana("warning-modal-suscripcion",respuesta.mensaje);
+                //mostarVentana("warning-modal-suscripcion",respuesta.mensaje);
             }else{
-                mostarVentana("warning-modal-suscripcion","Verifique sus datos, ocurrio un error");  
+                //mostarVentana("warning-modal-suscripcion","Verifique sus datos, ocurrio un error");  
             }            
                $.unblockUI();
         },
@@ -143,7 +143,7 @@ function cargarClienteModal(){
 	
 //	alert('Tipo Producto');
 	$.ajax({
-        url: table+'/getcliente',
+        url: '../logistica/suscripciones/getcliente',
         type: 'post',
         dataType: 'html',
         async : false,
@@ -165,7 +165,7 @@ function cargarPlanesActivosModal(){
 	
 //	alert('Tipo Producto');
 	$.ajax({
-        url: table+'/getplanesactivos',
+        url: '../logistica/suscripciones/getplanesactivos',
         type: 'post',
         dataType: 'html',
         async : false,
@@ -213,7 +213,7 @@ function calculaImporte(){
 
 	// alert($("#cliente-modal").val());
 	$.ajax({
-        url: table+'/getimportesuscripcion',
+        url: '../logistica/suscripciones/getimportesuscripcion',
         type: 'post',
         data: {"parametros":dataString},
         dataType: 'json',
