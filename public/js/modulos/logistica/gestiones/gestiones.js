@@ -20,9 +20,7 @@ $().ready(function() {
            
     });
 	
-	$('#add-track').click(function() {
-        guardarTrack();
-     });
+
     $('#guardar-modal').click(function() {
 		 var data = obtenerJsonModal();
 		if(data != null){
@@ -525,7 +523,4 @@ function getClienteSaldo(){
     }); 
 }
 
-function editarTrack(orden,codigoZona,descripcionZona){
-   
-}
 
