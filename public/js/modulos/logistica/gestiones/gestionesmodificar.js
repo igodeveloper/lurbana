@@ -250,7 +250,7 @@ function obtenerJsonModal() {
             jsonObject.CODIGO_GESTOR = 0
         };
         // if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
-        jsonObject.ESTADO = 'P';
+        jsonObject.ESTADO = $("#estado-modal").val();;
         jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
         jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
         jsonObject.ACTIVIDADES = ids;
