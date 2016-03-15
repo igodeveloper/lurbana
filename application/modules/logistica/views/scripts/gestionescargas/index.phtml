@@ -221,21 +221,19 @@
                                     </div>
                                  </div>
                                  <div class="form-group col-lg-12">
-                                    <label class="col-lg-2 control-label">Fecha</label>
-                                    <div class="col-lg-4">
+                                    <label class="col-lg-2 control-label hidden">Fecha</label>
+                                    <div class="col-lg-4 hidden">
                                         <input name="hora-acti" id="hora-acti" class="form-control input-sm" >
                                     </div>
 
-                                    <div class="col-lg-6 ">
-                                       <div class="col-lg-2 col-lg-offset-8">
+                                    
+                                       <div class="col-lg-1 col-lg-offset-9">
                                            <a  id="cancel-actividad"class="btn btn-danger" ><i class="icon icon-undo"></i></a>
                                        </div>
-                                       <div class="col-lg-2">
+                                       <div class="col-lg-1">
                                            <a  id="add-actividad"class="btn btn-success" ><i class="icon icon-save"></i></a>
-                                       </div>
-                                       
-                                       
-                                    </div>
+                                       </div>                                    
+                                    
                                  </div>
                                 
                               </div>
@@ -388,9 +386,6 @@
        document.getElementById("modalNuevo-suscripcion").style.paddingTop = "70px";
        //$("#modalNuevo-suscripcion").show();
        cargarModalNuevo();
-       var param = new Object();
-       param.NUMERO_GESTION = 1112;
-       track(param);
       
    
    });

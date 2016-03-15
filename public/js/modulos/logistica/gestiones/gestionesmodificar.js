@@ -80,6 +80,7 @@ function mostrarFormularioActividad() {
     $("#realizado-acti").attr("disabled", true);
     $("#realizado-acti").attr("disabled", true);
     $("#hora-acti").attr("disabled", true);
+    calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
 }
 
 
@@ -248,7 +249,7 @@ function obtenerJsonModal() {
             jsonObject.CODIGO_GESTOR = 0
         };
         // if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
-        jsonObject.ESTADO = $("#estado-modal").val();
+        jsonObject.ESTADO = 'P';
         jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
         jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
         jsonObject.ACTIVIDADES = ids;

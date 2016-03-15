@@ -260,7 +260,7 @@ function obtenerJsonModal() {
 		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
 		// if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
-        jsonObject.ESTADO = $("#estado-modal").val();
+        jsonObject.ESTADO = $("#estado-modal").val() == -1?'P':'E';
         jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
 		jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
 		return jsonObject

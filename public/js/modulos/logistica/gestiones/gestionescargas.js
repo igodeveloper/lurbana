@@ -75,14 +75,16 @@ $().ready(function() {
 });
 function mostrarFormularioActividad(){
 
-    $("#form").toggle()
-    $("#grid").toggle()
+    $("#form").toggle();
+    $("#grid").toggle();
     $("#mostrar-modal-actividad").toggle();
     $("#codigo-gestion-acti").attr("disabled",true);
     $("#orden-acti").attr("disabled",true);
     $("#realizado-acti").attr("disabled",true);
     $("#realizado-acti").attr("disabled",true);
     $("#hora-acti").attr("disabled",true);
+   calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
+   
 }
 function cargarModalNuevo(block){
        $("#planactivo-modal").children("li").remove();
@@ -265,7 +267,7 @@ function obtenerJsonModal() {
 		jsonObject.CANTIDAD_GESTIONES = $("#cantidadgestion-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
 		// if($("#planactivo-modal").val() != -1){jsonObject.CODIGO_PLAN = $("#planactivo-modal").val() } else {jsonObject.CODIGO_PLAN = 0};
-        jsonObject.ESTADO = $("#estado-modal").val();
+        jsonObject.ESTADO = 'P';
         jsonObject.ENVIAREMAIL = $("#enviaremail-modal").is(':checked') ? "SI" : "NO";
         jsonObject.GENTILEZA = $("#gentileza-modal").is(':checked') ? "S" : "N";
 		jsonObject.ACTIVIDADES = ids;
