@@ -15,6 +15,8 @@ $().ready(function() {
     });
 
     $('#cancel-actividad,#close-modal,#mostrar-modal-actividad').click(function() {
+        limpiarActividad();
+        calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
         mostrarFormularioActividad();
     });
 
@@ -80,7 +82,6 @@ function mostrarFormularioActividad() {
     $("#realizado-acti").attr("disabled", true);
     $("#realizado-acti").attr("disabled", true);
     $("#hora-acti").attr("disabled", true);
-    calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
 }
 
 
