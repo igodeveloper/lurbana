@@ -285,6 +285,7 @@ function guardarActividad() {
         $("#form").hide();
         $("#grid").show();
         $("#mostrar-modal-actividad").show();
+        limpiarActividad();
 
     }
 
@@ -298,7 +299,25 @@ function addRowDataGrilla(grilla, arrayObjetos) {
         grid.jqGrid('addRowData', id, arrayObjetos[i]);
     }
 }
-
+function limpiarActividad() {
+    $("#codigo-gestion-acti").attr("value", null);
+    $("#orden-acti").attr("value", null);
+    $("#zona-acti").select2("val", -1);
+    $("#proceso-acti").attr("value", null);
+    $("#destino-acti").attr("value", null);
+    $("#hora-estimada-acti").attr("value", null);
+    $("#descripcion-acti").attr("value", null);
+    $("#realizado-acti").attr("value", 0);
+    $("#motivo-cancel-acti").attr("value", null);
+    $("#sync-acti").attr("value", null);
+    $("#latitud-acti").attr("value", null);
+    $("#longitud-acti").attr("value", null);
+    $("#asistente-acti").attr("value", -1);
+    $("#inicio-actividad-acti").attr("value", null);
+    $("#hora-acti").attr("value", null);
+    $("#fin-actividad-acti").attr("value", null);
+    $("#modificar-acti").attr("value", null);
+}
 function calcularPasoActividad(arrayObjetos) {
     var lowest = Number.POSITIVE_INFINITY;
     var highest = Number.NEGATIVE_INFINITY;
