@@ -86,7 +86,7 @@ function cargarGrillaRegistroTrack() {
         }, {
             name: 'DESCRIPCION',
             index: 'DESCRIPCION',
-            label: 'DESCRIPCION',
+            label: 'ACTIVIDAD',
             hidden: false,
             width: 300,
             align: 'left'

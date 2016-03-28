@@ -1,9 +1,23 @@
 $().ready(function() {
-    
+    $.blockUI({message: "Aguarde un momento por favor"});
+       $("#hora-acti").datetimepicker();
+       $("#hora-estimada-acti").datetimepicker({
+             datepicker:false,
+             format:'H:i'
+         });
+       $("#cliente-modal").select2();
+       $("#asistenteservicios-modal").select2();
+       $("#asistente-acti").select2();
+       $("#zona-acti").select2();
+       $("#realizado-acti").select2();
+       $("#cliente-modal-suscripcion").select2();
+       $("#asistenteservicios-modal-suscripcion").select2();
+       $("#planactivo-modal-suscripcion").select2();
+       document.getElementById("modalNuevo-suscripcion").style.paddingTop = "70px";
     getZonas();
     cargarCliente();
     cargarAsistenteServicios();
-    setTimeout(getDatosIniciales, 2000);
+    setTimeout(getDatosIniciales, 1200);
     $("#form").hide();
     $("#grid").show();
 

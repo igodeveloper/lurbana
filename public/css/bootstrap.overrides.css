@@ -1,6 +1,6 @@
 body {
   font-family: "OpenSansLight", Helvetica, Arial, sans-serif;
-  background: #cacaca url('../img/bg.png') repeat;
+  /*background: #cacaca url('../img/bg.png') repeat;*/
 }
 label {
   font-weight: bold;

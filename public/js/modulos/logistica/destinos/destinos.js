@@ -68,6 +68,11 @@ function obtenerJsonModal() {
         focus++;
         addrequiredattr('descripcion-modal', focus);
     }
+    if ($('#direccion-modal').attr("value") == null || $('#direccion-modal').attr("value").length == 0) {
+        mensaje += ' | DIrecci\u00F3n ';
+        focus++;
+        addrequiredattr('direccion-modal', focus);
+    }
     if ($('#zona-modal').attr("value") == -1) {
         mensaje += ' | Tipo Plan ';
         focus++;
@@ -86,6 +91,7 @@ function obtenerJsonModal() {
     } else {
         jsonObject.COD_DESTINO = $('#codigodestino-modal').attr("value");
         jsonObject.DESCRIPCION = $('#descripcion-modal').attr("value");
+        jsonObject.DIRECCION = $('#direccion-modal').attr("value");
         jsonObject.CODIGO_ZONA = $('#zona-modal').attr("value");
         jsonObject.UBICACION = $("#ubicacion-modal").val();
 
@@ -140,6 +146,7 @@ function limpiarFormulario() {
 
     $("#codigodestino-modal").attr("value", null);
     $("#descripcion-modal").attr("value", null);
+    $("#direccion-modal").attr("value", null);
     $("#zona-modal").select2("val", -1);
     $("#ubicacion-modal").attr("value", null);
 }
