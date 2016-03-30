@@ -40,6 +40,7 @@ class logistica_destinosController extends Zend_Controller_Action {
                 ->from(array('C'=>'LOG_DESTINOS'),  array(
                              'C.COD_DESTINO',
                              'C.DESCRIPCION AS DESTINO',
+                             'C.DIRECCION',
                              'C.CODIGO_ZONA',
                              'C.UBICACION',
                              'Z.DESCRIPCION AS DESCRIPCION_ZONA'))
@@ -70,6 +71,7 @@ class logistica_destinosController extends Zend_Controller_Action {
                
                 $item['COD_DESTINO'],
                 $item['DESTINO'],
+                $item['DIRECCION'],
                 $item['CODIGO_ZONA'],
                 $item['DESCRIPCION_ZONA'],
                 $item['UBICACION']
@@ -78,6 +80,7 @@ class logistica_destinosController extends Zend_Controller_Action {
                 
                 'COD_DESTINO',
                 'DESTINO',
+                'DIRECCION',
                 'CODIGO_ZONA',
                 
                 'DESCRIPCION_ZONA',
@@ -112,6 +115,7 @@ class logistica_destinosController extends Zend_Controller_Action {
                 $parametros->COD_DESTINO = 0;
             $data_personas = array(
                 'DESCRIPCION' => (trim($parametros->DESCRIPCION)),
+                'DIRECCION' => (trim($parametros->DIRECCION)),
                 'CODIGO_ZONA' => (trim($parametros->CODIGO_ZONA)),
                 'UBICACION' => (trim($parametros->UBICACION))
             );
@@ -137,6 +141,7 @@ class logistica_destinosController extends Zend_Controller_Action {
             $data_personas = array(
                 'COD_DESTINO' => ($parametros->COD_DESTINO),
                 'DESCRIPCION' => (trim($parametros->DESCRIPCION)),
+                'DIRECCION' => (trim($parametros->DIRECCION)),
                 'CODIGO_ZONA' => (trim($parametros->CODIGO_ZONA)),
                 'UBICACION' => (trim($parametros->UBICACION))
             );

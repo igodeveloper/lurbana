@@ -51,18 +51,25 @@ function cargarGrillaRegistro() {
                             hidden :false,
                             width: 100,
                             align: 'right'
-                            },
+                        },
                             { name: 'DESTINO',
                             index: 'DESTINO',
-                            label: 'DESCRIPCIÓN',
-                            width: 400,
+                            label: 'NOMBRE',
+                            width: 250,
+                            hidden : false,
+                            align: 'left'
+                        },
+                            { name: 'DIRECCION',
+                            index: 'DIRECCION',
+                            label: 'DIRECCION',
+                            width: 250,
                             hidden : false,
                             align: 'left'
                         },
                             { name: 'CODIGO_ZONA',
                             index: 'CODIGO_ZONA',
                             label: 'CÓD ZONA',
-                            width: 150,
+                            width: 120,
                             hidden : false,
                             align: 'center'
                         }, { 
@@ -119,6 +126,7 @@ function modalModificar(rowData){
 
     $("#codigodestino-modal").attr("value", rowData.COD_DESTINO);
     $("#descripcion-modal").attr("value", rowData.DESTINO);
+    $("#direccion-modal").attr("value", rowData.DIRECCION);
      $("#zona-modal").select2("val", rowData.CODIGO_ZONA);
     $("#ubicacion-modal").attr("value", rowData.UBICACION);
     $("#modalNuevo").show();
