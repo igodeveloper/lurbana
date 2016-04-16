@@ -16,8 +16,10 @@ $().ready(function() {
        $("#planactivo-modal-suscripcion").select2();
        document.getElementById("modalNuevo-suscripcion").style.paddingTop = "70px";
        cargarModalNuevo();
-    $("#form").hide();
-    $("#grid").show();
+    $("#form").show();
+    $("#grid").hide();
+    $("#mostrar-modal-actividad").hide();
+    calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
     
     //$("body").css("overflow", "hidden");
 
