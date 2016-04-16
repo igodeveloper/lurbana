@@ -1,107 +1,117 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
- <?php
+<?php
     echo $this->headScript()->
 
-			appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
-			appendFile($this->baseUrl() . "/js/jquery.min.js")->
-            appendFile($this->baseUrl() . "/js/bootstrap.js")->
-            appendFile($this->baseUrl() . "/js/bootstrap.min.js")->
-			appendFile($this->baseUrl() . "/js/jquery.jqgrid.min.js")->
+			appendFile($this->baseUrl() ."/menu/js/modernizr.js")->
+			appendFile($this->baseUrl() ."/js/jquery.min.js")->
+            appendFile($this->baseUrl() ."/js/bootstrap.js")->
+            appendFile($this->baseUrl() ."/js/bootstrap.min.js")->
+			appendFile($this->baseUrl() ."/js/jquery.jqgrid.min.js")->
 			appendFile($this->baseUrl() . '/js/grid.locale-es.js')->
 			appendFile($this->baseUrl() . '/js/jquery-ui-1.9.2.custom.min.js')->
 			appendFile($this->baseUrl() . '/menu/js/main.js')->
 			appendFile($this->baseUrl() . '/js/modulos/layout/layout.js')->
-			appendFile($this->baseUrl() . "/js/blockUI.js");
+			appendFile($this->baseUrl() ."/js/blockUI.js");
 
     echo $this->headLink()
             ->setIndent('  ')
-			->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
-			->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
-			->prependStylesheet($this->baseUrl() . "/css/style.css")
+			->prependStylesheet($this->baseUrl() ."/menu/css/reset.css")
+			->prependStylesheet($this->baseUrl() ."/menu/css/style.css")
+			->prependStylesheet($this->baseUrl() ."/css/style-min.css")
     ?>
 
-<!doctype html>
-<html lang="en" class="no-js">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!doctype html>
+	<html lang="en" class="no-js">
 
-<!--	<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'> -->
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!--<link rel="stylesheet" href="css/reset.css">  CSS reset -->
-	<!--<link rel="stylesheet" href="css/style.css">  Resource style -->
-	<!-- <script src="js/modernizr.js"></script>  Modernizr -->
-  	<link href="<?php echo $this->baseUrl(). "/menu/img/favicon.png"?>" type="image/x-icon" rel="shortcut icon" />
-	<title>San Solución</title>
-</head>
-<body>
-	<header>
-		<a id="cd-logo" href="<?php echo $this->baseUrl(). "/index.php/menu/menu"?>"><img src="<?php echo $this->baseUrl(). "/menu/img/lurbana.png"?>" alt="Homepage"></a>
-		<nav id="cd-top-nav">
-			<ul>
-	<!--			<li><a href="#0">Tour</a></li> -->
-	<li><a  href="http://190.2.195.121/sansolucion/admin/index.php/maincontroller/records" target="_blank">Pedidos</a><span class="badge progress-bar-danger" id="pedidos"></span></li>
-	<li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/perfilclientes"?>">Perfil</a></li>
-	<li><a  href="<?php echo $this->baseUrl(). "/index.php/logistica/gestionescargas"?>">Nueva Gestión</a></li>
-				<li><a  href="<?php echo $this->baseUrl(). "/index.php/login/login"?>">Login</a></li>
-			</ul>
-		</nav>
-		<a id="cd-menu-trigger" href="#0"><span class="cd-menu-text">Menu</span><span class="cd-menu-icon"></span></a>
-	</header>
-	<main class="cd-main-content">
+		<!--	<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'> -->
 
-		<!-- put your content here -->
-		<div class="col-lg-12">
-            <?php
+		<!--<link rel="stylesheet" href="css/reset.css">  CSS reset -->
+		<!--<link rel="stylesheet" href="css/style.css">  Resource style -->
+		<!-- <script src="js/modernizr.js"></script>  Modernizr -->
+		<link href="<?php echo $this->baseUrl()."/menu/img/favicon.png "?>" type="image/x-icon" rel="shortcut icon" />
+		<title>San Solución</title>
+	</head>
+
+	<body>
+		<header>
+			<a id="cd-logo" href="<?php echo $this->baseUrl()."/index.php/menu/menu "?>"><img src="<?php echo $this->baseUrl()."/menu/img/lurbana.png"?>" alt="Homepage"></a>
+			<nav id="cd-top-nav">
+				<ul>
+					<!--			<li><a href="#0">Tour</a></li> -->
+					<li><a href="http://190.2.195.121/sansolucion/admin/index.php/maincontroller/records" target="_blank">Pedidos</a><span class="badge progress-bar-danger" id="pedidos"></span></li>
+					<li><a href="<?php echo $this->baseUrl()."/index.php/administracion/perfilclientes "?>">Perfil</a></li>
+					<li><a href="<?php echo $this->baseUrl()."/index.php/logistica/gestionescargas "?>">Nueva Gestión</a></li>
+					<li><a href="<?php echo $this->baseUrl()."/index.php/login/login "?>">Login</a></li>
+				</ul>
+			</nav>
+			<a id="cd-menu-trigger" href="#0"><span class="cd-menu-text">Menu</span><span class="cd-menu-icon"></span></a>
+		</header>
+		<main class="cd-main-content">
+
+			<!-- put your content here -->
+			<div class="col-lg-12">
+				<?php
             echo $this->layout()->content;
             ?>
-        </div>
+			</div>
 
-	</main> <!-- cd-main-content -->
+		</main>
+		<!-- cd-main-content -->
 
-	<nav id="cd-lateral-nav">
-		 <ul class="cd-navigation">
-            <li class="item-has-children">
-                <a href="#0">Logistica</a>
-                <ul class="sub-menu">
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/suscripciones"?>">Suscripciones</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/planes"?>">Planes | Contratos</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/gestiones"?>">Gestiones</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/destinos"?>">Destinos</a></li>
-                </ul>
-            </li> <!-- item-has-children -->
+		<nav id="cd-lateral-nav">
+			<ul class="cd-navigation">
+				<li class="item-has-children">
+					<a href="#0">Logistica</a>
+					<ul class="sub-menu">
+						<li><a href="<?php echo $this->baseUrl()."/index.php/logistica/suscripciones "?>">Suscripciones</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/logistica/planes "?>">Planes | Contratos</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/logistica/gestiones "?>">Gestiones</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/logistica/destinos "?>">Destinos</a></li>
+					</ul>
+				</li>
+				<!-- item-has-children -->
 
-            <li class="item-has-children">
-                <a href="#0">Administración</a>
-                <ul class="sub-menu">
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/clientes"?>">Clientes</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/asistentes"?>">Asistentes de Servicios</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/perfilclientes"?>">Perfil Clientes</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/usuarios"?>">Usuarios</a></li>
-                </ul>
-            </li> <!-- item-has-children -->
+				<li class="item-has-children">
+					<a href="#0">Administración</a>
+					<ul class="sub-menu">
+						<li><a href="<?php echo $this->baseUrl()."/index.php/administracion/clientes "?>">Clientes</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/administracion/asistentes "?>">Asistentes de Servicios</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/administracion/perfilclientes "?>">Perfil Clientes</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/administracion/usuarios "?>">Usuarios</a></li>
+					</ul>
+				</li>
+				<!-- item-has-children -->
 
-            <li class="item-has-children">
-                <a href="#0">Reportes</a>
-                <ul class="sub-menu">
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/gestiongestor"?>">Gestión por gestor</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/gestionclientes"?>">Gestión por cliente</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/resumensaldosclientes"?>">Resumen consumo cliente</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/resumenconsumoasistentes"?>">Resumen Gestión Gestores</a></li>
-                </ul>
-            </li> <!-- item-has-children -->
+				<li class="item-has-children">
+					<a href="#0">Reportes</a>
+					<ul class="sub-menu">
+						<li><a href="<?php echo $this->baseUrl()."/index.php/reportes/gestiongestor "?>">Gestión por gestor</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/reportes/gestionclientes "?>">Gestión por cliente</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/reportes/resumensaldosclientes "?>">Resumen consumo cliente</a></li>
+						<li><a href="<?php echo $this->baseUrl()."/index.php/reportes/resumenconsumoasistentes "?>">Resumen Gestión Gestores</a></li>
+					</ul>
+				</li>
+				<!-- item-has-children -->
 
-            <li class="item-has-children">
-                <a href="#0">Configuración</a>
-                <ul class="sub-menu">
-                    <li><a href="#0">Departamentos</a></li>
-                    <li><a href="#0">Ciudades</a></li>
-                    <li><a href="#0">Barrios</a></li>
-                    <li><a href="#0"></a></li>
-                </ul>
-            </li> <!-- item-has-children -->
-        </ul> <!-- cd-navigation -->
-<!-- 
+				<li class="item-has-children">
+					<a href="#0">Configuración</a>
+					<ul class="sub-menu">
+						<li><a href="#0">Departamentos</a></li>
+						<li><a href="#0">Ciudades</a></li>
+						<li><a href="#0">Barrios</a></li>
+						<li>
+							<a href="#0"></a>
+						</li>
+					</ul>
+				</li>
+				<!-- item-has-children -->
+			</ul>
+			<!-- cd-navigation -->
+			<!-- 
 		<ul class="cd-navigation cd-single-item-wrapper">
 			<li><a href="#0">Tour</a></li>
 			<li><a href="#0">Login</a></li>
@@ -118,23 +128,20 @@
 			<li><a href="#0">Students</a></li>
 		</ul> 
 
- -->		<div class="cd-navigation socials">
-			<a class="cd-twitter cd-img-replace" href="#0">Twitter</a>
-			<a class="cd-github cd-img-replace" href="#0">Git Hub</a>
-			<a class="cd-facebook cd-img-replace" href="#0">Facebook</a>
-			<a class="cd-google cd-img-replace" href="#0">Google Plus</a>
-		</div> <!-- socials -->
-	</nav>
-	        
-	
-<!--	
+ -->
+			<div class="cd-navigation socials">
+				<a class="cd-twitter cd-img-replace" href="#0">Twitter</a>
+				<a class="cd-github cd-img-replace" href="#0">Git Hub</a>
+				<a class="cd-facebook cd-img-replace" href="#0">Facebook</a>
+				<a class="cd-google cd-img-replace" href="#0">Google Plus</a>
+			</div>
+			<!-- socials -->
+		</nav>
+
+
+		<!--	
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="js/main.js"></script>  Resource jQuery -->
-</body>
-</html>
+	</body>
 
-
-
-
-
-
+	</html>

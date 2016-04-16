@@ -1,26 +1,26 @@
  <?php
     echo $this->headScript()->
 
-            appendFile($this->baseUrl() . "/js/jquery-1.7.1.js")->
-            appendFile($this->baseUrl() . "/js/jquery-ui-1.8.17.custom.min.js")->
+            appendFile($this->baseUrl() ."/js/jquery-1.7.1.js")->
+            appendFile($this->baseUrl() ."/js/jquery-ui-1.8.17.custom.min.js")->
             appendFile($this->baseUrl() . '/js/grid.locale-es.js')->
             appendFile($this->baseUrl() . '/js/jquery.jqGrid.min.js')->
-            appendFile($this->baseUrl() . "/js/bootstrap.js")->
-            appendFile($this->baseUrl() . "/js/jquery.tablescroll.js")->
-            appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
-            appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
+            appendFile($this->baseUrl() ."/js/bootstrap.js")->
+            appendFile($this->baseUrl() ."/js/jquery.tablescroll.js")->
+            appendFile($this->baseUrl() ."/js/jquery.blockUI.js")->
+            appendFile($this->baseUrl() ."/menu/js/modernizr.js")->
             appendFile($this->baseUrl() . '/menu/js/main.js')->
             appendFile($this->baseUrl() . '/js/modulos/layout/layout.js')->
-            appendFile($this->baseUrl() . "/js/select2.js")->
-            appendFile($this->baseUrl() . "/js/jquery.datetimepicker.js");
+            appendFile($this->baseUrl() ."/js/select2.js")->
+            appendFile($this->baseUrl() ."/js/jquery.datetimepicker.js");
 
     echo $this->headLink()
             ->setIndent('  ')
-            ->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
-            ->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
-            ->prependStylesheet($this->baseUrl() . "/css/style.css")
-            ->prependStylesheet($this->baseUrl() . "/css/select2.css")
-            ->prependStylesheet($this->baseUrl() . "/css/jquery.datetimepicker.css")            
+            ->prependStylesheet($this->baseUrl() ."/menu/css/reset.css")
+            ->prependStylesheet($this->baseUrl() ."/menu/css/style.css")
+            ->prependStylesheet($this->baseUrl() ."/css/style-min.css")
+/*            ->prependStylesheet($this->baseUrl() ."/css/select2.css")
+            ->prependStylesheet($this->baseUrl() ."/css/jquery.datetimepicker.css") */           
     ?>
 
 <!doctype html>
@@ -49,18 +49,18 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?php echo $this->baseUrl(). "/menu/img/favicon.png"?>" type="image/x-icon" rel="shortcut icon" />
+    <link href="<?php echo $this->baseUrl()."/menu/img/favicon.png"?>" type="image/x-icon" rel="shortcut icon" />
     <title>San Solución</title>
 </head>
 <body>
     <header>
-        <a id="cd-logo" href="<?php echo $this->baseUrl(). "/index.php/menu/menu"?>"><img src="<?php echo $this->baseUrl(). "/menu/img/lurbana.png"?>" alt="Homepage"></a>
+        <a id="cd-logo" href="<?php echo $this->baseUrl()."/index.php/menu/menu"?>"><img src="<?php echo $this->baseUrl()."/menu/img/lurbana.png"?>" alt="Homepage"></a>
         <nav id="cd-top-nav">
             <ul>
 <li><a  href="http://190.2.195.121/sansolucion/admin/index.php/maincontroller/records" target="_blank">Pedidos</a><span class="badge progress-bar-danger" id="pedidos"></span></li>
-<li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/perfilclientes"?>">Perfil</a></li>
-<li><a  href="<?php echo $this->baseUrl(). "/index.php/logistica/gestionescargas"?>">Nueva Gestión</a></li>
-                <li><a  href="<?php echo $this->baseUrl(). "/index.php/login/login"?>">Login</a></li>
+<li><a  href="<?php echo $this->baseUrl()."/index.php/administracion/perfilclientes"?>">Perfil</a></li>
+<li><a  href="<?php echo $this->baseUrl()."/index.php/logistica/gestionescargas"?>">Nueva Gestión</a></li>
+                <li><a  href="<?php echo $this->baseUrl()."/index.php/login/login"?>">Login</a></li>
             </ul>
         </nav>
         <a id="cd-menu-trigger" href="#0"><span class="cd-menu-text">Menu</span><span class="cd-menu-icon"></span></a>
@@ -81,30 +81,30 @@
             <li class="item-has-children">
                 <a href="#0">Logistica</a>
                 <ul class="sub-menu">
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/suscripciones"?>">Suscripciones</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/planes"?>">Planes | Contratos</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/gestiones"?>">Gestiones</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). "/index.php/logistica/destinos"?>">Destinos</a></li>
+                    <li><a href="<?php echo $this->baseUrl()."/index.php/logistica/suscripciones"?>">Suscripciones</a></li>
+                    <li><a href="<?php echo $this->baseUrl()."/index.php/logistica/planes"?>">Planes | Contratos</a></li>
+                    <li><a href="<?php echo $this->baseUrl()."/index.php/logistica/gestiones"?>">Gestiones</a></li>
+                    <li><a href="<?php echo $this->baseUrl()."/index.php/logistica/destinos"?>">Destinos</a></li>
                 </ul>
             </li> <!-- item-has-children -->
 
             <li class="item-has-children">
                 <a href="#0">Administración</a>
                 <ul class="sub-menu">
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/clientes"?>">Clientes</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/asistentes"?>">Asistentes de Servicios</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/perfilclientes"?>">Perfil Clientes</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/administracion/usuarios"?>">Usuarios</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/administracion/clientes"?>">Clientes</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/administracion/asistentes"?>">Asistentes de Servicios</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/administracion/perfilclientes"?>">Perfil Clientes</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/administracion/usuarios"?>">Usuarios</a></li>
                 </ul>
             </li> <!-- item-has-children -->
 
             <li class="item-has-children">
                 <a href="#0">Reportes</a>
                 <ul class="sub-menu">
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/gestiongestor"?>">Gestión por gestor</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/gestionclientes"?>">Gestión por cliente</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/resumensaldosclientes"?>">Resumen consumo cliente</a></li>
-                    <li><a  href="<?php echo $this->baseUrl(). "/index.php/reportes/resumenconsumoasistentes"?>">Resumen Gestión Gestores</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/reportes/gestiongestor"?>">Gestión por gestor</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/reportes/gestionclientes"?>">Gestión por cliente</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/reportes/resumensaldosclientes"?>">Resumen consumo cliente</a></li>
+                    <li><a  href="<?php echo $this->baseUrl()."/index.php/reportes/resumenconsumoasistentes"?>">Resumen Gestión Gestores</a></li>
                 </ul>
             </li> <!-- item-has-children -->
 

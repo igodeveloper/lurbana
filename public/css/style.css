@@ -44,3 +44,5 @@
  ***********************************************************************/
 @import url("ui.jqgrid.css");
 @import url("jqGrid.overrides.css");
+@import url("select2.css");
+@import url("jquery.datetimepicker.css");

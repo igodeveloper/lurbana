@@ -1,30 +1,125 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl() ." /js/modulos/administracion/usuarios/usuarios.js "?>"></script>
+<div>
+    <div class="panel-default " align=center>
+        <div class="row well" style="width:100%;">
+            <h1>USUARIOS</h1>
+        </div>
+        <!-- <div class="panel-body "> -->
+        <div class="row ">
+            <!-- seteamos los filtros -->
+            <div class="col-lg-11 col-lg-offset-1">
 
-<?php
-    echo $this->headScript()->
-            appendFile($this->baseUrl() . "/js/jquery-1.7.1.js")->
-            appendFile($this->baseUrl() . "/js/jquery-ui-1.8.17.custom.min.js")->
-            // appendFile($this->baseUrl() . '/js/i18n/grid.locale-es.js')->
-            appendFile($this->baseUrl() . '/js/jquery.jqGrid.min.js')->
-            appendFile($this->baseUrl() . "/js/bootstrap.js")->
-            appendFile($this->baseUrl() . "/js/jquery.tablescroll.js")->
-            appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
-            appendFile($this->baseUrl() . "/js/modulos/login/login.js");
-    ?>
-<style>
+                <div class="form-group col-lg-5 col-lg-offset-3">
+                    <div class=" input-group col-lg-10">
 
-    .modal{
-       /* margin-top: 0.5%;*/
-        padding: 5% 10% 10%;
-        background-color: #f7f7f7;
-        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
-        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
-    }
+                        <input id="nombreapellido-filtro" type="text" name="selectInput" class="form-control input-sm" placeholder="Inserte el nombre del usuario...">
+                    </div>
+                </div>
 
-</style>
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
+            </div>
+        </div>
+        <!-- row de filtros end -->
+        <br>
+        <div class="row">
+            <!-- row de botones buscar, nuevo -->
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-primary btn-sm" onclick="buscar()">
+                    <i class="icon icon-search"></i> Buscar
+                </button>
+                <button type="button" class="btn btn-warning btn-sm " id="muestramodal"> <i class="icon icon-eraser"></i> Nuevo
+                </button>
+            </div>
+        </div>
+        <br>
 
-        <h1>Usuarios</h1>
-    </div><!-- //main content -->
-</div><!-- //row -->
+        <div class="row ">
+            <!-- row para la tabla -->
+            <div class="col-lg-12" id="contenedorGrilla">
+                <div class="table-responsive">
+                    <table id="grilla"></table>
+                    <div id="paginador"></div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- end row tabla -->
+
+
+
+        <!-- </div>    end   panel body -->
+    </div>
+    <!-- end panel default -->
+
+</div>
+
+<div class="modal well" id="modalNuevo">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a class="close" id="close-modal">×</a>
+            <h1>USUARIOS</h1>
+        </div>
+        <div class="alert alert-danger" id="warning-modal" style="display: none;">
+            <div id="warning-message-modal"></div>
+        </div>
+        <div class="alert alert-success" id="success-modal" style="display: none;">
+            <div id="success-message-modal"></div>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class=" col-lg-8 col-lg-offset-2">
+
+                    <div class="form-group col-lg-12">
+                        <label class="col-lg-5 control-label">Cód. Usuario</label>
+                        <div class="col-lg-7">
+                            <input id="codigousuario-modal" type="text" name="selectInput" class="form-control input-sm" disabled="disabled" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="col-lg-5 control-label">Nombre y Apellido</label>
+                        <div class="col-lg-7">
+                            <input id="nombreapellido-modal" type="text" class="form-control input-sm" required>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="col-lg-5 control-label">Identificador (máx. 10 catacteres)</label>
+                        <div class="col-lg-7">
+                            <input id="identificador-modal" type="text" class="form-control input-sm" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <label class="col-lg-5 control-label">Rol</label>
+                        <div class="col-lg-7">
+                            <select id="rol-modal" style="width:100%";>
+                                <option value="-1">Rol</option>
+                                <option value="ADM">Administrador</option>
+                                <option value="USR">Usuario</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="col-lg-5 control-label">Nuevo Password</label>
+                        <div class="col-lg-7">
+                            <input id="pass-modal" type="text" class="form-control input-sm" required>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label class="col-lg-5 control-label">Repita Password</label>
+                        <div class="col-lg-7">
+                            <input id="pass2-modal" type="text" class="form-control input-sm" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <a id="cancelar-modal" class="btn btn-danger">Cancelar</a>
+            <a id="guardar-modal" class="btn btn-success">Guardar</a>
+        </div>
+    </div>
+</div>
+</b>

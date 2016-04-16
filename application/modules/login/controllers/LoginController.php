@@ -28,12 +28,13 @@ class Login_loginController extends Zend_Controller_Action {
    	 	$select = $db->select()
                 ->from(array('C' => 'CONF_USUARIO'), 
                        array('C.COD_USUARIO',
-                             'C.NOMBRE_APELLIDO'));
+                             'C.NOMBRE_APELLIDO','C.ROL'));
                 
         if ($parametros->username != null && $parametros->password != null ) {
 
             $select->where("upper(C.ID_USUARIO)= ?", strtoupper(trim($parametros->username)));
-            $select->where("C.USUARIO_PASSWORD = ?", ($parametros->password));
+			$pass = strtoupper ($parametros->password);
+            $select->where("C.USUARIO_PASSWORD = ?", md5($pass));
             $result = $db->fetchAll($select);
             $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
         	$parametrosLogueo->unlock ();        
@@ -42,6 +43,7 @@ class Login_loginController extends Zend_Controller_Action {
 	            $parametrosLogueo->username = trim($parametros->username);
 	            $parametrosLogueo->cod_usuario = trim(utf8_encode($arr["COD_USUARIO"]));
                 $parametrosLogueo->desc_usuario = trim(utf8_encode($arr["NOMBRE_APELLIDO"]));         
+                $parametrosLogueo->rol = trim(utf8_encode($arr["ROL"]));         
                 $parametrosLogueo->id = "";         
         	}
 	        $parametrosLogueo->lock(); 

@@ -2,21 +2,21 @@
  <?php
     echo $this->headScript()->
 
-			appendFile($this->baseUrl() . "/menu/js/modernizr.js")->
+			appendFile($this->baseUrl() ."/menu/js/modernizr.js")->
 			appendFile($this->baseUrl() . '/menu/js/main.js')->
-            appendFile($this->baseUrl() . "/js/jquery-1.7.1.js")->
-            appendFile($this->baseUrl() . "/js/jquery-ui-1.8.17.custom.min.js")->
+            appendFile($this->baseUrl() ."/js/jquery-1.7.1.js")->
+            appendFile($this->baseUrl() ."/js/jquery-ui-1.8.17.custom.min.js")->
             appendFile($this->baseUrl() . '/js/jquery.jqGrid.min.js')->
-            appendFile($this->baseUrl() . "/js/bootstrap.js")->
-            appendFile($this->baseUrl() . "/js/jquery.tablescroll.js")->
-            appendFile($this->baseUrl() . "/js/jquery.blockUI.js")->
-            appendFile($this->baseUrl() . "/js/modulos/login/login.js");
+            appendFile($this->baseUrl() ."/js/bootstrap.js")->
+            appendFile($this->baseUrl() ."/js/jquery.tablescroll.js")->
+            appendFile($this->baseUrl() ."/js/jquery.blockUI.js")->
+            appendFile($this->baseUrl() ."/js/modulos/login/login.js");
 
     echo $this->headLink()
             ->setIndent('  ')
-			->prependStylesheet($this->baseUrl() . "/menu/css/reset.css")
-			->prependStylesheet($this->baseUrl() . "/menu/css/style.css")
-			->prependStylesheet($this->baseUrl() . "/css/style.css")
+			->prependStylesheet($this->baseUrl() ."/menu/css/reset.css")
+			->prependStylesheet($this->baseUrl() ."/menu/css/style.css")
+			->prependStylesheet($this->baseUrl() ."/css/style-min.css")
     ?>
 
 <!doctype html>
@@ -46,12 +46,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?php echo $this->baseUrl(). "/menu/img/favicon.png"?>" type="image/x-icon" rel="shortcut icon" />  	
+    <link href="<?php echo $this->baseUrl()."/menu/img/favicon.png"?>" type="image/x-icon" rel="shortcut icon" />  	
 	<title>San Solución</title>
 </head>
 <body>
 	<header>
-		<a id="cd-logo" href="#0"><img src="<?php echo $this->baseUrl(). "/menu/img/lurbana.png"?>" alt="Homepage"></a>
+		<a id="cd-logo" href="#0"><img src="<?php echo $this->baseUrl()."/menu/img/lurbana.png"?>" alt="Homepage"></a>
 	
 	</header>
 	<main class="cd-main-content">

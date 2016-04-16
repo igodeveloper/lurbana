@@ -1,2 +1,4 @@
 *.ini
 /application/configs
+/public/node_modules
+/public/js/min
