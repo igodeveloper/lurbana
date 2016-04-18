@@ -242,7 +242,7 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
                         $nombre_cliente = $clientes->DESCRIPCION_PERSONA;
                         $emailDestino   = $clientes->EMAIL_PERSONA;
                         $asunto         = "Notificación de gestión realizada.";
-                        $bodyTexto      = "Estimado : " . $clientes->DESCRIPCION_PERSONA . "\nHemos culminado la gestión solicitada\n\nTarea: " . $parametros->OBSERVACION . "\n\nTiempo empleado: " . $parametros->CANTIDAD_MINUTOS . " mins.\n\nGestiones utilizadas:" . $parametros->CANTIDAD_GESTIONES . "\nGracias por confiar en San Solución\n\nCira Leon\nCoordinadora de Servicios\nSan Solución\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
+                         $bodyTexto      = "Estimado : " . $clientes->DESCRIPCION_PERSONA . "\nHemos culminado la gestión solicitada\n\nTarea: " . $parametros->OBSERVACION . "\n\nTiempo empleado: " . $parametros->CANTIDAD_MINUTOS . " mins.\n\nGestiones utilizadas:" . $parametros->CANTIDAD_GESTIONES . "\nGracias por confiar en San Solución\n\nCoordinadora de Servicios\nSan Solución.\n\n\n Por favor califique nuestro servicio en esta gestion de 1 al 5 (Siendo 1 la puntuación más baja y 5 la más alta) y suguiriendo las mejoras.\n\n\nSi usted no desea recibir estas notificaciones, responda este correo con la frase desvincular de notificaciones.";
                         if ($clientes->ENVIAR_EMAIL == "S") {
                             $email = self::enviaremail($emailDestino, $nombre_cliente, $bodyTexto, $asunto);
                         }
@@ -307,9 +307,10 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
     private function enviaremail($emailDestino,$nombre,$bodyTexto,$asunto){
         try{
             // $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => '', 'password' => '');
-            $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'pedido123.');
             // $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
-            // $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
+			// $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'pedido123.');
+   			$config = array( 'port' => 25, 'auth' => 'login', 'username' => 'informedegestion@sansolucion.com', 'password' => '0102030405');
+			// $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
             $smtpConnection = new Zend_Mail_Transport_Smtp('mail.sansolucion.com', $config);
 
             $mail = new Zend_Mail('utf-8');

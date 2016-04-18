@@ -5,7 +5,6 @@ class administracion_perfilclientesController extends Zend_Controller_Action {
      public function init() {
         $parametrosLogueo = new Zend_Session_Namespace ( 'logueo' );
         $parametrosLogueo->unlock ();   
-        // $p = Zend_Session::namespaceUnset('factura');
         if(!$parametrosLogueo->username){
                 $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
                 $r->gotoUrl('/login/login')->redirectAndExit();

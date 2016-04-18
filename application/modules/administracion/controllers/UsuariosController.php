@@ -75,14 +75,12 @@ class administracion_usuariosController extends Zend_Controller_Action {
                 $item['COD_USUARIO'],
                 $item['NOMBRE_APELLIDO'],
                 $item['ID_USUARIO'],
-                $item['ID_USUARIO'],
                 $item['ROL']
             );
             $arrayDatos ['columns'] = array(
                 
                 'COD_USUARIO',
                 'NOMBRE_APELLIDO',
-                'ID_USUARIO',
                 'ID_USUARIO',
                 'ROL'
             );
@@ -114,8 +112,8 @@ class administracion_usuariosController extends Zend_Controller_Action {
             if(!$parametros->COD_USUARIO)
                 $parametros->COD_USUARIO = 0;
             $data_personas = array(
-                'NOMBRE_APELLIDO' => (trim($parametros->NOMBRE_APELLIDO)),
-                'ID_USUARIO' => (trim($parametros->ID_USUARIO)),
+                'NOMBRE_APELLIDO' => strtoupper(trim($parametros->NOMBRE_APELLIDO)),
+                'ID_USUARIO' => strtoupper(trim($parametros->ID_USUARIO)),
                 'ROL' => (trim($parametros->ROL)),
                 'USUARIO_PASSWORD' => md5(strtoupper(trim($parametros->USUARIO_PASSWORD)))
             );
@@ -130,25 +128,39 @@ class administracion_usuariosController extends Zend_Controller_Action {
         }
     }
 
-        public function  modificarAction(){
+	public function  modificarAction(){
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $parametros = json_decode($this->getRequest()->getParam("parametros"));
         try {
-
+			
             $db = Zend_Db_Table::getDefaultAdapter();
             $db->beginTransaction();
-            $data_personas = array(
-                'COD_USUARIO' => ($parametros->COD_USUARIO),
-                'NOMBRE_APELLIDO' => (trim($parametros->NOMBRE_APELLIDO)),
-                'ID_USUARIO' => (trim($parametros->ID_USUARIO)),
-                'ROL' => (trim($parametros->ROL)),
-                'USUARIO_PASSWORD' => md5(strtoupper(trim($parametros->USUARIO_PASSWORD)))
-            );
-            $where_personas = array(
-                'COD_USUARIO = ?' => $parametros->COD_USUARIO
-            );
-            $update_personas = $db->update('CONF_USUARIO', $data_personas, $where_personas);
+			
+			if($parametros->CAMBIAR == "SI"){
+			 	$data_personas = array(
+					'COD_USUARIO' => ($parametros->COD_USUARIO),
+					'NOMBRE_APELLIDO' => strtoupper(trim($parametros->NOMBRE_APELLIDO)),
+					'ID_USUARIO' => strtoupper(trim($parametros->ID_USUARIO)),
+					'ROL' => (trim($parametros->ROL)),
+					'USUARIO_PASSWORD' => md5(strtoupper(trim($parametros->USUARIO_PASSWORD)))
+            	);
+				$where_personas = array(
+					'COD_USUARIO = ?' => $parametros->COD_USUARIO
+				);
+            	$update_personas = $db->update('CONF_USUARIO', $data_personas, $where_personas);
+			}else{
+				$data_personas = array(
+					'COD_USUARIO' => ($parametros->COD_USUARIO),
+					'NOMBRE_APELLIDO' => strtoupper(trim($parametros->NOMBRE_APELLIDO)),
+					'ID_USUARIO' => strtoupper(trim($parametros->ID_USUARIO)),
+					'ROL' => (trim($parametros->ROL))
+            	);
+				$where_personas = array(
+					'COD_USUARIO = ?' => $parametros->COD_USUARIO
+				);
+            	$update_personas = $db->update('CONF_USUARIO', $data_personas, $where_personas);
+			}
             $db->commit();
            echo json_encode(array("success" => true));
         } catch (Exception $e) {
