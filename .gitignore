@@ -1,3 +1,7 @@
 *.ini
 /application/configs
 /archivos
+/public/node_modules
+/public/Gruntfile
+/public/package
+/public/js/min
