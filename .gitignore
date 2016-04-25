@@ -1,9 +1,7 @@
-*.ini
-/application/configs
+/application/configs/application.ini
 /archivos
 /public/node_modules
 /public/Gruntfile
 /public/package
 /public/js/min
 sansolucion.ppk
-/application/configs/application.ini
