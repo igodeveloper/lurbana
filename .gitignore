@@ -1,5 +1,4 @@
-*.ini
-/application/configs
+/application/configs/application.ini
 /archivos
 /public/node_modules
 /public/Gruntfile
