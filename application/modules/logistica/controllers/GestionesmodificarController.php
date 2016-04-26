@@ -278,9 +278,10 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
                         'SYNC'=> $value->SYNC,
                         'LATITUD'=> $value->LATITUD,
                         'LONGITUD'=> $value->LONGITUD,
-                        'CODIGO_GESTOR'=> $value->CODIGO_GESTOR,
+                        'CODIGO_GESTOR'=> $value->CODIGO_GESTOR
+						/*,
                         'INICIO_ACTIVIDAD'=> $value->INICIO_ACTIVIDAD,
-                        'FIN_ACTIVIDAD'=> $value->FIN_ACTIVIDAD
+                        'FIN_ACTIVIDAD'=> $value->FIN_ACTIVIDAD*/
                     );
                     $insert = $db->insert('LOG_GESTIONES_ACT', $data);
                     
@@ -306,16 +307,17 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
 
     private function enviaremail($emailDestino,$nombre,$bodyTexto,$asunto){
         try{
-            // $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => '', 'password' => '');
+             // $config = array('ssl' => 'tls', 'port' => 587, 'auth' => 'login', 'username' => '', 'password' => '');
+           /* $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'pedido123.');*/
+			$email_envio = "informesansolucion@sansolucion.com";
+            $config = array( 'port' => 25, 'auth' => 'login', 'username' => $email_envio, 'password' => '0102030405');
             // $smtpConnection = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
-			// $config = array( 'port' => 25, 'auth' => 'login', 'username' => 'pedido@sansolucion.com', 'password' => 'pedido123.');
-   			$config = array( 'port' => 25, 'auth' => 'login', 'username' => 'informedegestion@sansolucion.com', 'password' => '0102030405');
-			// $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
+            // $smtpConnection = new Zend_Mail_Transport_Smtp('gator4081.hostgator.com', $config);
             $smtpConnection = new Zend_Mail_Transport_Smtp('mail.sansolucion.com', $config);
 
             $mail = new Zend_Mail('utf-8');
             $mail->setBodyText($bodyTexto);
-            $mail->setFrom('pedido@sansolucion.com', 'Informe');
+            $mail->setFrom($email_envio, 'Informe San Solución');
             $mail->addTo($emailDestino, $nombre);
             $mail->setSubject($asunto);
             print_r($email);

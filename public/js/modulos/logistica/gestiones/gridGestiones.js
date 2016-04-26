@@ -13,7 +13,9 @@ function setTooltipsOnColumnHeader(grid, iColumn, text) {
  * Bloquea la pantalla a trav�s de un contenedor de tal manera que el usuario no pueda realizar ninguna acci�n
  */
 function bloquearPantalla() {
-    $.blockUI({ message: "Aguarde un momento por favor" });
+    $.blockUI({
+        message: "Aguarde un momento por favor"
+    });
 }
 /**
  * Desbloquea la pantalla de tal manera que el usuario pueda realizar acci�nes o invocar eventos en la vista
@@ -124,7 +126,10 @@ function cargarGrillaRegistro() {
                 hidden: false,
                 align: 'right',
                 formatter: 'number',
-                formatoptions: { thousandsSeparator: ".", decimalPlaces: 2 },
+                formatoptions: {
+                    thousandsSeparator: ".",
+                    decimalPlaces: 2
+                },
             }, {
                 name: 'CANTIDAD_MINUTOS',
                 index: 'CANTIDAD_MINUTOS',
@@ -133,7 +138,10 @@ function cargarGrillaRegistro() {
                 hidden: false,
                 align: 'right',
                 formatter: 'number',
-                formatoptions: { thousandsSeparator: ".", decimalPlaces: 0 },
+                formatoptions: {
+                    thousandsSeparator: ".",
+                    decimalPlaces: 0
+                },
             }, {
                 name: 'OBSERVACION',
                 index: 'OBSERVACION',

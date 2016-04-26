@@ -13,7 +13,9 @@ function setTooltipsOnColumnHeader(grid, iColumn, text) {
  * Bloquea la pantalla a trav�s de un contenedor de tal manera que el usuario no pueda realizar ninguna acci�n
  */
 function bloquearPantalla() {
-    $.blockUI({ message: "Aguarde un momento por favor" });
+    $.blockUI({
+        message: "Aguarde un momento por favor"
+    });
 }
 /**
  * Desbloquea la pantalla de tal manera que el usuario pueda realizar acci�nes o invocar eventos en la vista
@@ -299,6 +301,7 @@ function addRowDataGrilla(grilla, arrayObjetos) {
         grid.jqGrid('addRowData', id, arrayObjetos[i]);
     }
 }
+
 function limpiarActividad() {
     $("#codigo-gestion-acti").attr("value", null);
     $("#orden-acti").attr("value", null);
@@ -318,6 +321,7 @@ function limpiarActividad() {
     $("#fin-actividad-acti").attr("value", null);
     $("#modificar-acti").attr("value", null);
 }
+
 function calcularPasoActividad(arrayObjetos) {
     var lowest = Number.POSITIVE_INFINITY;
     var highest = Number.NEGATIVE_INFINITY;
