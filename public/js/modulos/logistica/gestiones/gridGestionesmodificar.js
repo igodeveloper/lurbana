@@ -47,14 +47,14 @@ function cargarGrillaRegistroTrack() {
             name: 'CODIGO_GESTION',
             index: 'CODIGO_GESTION',
             label: 'CODIGO_GESTION',
-            hidden: false,
+            hidden: true,
             width: 100,
             align: 'right'
         }, {
             name: 'ORDEN',
             index: 'ORDEN',
             label: 'ORDEN',
-            hidden: false,
+            hidden: true,
             width: 100,
             align: 'right'
         }, {
