@@ -47,14 +47,14 @@ function cargarGrillaRegistroTrack() {
             name: 'CODIGO_GESTION',
             index: 'CODIGO_GESTION',
             label: 'CODIGO_GESTION',
-            hidden: true,
+            hidden: false,
             width: 100,
             align: 'right'
         }, {
             name: 'ORDEN',
             index: 'ORDEN',
             label: 'ORDEN',
-            hidden: true,
+            hidden: false,
             width: 100,
             align: 'right'
         }, {
@@ -197,7 +197,38 @@ function cargarLinkBorrar(cellvalue, options, rowObject) {
 
 
 function borrarActividad(rowid) {
-    $('#grillaGestionesTrack').jqGrid('delRowData', rowid);
+	
+    
+	 var param = $('#grillaGestionesTrack').jqGrid('getRowData', rowid);
+	 
+	if(param.CODIGO_GESTION != ""){
+			var dataString = JSON.stringify(param);
+			$.ajax({
+				url: table + '/borrar',
+				type: 'post',
+				data: {
+					"parametros": dataString
+				},
+				dataType: 'json',
+				async: true,
+				success: function(respuesta) {
+					if (respuesta.success) {
+					   mostrarVentana("success-modal", "El registro fue eliminado."); 
+						$('#grillaGestionesTrack').jqGrid('delRowData', rowid);
+					} else {
+						mostrarVentana("warning-modal", "Verifique sus datos, ocurrio un error.");
+					}
+				},
+				error: function(event, request, settings) {
+					mostrarVentana("warning-modal","Ha ocurrido un error");
+				}
+			});
+
+	}else{
+		$('#grillaGestionesTrack').jqGrid('delRowData', rowid);
+	}
+	 
+		
 }
 
 function editarActividad(rowid) {
@@ -243,6 +274,9 @@ function ObtenerActi() {
     } else if ($("#realizado-acti").val() < 0) {
         mostrarVentana("warning-modal-acti", "Seleccione si se realizo o no");
         verificacion = false;
+    }else if($("#orden-acti").val().length < 1) {
+        mostrarVentana("warning-modal-acti", "El numero de orden fallo, recargue la página");
+        verificacion = false;
     }
     if (verificacion) {
         var realizado = ($("#realizado-acti").val() == 1 ? 'Si' : 'No');
@@ -281,7 +315,7 @@ function guardarActividad() {
         var myarray = new Array();
         myarray.push(objetoActi);
         if ($("#modificar-acti").val()) {
-            borrarActividad($("#modificar-acti").val());
+            $('#grillaGestionesTrack').jqGrid('delRowData', $("#modificar-acti").val());
         }
         addRowDataGrilla("grillaGestionesTrack", myarray);
         $("#form").hide();
@@ -336,5 +370,22 @@ function calcularPasoActividad(arrayObjetos) {
         $("#proceso-acti").attr("value", parseInt(highest) + parseInt(1));
     } else {
         $("#proceso-acti").attr("value", 1);
+    }
+}
+
+function calcularOrdenActividad(arrayObjetos) {
+    var lowest = Number.POSITIVE_INFINITY;
+    var highest = Number.NEGATIVE_INFINITY;
+    var tmp;
+    for (var i = arrayObjetos.length - 1; i >= 0; i--) {
+        tmp = arrayObjetos[i].ORDEN;
+        if (tmp < lowest) lowest = tmp;
+        if (tmp > highest) highest = tmp;
+    }
+
+    if (arrayObjetos.length > 0) {
+        $("#orden-acti").attr("value", parseInt(highest) + parseInt(1));
+    } else {
+        $("#orden-acti").attr("value", 1);
     }
 }

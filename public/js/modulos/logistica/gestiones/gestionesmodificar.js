@@ -31,6 +31,7 @@ $().ready(function() {
     $('#cancel-actividad,#close-modal,#mostrar-modal-actividad').click(function() {
         limpiarActividad();
         calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
+        calcularOrdenActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
         mostrarFormularioActividad();
     });
 

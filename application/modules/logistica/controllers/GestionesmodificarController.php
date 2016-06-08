@@ -256,37 +256,63 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
                 }
             }
             $param = $parametros->ACTIVIDADES;
-            $n = $db->delete('LOG_GESTIONES_ACT', array(
+            /*$n = $db->delete('LOG_GESTIONES_ACT', array(
                 'CODIGO_GESTION = ?' => $parametros->NUMERO_GESTION
-            ));
+            ));*/
 
-            if (!empty($parametros->NUMERO_GESTION)) {
-                $i = 1;
-                foreach ($param as $value) {
-                   $realizado = ($value->REALIZADO == 'Si' ? 1 : 0);
-                    $data   = array(
-                        'CODIGO_GESTION' => $parametros->NUMERO_GESTION,
-                        'ORDEN' => $i++,
-                        'PROCESO' => $value->PROCESO,
-                        'CODIGO_ZONA' => $value->CODIGO_ZONA,
-                        'DESTINO' => $value->DESTINO,
-                        'HORA_ESTIMADA'=> $value->HORA_ESTIMADA,
-                        'DESCRIPCION' => $value->DESCRIPCION,
-                        'REALIZADO' => $realizado,
-                        'FEC_HORA_REALIZ'=> $value->FEC_HORA_REALIZ,
-                        'MOTIVO_CANCEL'=> $value->MOTIVO_CANCEL,
-                        'SYNC'=> $value->SYNC,
-                        'LATITUD'=> $value->LATITUD,
-                        'LONGITUD'=> $value->LONGITUD,
-                        'CODIGO_GESTOR'=> $value->CODIGO_GESTOR
+
+			foreach ($param as $value) {
+				$realizado = ($value->REALIZADO == 'Si' ? 1 : 0);
+				
+				if(empty($value->CODIGO_GESTION)){
+					$data   = array(
+						'CODIGO_GESTION' => $parametros->NUMERO_GESTION,
+						'ORDEN' => $value->ORDEN,
+						'PROCESO' => $value->PROCESO,
+						'CODIGO_ZONA' => $value->CODIGO_ZONA,
+						'DESTINO' => $value->DESTINO,
+						'HORA_ESTIMADA'=> $value->HORA_ESTIMADA,
+						'DESCRIPCION' => $value->DESCRIPCION,
+						'REALIZADO' => $realizado,
+						'FEC_HORA_REALIZ'=> $value->FEC_HORA_REALIZ,
+						'MOTIVO_CANCEL'=> $value->MOTIVO_CANCEL,
+						'SYNC'=> $value->SYNC,
+						'LATITUD'=> $value->LATITUD,
+						'LONGITUD'=> $value->LONGITUD,
+						'CODIGO_GESTOR'=> $value->CODIGO_GESTOR
 						/*,
-                        'INICIO_ACTIVIDAD'=> $value->INICIO_ACTIVIDAD,
-                        'FIN_ACTIVIDAD'=> $value->FIN_ACTIVIDAD*/
-                    );
-                    $insert = $db->insert('LOG_GESTIONES_ACT', $data);
-                    
-                }
-            }
+						'INICIO_ACTIVIDAD'=> $value->INICIO_ACTIVIDAD,
+						'FIN_ACTIVIDAD'=> $value->FIN_ACTIVIDAD*/
+					);
+					$insert = $db->insert('LOG_GESTIONES_ACT', $data);
+				}else{
+					$inicio = (empty($value->INICIO_ACTIVIDAD) ? NULL : $value->INICIO_ACTIVIDAD);
+					$fin =(empty($value->FIN_ACTIVIDAD) ? NULL : $value->FIN_ACTIVIDAD);
+					$data   = array(
+						'PROCESO' => $value->PROCESO,
+						'CODIGO_ZONA' => $value->CODIGO_ZONA,
+						'DESTINO' => $value->DESTINO,
+						'HORA_ESTIMADA'=> $value->HORA_ESTIMADA,
+						'DESCRIPCION' => $value->DESCRIPCION,
+						'REALIZADO' => $realizado,
+						'FEC_HORA_REALIZ'=> $value->FEC_HORA_REALIZ,
+						'MOTIVO_CANCEL'=> $value->MOTIVO_CANCEL,
+						'SYNC'=> $value->SYNC,
+						'LATITUD'=> $value->LATITUD,
+						'LONGITUD'=> $value->LONGITUD,
+						'CODIGO_GESTOR'=> $value->CODIGO_GESTOR,
+						'INICIO_ACTIVIDAD'=>$inicio,
+						'FIN_ACTIVIDAD'=> $fin
+					);
+					$where  = array(
+						'CODIGO_GESTION = ?' => $value->CODIGO_GESTION,
+						'ORDEN = ?' => $value->ORDEN
+					);
+					$update_personas = $db->update('LOG_GESTIONES_ACT', $data, $where);
+				}
+
+
+			}
             
             $db->commit();
             // echo json_encode(array("success" => true));
@@ -380,9 +406,23 @@ class logistica_gestionesmodificarController extends Zend_Controller_Action
             }
 
     }
-
-
-   
+	
+	 public function borrarAction(){
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $parametros = json_decode($this->getRequest()->getParam("parametros"));
+        try {
+             $db = Zend_Db_Table::getDefaultAdapter();
+             $db->delete('LOG_GESTIONES_ACT', array(
+                  'CODIGO_GESTION = ?' => $parametros->CODIGO_GESTION,
+                  'ORDEN = ?' => $parametros->ORDEN
+              ));
+            echo json_encode(array('success' => true ));
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "code" => $e->getCode(), "mensaje" => $e->getMessage()));
+        }
+    }
+	 
     
     
 }
