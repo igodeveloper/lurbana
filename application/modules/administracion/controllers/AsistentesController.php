@@ -146,7 +146,8 @@ class administracion_asistentesController extends Zend_Controller_Action {
                 'EMAIL_PERSONA' => (trim($parametros->EMAIL_PERSONA)),
                 'DIRECCION_PERSONA' => (trim($parametros->DIRECCION_PERSONA)),
                 'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
-                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
+                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO)),
+                'CLAVE_ACCESO'=> md5(strtoupper(trim($parametros->CLAVE_ACCESO)))
                 
             );
             $insert_personas = $db->insert('ADM_PERSONAS', $data_personas);
@@ -189,6 +190,9 @@ class administracion_asistentesController extends Zend_Controller_Action {
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
             );
+            if($parametros->CLAVE_ACCESO != null){
+                array_push($data_personas, 'CLAVE_ACCESO'=> md5(strtoupper(trim($parametros->CLAVE_ACCESO))));
+            }
             $where_personas = array(
                 'CODIGO_PERSONA = ?' => $parametros->CODIGO_PERSONA
             );

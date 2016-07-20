@@ -136,6 +136,7 @@ function obtenerJsonModal() {
 		jsonObject.CODIGO_CIUDAD = $("#ciudadpersona-modal").val();
 		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
 		jsonObject.ESTADO_GESTOR = $("#estadoasistente-modal").val();
+		jsonObject.CALVE_ACCESO= $("#clave-modal").val();
 		return jsonObject
 	}
 }
@@ -197,6 +198,7 @@ function limpiarFormulario(){
 	$("#ciudadpersona-modal").attr("value",null);
 	$("#barriopersona-modal").attr("value",null);
 	$("#estadoasistente-modal").attr("value",null);
+	$("#clave-modal").attr("value",null);
 
 }
 

@@ -141,6 +141,7 @@ function obtenerJsonModal() {
 		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
 		jsonObject.ENVIAR_EMAIL = $("#enviaremail-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
+		jsonObject.CALVE_ACCESO= $("#clave-modal").val();
 		return jsonObject;
 	}
 }
@@ -203,6 +204,7 @@ function limpiarFormulario(){
 	$("#barriopersona-modal").attr("value",null);
 	$("#estadocliente-modal").attr("value",null);
 	$("#asistenteservicios-modal").select2("val",null);
+	$("#clave-modal").attr("value",null);
 }
 
 function imprimirReporte(){           
