@@ -190,10 +190,11 @@ class administracion_asistentesController extends Zend_Controller_Action {
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
             );
-            if($parametros->CLAVE_ACCESO != null){
+/*            if($parametros->CLAVE_ACCESO != null){
                 array_push($data_personas, 'CLAVE_ACCESO'=> md5(strtoupper(trim($parametros->CLAVE_ACCESO))));
             }
-            $where_personas = array(
+*/  
+          $where_personas = array(
                 'CODIGO_PERSONA = ?' => $parametros->CODIGO_PERSONA
             );
             $update_personas = $db->update('ADM_PERSONAS', $data_personas, $where_personas);
