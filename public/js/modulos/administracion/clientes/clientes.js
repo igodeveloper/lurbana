@@ -141,7 +141,7 @@ function obtenerJsonModal() {
 		jsonObject.ESTADO_CLIENTE = $("#estadocliente-modal").val();
 		jsonObject.ENVIAR_EMAIL = $("#enviaremail-modal").val();
 		if($("#asistenteservicios-modal").val() != -1){jsonObject.CODIGO_GESTOR = $("#asistenteservicios-modal").val() } else {jsonObject.CODIGO_GESTOR = 0};
-		jsonObject.CALVE_ACCESO= $("#clave-modal").val();
+		jsonObject.CLAVE_ACCESO= $("#clave-modal").val();
 		return jsonObject;
 	}
 }

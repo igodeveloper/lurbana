@@ -162,8 +162,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'REFERENCIA_PERSONA' => (trim($parametros->REFERENCIA_PERSONA)),
                 'CODIGO_GESTOR_ASIGNADO' => $parametros->CODIGO_GESTOR,
                 'CODIGO_CIUDAD'=> (int)(trim($parametros->CODIGO_CIUDAD)),
-                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO)),
-                'CLAVE_ACCESO'=> md5(strtoupper(trim($parametros->CLAVE_ACCESO)))
+                'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
             );
             $insert_personas = $db->insert('ADM_PERSONAS', $data_personas);
@@ -174,7 +173,8 @@ class administracion_clientesController extends Zend_Controller_Action {
             $data_clientes = array(
                 'CODIGO_CLIENTE' => ($parametros->CODIGO_CLIENTE),
                 'CODIGO_PERSONA' =>  $codigo_persona,
-                'ESTADO_CLIENTE' => (trim($parametros->ESTADO_CLIENTE))                
+                'ESTADO_CLIENTE' => (trim($parametros->ESTADO_CLIENTE)),
+                'CLAVE_ACCESO'=> md5(strtoupper(trim($parametros->CLAVE_ACCESO)))              
             );
             $insert_clientes = $db->insert('ADM_CLIENTES', $data_clientes);
 
@@ -210,9 +210,7 @@ class administracion_clientesController extends Zend_Controller_Action {
                 'CODIGO_BARRIO'=> (int)(trim($parametros->CODIGO_BARRIO))
                 
             );
-            if($parametros->CLAVE_ACCESO != null){
-                array_push($data_personas, 'CLAVE_ACCESO'=> md5(strtoupper(trim($parametros->CLAVE_ACCESO))));
-            }
+
             $where_personas = array(
                 'CODIGO_PERSONA = ?' => $parametros->CODIGO_PERSONA
             );
@@ -225,6 +223,9 @@ class administracion_clientesController extends Zend_Controller_Action {
              $where_clientes = array(
                 'CODIGO_CLIENTE = ?' => $parametros->CODIGO_CLIENTE
             );
+            if($parametros->CLAVE_ACCESO != null){
+                $data_clientes['CLAVE_ACCESO'] = md5(strtoupper(trim($parametros->CLAVE_ACCESO)));
+            }
             $update_clientes = $db->update('ADM_CLIENTES', $data_clientes, $where_clientes);
 
             $db->commit();

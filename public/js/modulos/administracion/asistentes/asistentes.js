@@ -136,7 +136,7 @@ function obtenerJsonModal() {
 		jsonObject.CODIGO_CIUDAD = $("#ciudadpersona-modal").val();
 		jsonObject.CODIGO_BARRIO = $("#barriopersona-modal").val();
 		jsonObject.ESTADO_GESTOR = $("#estadoasistente-modal").val();
-		jsonObject.CALVE_ACCESO= $("#clave-modal").val();
+		jsonObject.CLAVE_ACCESO= $("#clave-modal").val();
 		return jsonObject
 	}
 }
