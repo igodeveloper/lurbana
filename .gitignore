@@ -1,2 +1,3 @@
 sansolucion.ppk
-/public/reportes_pdf
+/public/reportes_pdf/*
+/appication/configs/application.ini
