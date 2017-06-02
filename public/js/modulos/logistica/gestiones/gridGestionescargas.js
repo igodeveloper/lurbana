@@ -306,10 +306,11 @@ function guardarActividad() {
             borrarActividad($("#modificar-acti").val());
         }
         addRowDataGrilla("grillaGestionesTrack", myarray);
-        $("#form").hide();
-        $("#grid").show();
-        $("#mostrar-modal-actividad").show();
+       // $("#form").hide();
+       // $("#grid").show();
+        //$("#mostrar-modal-actividad").show();
         limpiarActividad();
+        calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
 
     }
 
