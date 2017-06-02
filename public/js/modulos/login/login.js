@@ -45,7 +45,6 @@ function enviarParametrosRegistro(data){
         dataType: 'json',
         async : true,
         success: function(respuesta){
-            console.log((respuesta.success));
             if(respuesta.success){
                     var url = table;
                     url = url.replace('login/login','menu/menu');
@@ -57,7 +56,7 @@ function enviarParametrosRegistro(data){
             
         },
         error: function(event, request, settings){
-           alert("Ha ocurrido un error");
+            alert("Consulte con su proveedor");
             $.unblockUI();
         }
     });
