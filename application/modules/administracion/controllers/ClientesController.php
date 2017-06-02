@@ -281,7 +281,7 @@ class administracion_clientesController extends Zend_Controller_Action {
             $htmlResultado = '<option value="0">Seleccione</option>';
             foreach ($result as $arr) {
                 $htmlResultado .= '<option value="' . $arr["CODIGO_GESTOR"] . '">' .$arr["CODIGO_GESTOR"].' - '.
-                trim(utf8_encode($arr["DESCRIPCION_PERSONA"])) . '</option>';
+                trim(($arr["DESCRIPCION_PERSONA"])) . '</option>';
             }
 
         } catch (Exception $e) {
