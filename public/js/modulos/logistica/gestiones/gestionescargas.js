@@ -16,20 +16,20 @@ $().ready(function() {
        $("#planactivo-modal-suscripcion").select2();
        document.getElementById("modalNuevo-suscripcion").style.paddingTop = "70px";
        cargarModalNuevo();
-    $("#form").show();
-    $("#grid").hide();
-    $("#mostrar-modal-actividad").hide();
+    //$("#form").show();
+    //$("#grid").hide();
+    //$("#mostrar-modal-actividad").hide();
     calcularPasoActividad($('#grillaGestionesTrack').jqGrid('getRowData'));
     
     //$("body").css("overflow", "hidden");
 
      $("#close-modal").click(function() {
-            $("#modalNuevo").hide();
+            location.reload();
+
            
     }); 
      $("#cancelar-modal").click(function() {
-            $("#modalNuevo").hide();
-           
+         window.location.replace("../logistica/gestiones");           
     });
 	
 	$('#add-actividad').click(function() {
