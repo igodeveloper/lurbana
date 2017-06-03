@@ -1,6 +1,5 @@
 var pathname = window.location.pathname;
 var table = pathname;
-console.log(aux);
 jQuery(document).ready(function() {
     cargarGrillaRegistroTrack();
 });
